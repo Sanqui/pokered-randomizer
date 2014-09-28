@@ -1,49 +1,49 @@
-Func_79f54: ; 79f54 (1e:5f54)
+AnimateBoulderDust: ; 79f54 (1e:5f54)
 	ld a, $1
-	ld [$cd50], a
-	ld a, [$cfcb]
+	ld [wcd50], a ; select the boulder dust offsets
+	ld a, [wUpdateSpritesEnabled]
 	push af
 	ld a, $ff
-	ld [$cfcb], a
-	ld a, $e4
-	ld [rOBP1], a ; $ff49
+	ld [wUpdateSpritesEnabled], a
+	ld a, %11100100
+	ld [rOBP1], a
 	call LoadSmokeTileFourTimes
-	callba asm_f055
-	ld c, $8
-.asm_79f73
+	callba WriteCutTreeBoulderDustAnimationOAMBlock
+	ld c, 8 ; number of steps in animation
+.loop
 	push bc
-	call Func_79f92
-	ld bc, .asm_79f7e
+	call GetMoveBoulderDustFunctionPointer
+	ld bc, .returnAddress
 	push bc
 	ld c, $4
 	jp [hl]
-.asm_79f7e
-	ld a, [rOBP1] ; $ff49
-	xor $64
-	ld [rOBP1], a ; $ff49
+.returnAddress
+	ld a, [rOBP1]
+	xor %01100100
+	ld [rOBP1], a
 	call Delay3
 	pop bc
 	dec c
-	jr nz, .asm_79f73
+	jr nz, .loop
 	pop af
-	ld [$cfcb], a
+	ld [wUpdateSpritesEnabled], a
 	jp LoadPlayerSpriteGraphics
 
-Func_79f92: ; 79f92 (1e:5f92)
-	ld a, [$c109]
-	ld hl, PointerTable_79fb0 ; $5fb0
+GetMoveBoulderDustFunctionPointer: ; 79f92 (1e:5f92)
+	ld a, [wSpriteStateData1 + 9] ; player's sprite facing direction
+	ld hl, MoveBoulderDustFunctionPointerTable
 	ld c, a
 	ld b, $0
 	add hl, bc
 	ld a, [hli]
-	ld [$d08a], a
+	ld [wd08a], a
 	ld a, [hli]
 	ld e, a
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
 	push hl
-	ld hl, $c390
+	ld hl, wOAMBuffer + $90
 	ld d, $0
 	add hl, de
 	ld e, l
@@ -51,21 +51,25 @@ Func_79f92: ; 79f92 (1e:5f92)
 	pop hl
 	ret
 
-PointerTable_79fb0: ; 79fb0 (1e:5fb0)
+MoveBoulderDustFunctionPointerTable: ; 79fb0 (1e:5fb0)
+; facing down
 	db $FF,$00
-	dw Func_79350
+	dw AdjustOAMBlockYPos
 
+; facing up
 	db $01,$00
-	dw Func_79350
+	dw AdjustOAMBlockYPos
 
+; facing left
 	db $01,$01
-	dw Func_79337
+	dw AdjustOAMBlockXPos
 
+; facing right
 	db $FF,$01
-	dw Func_79337
+	dw AdjustOAMBlockXPos
 
 LoadSmokeTileFourTimes: ; 79fc0 (1e:5fc0)
-	ld hl, $8fc0
+	ld hl, vChars1 + $7c0
 	ld c, $4
 .loop
 	push bc

@@ -9,11 +9,11 @@ AgathaScript: ; 7642d (1d:642d)
 	ret
 
 AgathaScript_76443: ; 76443 (1d:6443)
-	ld hl, $d126
+	ld hl, wd126
 	bit 5, [hl]
 	res 5, [hl]
 	ret z
-	ld a, [$d865]
+	ld a, [wd865]
 	bit 1, a
 	jr z, .asm_76457
 	ld a, $e
@@ -22,10 +22,9 @@ AgathaScript_76443: ; 76443 (1d:6443)
 	ld a, $3b
 
 AgathaScript_76459: ; 76459 (1d:6459)
-	ld [$d09f], a
+	ld [wd09f], a
 	ld bc, $2
-	ld a, $17
-	jp Predef ; indirect jump to Func_ee9e (ee9e (3:6e9e))
+	predef_jump ReplaceTileBlock
 
 AgathaScript_76464: ; 76464 (1d:6464)
 	xor a
@@ -34,7 +33,7 @@ AgathaScript_76464: ; 76464 (1d:6464)
 
 AgathaScriptPointers: ; 76469 (1d:6469)
 	dw AgathaScript0
-	dw Func_324c
+	dw DisplayEnemyTrainerTextAndStartBattle
 	dw AgathaScript2
 	dw AgathaScript3
 	dw AgathaScript4
@@ -42,8 +41,8 @@ AgathaScriptPointers: ; 76469 (1d:6469)
 AgathaScript4: ; 76473 (1d:6473)
 	ret
 asm_76474: ; 76474 (1d:6474)
-	ld hl, $ccd3
-	ld a, $40
+	ld hl, wSimulatedJoypadStatesEnd
+	ld a, D_UP
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
@@ -51,8 +50,8 @@ asm_76474: ; 76474 (1d:6474)
 	ld [hli], a
 	ld [hl], a
 	ld a, $6
-	ld [$cd38], a
-	call Func_3486
+	ld [wSimulatedJoypadStatesIndex], a
+	call StartSimulatingJoypadStates
 	ld a, $3
 	ld [W_AGATHACURSCRIPT], a
 	ld [W_CURMAPSCRIPT], a
@@ -63,14 +62,14 @@ AgathaScript0: ; 76490 (1d:6490)
 	call ArePlayerCoordsInArray
 	jp nc, CheckFightingMapTrainers
 	xor a
-	ld [H_NEWLYPRESSEDBUTTONS], a
-	ld [H_CURRENTPRESSEDBUTTONS], a
-	ld [$ccd3], a
-	ld [$cd38], a
-	ld a, [wWhichTrade] ; $cd3d
+	ld [hJoyPressed], a
+	ld [hJoyHeld], a
+	ld [wSimulatedJoypadStatesEnd], a
+	ld [wSimulatedJoypadStatesIndex], a
+	ld a, [wWhichTrade] ; wWhichTrade
 	cp $3
 	jr c, .asm_764b4
-	ld hl, $d865
+	ld hl, wd865
 	bit 6, [hl]
 	set 6, [hl]
 	jr z, asm_76474
@@ -78,11 +77,11 @@ AgathaScript0: ; 76490 (1d:6490)
 	ld a, $2
 	ld [H_DOWNARROWBLINKCNT2], a ; $ff8c
 	call DisplayTextID
-	ld a, $40
-	ld [$ccd3], a
+	ld a, D_UP
+	ld [wSimulatedJoypadStatesEnd], a
 	ld a, $1
-	ld [$cd38], a
-	call Func_3486
+	ld [wSimulatedJoypadStatesIndex], a
+	call StartSimulatingJoypadStates
 	ld a, $3
 	ld [W_AGATHACURSCRIPT], a
 	ld [W_CURMAPSCRIPT], a
@@ -96,19 +95,19 @@ CoordsData_764d1: ; 764d1 (1d:64d1)
 	db $FF
 
 AgathaScript3: ; 764da (1d:64da)
-	ld a, [$cd38]
+	ld a, [wSimulatedJoypadStatesIndex]
 	and a
 	ret nz
 	call Delay3
 	xor a
-	ld [wJoypadForbiddenButtonsMask], a
+	ld [wJoyIgnore], a
 	ld [W_AGATHACURSCRIPT], a
 	ld [W_CURMAPSCRIPT], a
 	ret
 
 AgathaScript2: ; 764ed (1d:64ed)
 	call EndTrainerBattle
-	ld a, [W_ISINBATTLE] ; $d057
+	ld a, [W_ISINBATTLE] ; W_ISINBATTLE
 	cp $ff
 	jp z, AgathaScript_76464
 	ld a, $1
@@ -126,7 +125,7 @@ AgathaTrainerHeaders: ; 76509 (1d:6509)
 AgathaTrainerHeader0: ; 76509 (1d:6509)
 	db $1 ; flag's bit
 	db ($0 << 4) ; trainer's view range
-	dw $d865 ; flag's byte
+	dw wd865 ; flag's byte
 	dw AgathaBeforeBattleText ; 0x6520 TextBeforeBattle
 	dw AgathaAfterBattleText ; 0x652a TextAfterBattle
 	dw AgathaEndBattleText ; 0x6525 TextEndBattle

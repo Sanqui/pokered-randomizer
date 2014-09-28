@@ -86,13 +86,13 @@ DuplicateBitsTable: ; 2fea8 (b:7ea8)
 
 PayDayEffect_ ; 2feb8 (b:7eb8)
 	xor a
-	ld hl, $cd6d
+	ld hl, wcd6d
 	ld [hli], a
-	ld a, [$fff3]
+	ld a, [H_WHOSETURN]
 	and a
-	ld a, [$d022]
-	jr z, .asm_2fec8 ; 0x2fec3 $3
-	ld a, [$cff3]
+	ld a, [wBattleMonLevel]
+	jr z, .asm_2fec8
+	ld a, [wEnemyMonLevel]
 .asm_2fec8
 	add a
 	ld [$ff98], a
@@ -118,11 +118,10 @@ PayDayEffect_ ; 2feb8 (b:7eb8)
 	ld a, [$ff99]
 	add b
 	ld [hl], a
-	ld de, $cce7
+	ld de, wTotalPayDayMoney + 2
 	ld c, $3
-	ld a, $b
-	call Predef
-	ld hl, CoinsScatteredText ; $7f04
+	predef AddBCDPredef
+	ld hl, CoinsScatteredText
 	jp PrintText
 
 CoinsScatteredText: ; 2ff04 (b:7f04)

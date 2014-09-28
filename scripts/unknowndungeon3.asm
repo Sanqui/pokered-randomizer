@@ -9,7 +9,7 @@ UnknownDungeon3Script: ; 45ef0 (11:5ef0)
 
 UnknownDungeon3ScriptPointers: ; 45f03 (11:5f03)
 	dw CheckFightingMapTrainers
-	dw Func_324c
+	dw DisplayEnemyTrainerTextAndStartBattle
 	dw EndTrainerBattle
 
 UnknownDungeon3TextPointers: ; 45f09 (11:5f09)
@@ -21,7 +21,7 @@ UnknownDungeon3TrainerHeaders: ; 45f0f (11:5f0f)
 UnknownDungeon3TrainerHeader0: ; 45f0f (11:5f0f)
 	db $1 ; flag's bit
 	db ($0 << 4) ; trainer's view range
-	dw $d85f ; flag's byte
+	dw wd85f ; flag's byte
 	dw UnknownDungeon3MewtwoText ; 0x5f26 TextBeforeBattle
 	dw UnknownDungeon3MewtwoText ; 0x5f26 TextAfterBattle
 	dw UnknownDungeon3MewtwoText ; 0x5f26 TextEndBattle

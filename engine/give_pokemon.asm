@@ -1,35 +1,35 @@
 _GivePokemon: ; 4fda5 (13:7da5)
 	call EnableAutoTextBoxDrawing
 	xor a
-	ld [$ccd3], a
-	ld a, [W_NUMINPARTY] ; $d163
-	cp $6
+	ld [wccd3], a
+	ld a, [wPartyCount] ; wPartyCount
+	cp PARTY_LENGTH
 	jr c, .asm_4fe01
-	ld a, [W_NUMINBOX] ; $da80
-	cp $14
+	ld a, [W_NUMINBOX] ; wda80
+	cp MONS_PER_BOX
 	jr nc, .asm_4fdf9
 	xor a
-	ld [W_ENEMYBATTSTATUS3], a ; $d069
-	ld a, [$cf91]
-	ld [W_ENEMYMONID], a
-	callab Func_3eb01
+	ld [W_ENEMYBATTSTATUS3], a ; W_ENEMYBATTSTATUS3
+	ld a, [wcf91]
+	ld [wEnemyMonSpecies2], a
+	callab LoadEnemyMonData
 	call SetPokedexOwnedFlag
 	callab Func_e7a4
-	ld hl, $cf4b
-	ld a, [$d5a0]
+	ld hl, wcf4b
+	ld a, [wd5a0]
 	and $7f
-	cp $9
+	cp 9
 	jr c, .asm_4fdec
-	sub $9
-	ld [hl], $f7
+	sub 9
+	ld [hl], "1"
 	inc hl
-	add $f6
+	add "0"
 	jr .asm_4fdee
 .asm_4fdec
-	add $f7
+	add "1"
 .asm_4fdee
 	ld [hli], a
-	ld [hl], $50
+	ld [hl], "@"
 	ld hl, SetToBoxText
 	call PrintText
 	scf
@@ -41,28 +41,26 @@ _GivePokemon: ; 4fda5 (13:7da5)
 	ret
 .asm_4fe01
 	call SetPokedexOwnedFlag
-	call AddPokemonToParty
+	call AddPartyMon
 	ld a, $1
-	ld [$cc3c], a
-	ld [$ccd3], a
+	ld [wDoNotWaitForButtonPressAfterDisplayingText], a
+	ld [wccd3], a
 	scf
 	ret
 
 SetPokedexOwnedFlag: ; 4fe11 (13:7e11)
-	ld a, [$cf91]
+	ld a, [wcf91]
 	push af
-	ld [$d11e], a
-	ld a, $3a
-	call Predef ; indirect jump to IndexToPokedex (41010 (10:5010))
-	ld a, [$d11e]
+	ld [wd11e], a
+	predef IndexToPokedex
+	ld a, [wd11e]
 	dec a
 	ld c, a
-	ld hl, wPokedexOwned ; $d2f7
+	ld hl, wPokedexOwned ; wPokedexOwned
 	ld b, $1
-	ld a, $10
-	call Predef ; indirect jump to HandleBitArray (f666 (3:7666))
+	predef FlagActionPredef
 	pop af
-	ld [$d11e], a
+	ld [wd11e], a
 	call GetMonName
 	ld hl, GotMonText
 	jp PrintText

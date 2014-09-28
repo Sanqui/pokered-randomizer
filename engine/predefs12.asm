@@ -1,19 +1,20 @@
-Func_480eb: ; 480eb (12:40eb)
-	call Load16BitRegisters
-	ld a, [rBGP] ; $ff47
+; b = new colour for BG colour 0 (usually white) for 4 frames
+ChangeBGPalColor0_4Frames: ; 480eb (12:40eb)
+	call GetPredefRegisters
+	ld a, [rBGP]
 	or b
-	ld [rBGP], a ; $ff47
+	ld [rBGP], a
 	ld c, $4
 	call DelayFrames
-	ld a, [rBGP] ; $ff47
-	and $fc
-	ld [rBGP], a ; $ff47
+	ld a, [rBGP]
+	and %11111100
+	ld [rBGP], a
 	ret
 
 Func_480ff: ; 480ff (12:40ff)
-	call Load16BitRegisters
+	call GetPredefRegisters
 	ld a, $1
-	ld [$d0a0], a
+	ld [wd0a0], a
 	xor a
 .asm_48108
 	ld [H_NUMTOPRINT], a ; $ff96 (aliases: H_MULTIPLICAND)
@@ -23,7 +24,7 @@ Func_480ff: ; 480ff (12:40ff)
 	ld a, b
 	jr nz, .asm_48108
 	xor a
-	ld [$d0a0], a
+	ld [wd0a0], a
 	ret
 
 Func_48119: ; 48119 (12:4119)
@@ -35,7 +36,7 @@ Func_48119: ; 48119 (12:4119)
 	jp DelayFrames
 
 Func_48125: ; 48125 (12:4125)
-	call Load16BitRegisters
+	call GetPredefRegisters
 	xor a
 .asm_48129
 	ld [$ff97], a

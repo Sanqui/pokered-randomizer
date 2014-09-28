@@ -1,50 +1,50 @@
-Func_1a3e0: ; 1a3e0 (6:63e0)
-	ld hl, $d730
+PlayerStepOutFromDoor: ; 1a3e0 (6:63e0)
+	ld hl, wd730
 	res 1, [hl]
-	call HandleDoors
-	jr nc, .asm_1a406
+	call IsPlayerStandingOnDoorTile
+	jr nc, .notStandingOnDoor
 	ld a, $fc
-	ld [wJoypadForbiddenButtonsMask], a
-	ld hl, $d736
+	ld [wJoyIgnore], a
+	ld hl, wd736
 	set 1, [hl]
 	ld a, $1
-	ld [$cd38], a
-	ld a, $80
-	ld [$ccd3], a
+	ld [wSimulatedJoypadStatesIndex], a
+	ld a, D_DOWN
+	ld [wSimulatedJoypadStatesEnd], a
 	xor a
-	ld [$c102], a
-	call Func_3486
+	ld [wSpriteStateData1 + 2], a
+	call StartSimulatingJoypadStates
 	ret
-.asm_1a406
+.notStandingOnDoor
 	xor a
-	ld [$cd3a], a
-	ld [$cd38], a
-	ld [$ccd3], a
-	ld hl, $d736
+	ld [wWastedByteCD3A], a
+	ld [wSimulatedJoypadStatesIndex], a
+	ld [wSimulatedJoypadStatesEnd], a
+	ld hl, wd736
 	res 0, [hl]
 	res 1, [hl]
-	ld hl, $d730
+	ld hl, wd730
 	res 7, [hl]
 	ret
 
-Func_1a41d: ; 1a41d (6:641d)
-	ld hl, $d730
+_EndNPCMovementScript: ; 1a41d (6:641d)
+	ld hl, wd730
 	res 7, [hl]
-	ld hl, $d72e
+	ld hl, wd72e
 	res 7, [hl]
-	ld hl, $d736
+	ld hl, wd736
 	res 0, [hl]
 	res 1, [hl]
 	xor a
-	ld [$cf17], a
-	ld [$cc57], a
-	ld [$cf10], a
-	ld [$cd3a], a
-	ld [$cd38], a
-	ld [$ccd3], a
+	ld [wNPCMovementScriptSpriteOffset], a
+	ld [wNPCMovementScriptPointerTableNum], a
+	ld [wNPCMovementScriptFunctionNum], a
+	ld [wWastedByteCD3A], a
+	ld [wSimulatedJoypadStatesIndex], a
+	ld [wSimulatedJoypadStatesEnd], a
 	ret
 
-PointerTable_1a442: ; 1a442 (6:6442)
+ProfOakMovementScriptPointerTable: ; 1a442 (6:6442)
 	dw Func_1a44c
 	dw Func_1a485
 	dw Func_1a4a1
@@ -52,77 +52,76 @@ PointerTable_1a442: ; 1a442 (6:6442)
 	dw Func_1a4f4
 
 Func_1a44c: ; 1a44c (6:644c)
-	ld a, [W_XCOORD] ; $d362
+	ld a, [W_XCOORD] ; wd362
 	sub $a
-	ld [$cca1], a
+	ld [wcca1], a
 	jr z, .asm_1a475
 	ld b, $0
 	ld c, a
-	ld hl, $cc97
+	ld hl, wNPCMovementDirections2
 	ld a, $80
 	call FillMemory
 	ld [hl], $ff
-	ld a, [$cf13]
+	ld a, [wSpriteIndex]
 	ld [H_DOWNARROWBLINKCNT2], a ; $ff8c
-	ld de, $cc97
+	ld de, wNPCMovementDirections2
 	call MoveSprite
 	ld a, $1
-	ld [$cf10], a
+	ld [wNPCMovementScriptFunctionNum], a
 	jr .asm_1a47a
 .asm_1a475
 	ld a, $3
-	ld [$cf10], a
+	ld [wNPCMovementScriptFunctionNum], a
 .asm_1a47a
 	ld hl, W_FLAGS_D733
 	set 1, [hl]
 	ld a, $fc
-	ld [wJoypadForbiddenButtonsMask], a
+	ld [wJoyIgnore], a
 	ret
 
 Func_1a485: ; 1a485 (6:6485)
-	ld a, [$d730]
+	ld a, [wd730]
 	bit 0, a
 	ret nz
-	ld a, [$cca1]
-	ld [$cd38], a
+	ld a, [wcca1]
+	ld [wSimulatedJoypadStatesIndex], a
 	ld [$ff95], a
-	ld a, $23
-	call Predef
-	call Func_3486
+	predef ConvertNPCMovementDirectionsToJoypadMasks
+	call StartSimulatingJoypadStates
 	ld a, $2
-	ld [$cf10], a
+	ld [wNPCMovementScriptFunctionNum], a
 	ret
 
 Func_1a4a1: ; 1a4a1 (6:64a1)
-	ld a, [$cd38]
+	ld a, [wSimulatedJoypadStatesIndex]
 	and a
 	ret nz
 
 Func_1a4a6: ; 1a4a6 (6:64a6)
 	xor a
-	ld [$cd3b], a
-	ld a, [$cf13]
+	ld [wOverrideSimulatedJoypadStatesMask], a
+	ld a, [wSpriteIndex]
 	swap a
-	ld [$cf17], a
+	ld [wNPCMovementScriptSpriteOffset], a
 	xor a
-	ld [$c206], a
-	ld hl, $ccd3
-	ld de, RLEList_1a4e9
+	ld [wSpriteStateData2 + $06], a
+	ld hl, wSimulatedJoypadStatesEnd
+	ld de, RLEList_PlayerWalkToLab
 	call DecodeRLEList
 	dec a
-	ld [$cd38], a
-	ld hl, $cc97
-	ld de, RLEList_1a4dc
+	ld [wSimulatedJoypadStatesIndex], a
+	ld hl, wNPCMovementDirections2
+	ld de, RLEList_ProfOakWalkToLab
 	call DecodeRLEList
-	ld hl, $d72e
+	ld hl, wd72e
 	res 7, [hl]
-	ld hl, $d730
+	ld hl, wd730
 	set 7, [hl]
 	ld a, $4
-	ld [$cf10], a
+	ld [wNPCMovementScriptFunctionNum], a
 	ret
 
-RLEList_1a4dc: ; 1a4dc (6:64dc)
+RLEList_ProfOakWalkToLab: ; 1a4dc (6:64dc)
 	db $00, $05
 	db $80, $01
 	db $00, $05
@@ -131,66 +130,64 @@ RLEList_1a4dc: ; 1a4dc (6:64dc)
 	db $E0, $01
 	db $FF
 
-RLEList_1a4e9: ; 1a4e9 (6:64e9)
-	db $40, $02
-	db $10, $03
-	db $80, $05
-	db $20, $01
-	db $80, $06
+RLEList_PlayerWalkToLab: ; 1a4e9 (6:64e9)
+	db D_UP, $02
+	db D_RIGHT, $03
+	db D_DOWN, $05
+	db D_LEFT, $01
+	db D_DOWN, $06
 	db $FF
 
 Func_1a4f4: ; 1a4f4 (6:64f4)
-	ld a, [$cd38]
+	ld a, [wSimulatedJoypadStatesIndex]
 	and a
 	ret nz
 	ld a, $0
-	ld [$cc4d], a
-	ld a, $11
-	call Predef ; indirect jump to RemoveMissableObject (f1d7 (3:71d7))
-	ld hl, $d730
+	ld [wcc4d], a
+	predef HideObject
+	ld hl, wd730
 	res 7, [hl]
-	ld hl, $d72e
+	ld hl, wd72e
 	res 7, [hl]
-	jp Func_314e
+	jp EndNPCMovementScript
 
-PointerTable_1a510: ; 1a510 (6:6510)
+PewterMuseumGuyMovementScriptPointerTable: ; 1a510 (6:6510)
 	dw Func_1a514
-	dw Func_1a56b
+	dw PewterMovementScriptDone
 
 Func_1a514: ; 1a514 (6:6514)
-	ld a, Bank(Func_9876)
-	ld [$c0ef], a
-	ld [$c0f0], a
+	ld a, BANK(Music_MuseumGuy)
+	ld [wc0ef], a
+	ld [wc0f0], a
 	ld a, MUSIC_MUSEUM_GUY
-	ld [$c0ee], a
+	ld [wc0ee], a
 	call PlaySound
-	ld a, [$cf13]
+	ld a, [wSpriteIndex]
 	swap a
-	ld [$cf17], a
-	call Func_3486
-	ld hl, $ccd3
+	ld [wNPCMovementScriptSpriteOffset], a
+	call StartSimulatingJoypadStates
+	ld hl, wSimulatedJoypadStatesEnd
 	ld de, RLEList_PewterMuseumPlayer
 	call DecodeRLEList
 	dec a
-	ld [$cd38], a
+	ld [wSimulatedJoypadStatesIndex], a
 	xor a
-	ld [$d12f], a
-	ld a, $4f
-	call Predef
-	ld hl, $cc97
+	ld [wd12f], a
+	predef PewterGuys
+	ld hl, wNPCMovementDirections2
 	ld de, RLEList_PewterMuseumGuy
 	call DecodeRLEList
-	ld hl, $d72e
+	ld hl, wd72e
 	res 7, [hl]
 	ld a, $1
-	ld [$cf10], a
+	ld [wNPCMovementScriptFunctionNum], a
 	ret
 
 RLEList_PewterMuseumPlayer: ; 1a559 (6:6559)
-	db $00, $01
-	db $40, $03
-	db $20, $0D
-	db $40, $06
+	db 0, $01
+	db D_UP, $03
+	db D_LEFT, $0D
+	db D_UP, $06
 	db $FF
 
 RLEList_PewterMuseumGuy: ; 1a562 (6:6562)
@@ -200,59 +197,58 @@ RLEList_PewterMuseumGuy: ; 1a562 (6:6562)
 	db $80, $01
 	db $FF
 
-Func_1a56b: ; 1a56b (6:656b)
-	ld a, [$cd38]
+PewterMovementScriptDone: ; 1a56b (6:656b)
+	ld a, [wSimulatedJoypadStatesIndex]
 	and a
 	ret nz
-	ld hl, $d730
+	ld hl, wd730
 	res 7, [hl]
-	ld hl, $d72e
+	ld hl, wd72e
 	res 7, [hl]
-	jp Func_314e
+	jp EndNPCMovementScript
 
-PointerTable_1a57d: ; 1a57d (6:657d)
+PewterGymGuyMovementScriptPointerTable: ; 1a57d (6:657d)
 	dw Func_1a581
-	dw Func_1a56b
+	dw PewterMovementScriptDone
 
 Func_1a581: ; 1a581 (6:6581)
-	ld a, Bank(Func_9876)
-	ld [$c0ef], a
-	ld [$c0f0], a
+	ld a, BANK(Music_MuseumGuy)
+	ld [wc0ef], a
+	ld [wc0f0], a
 	ld a, MUSIC_MUSEUM_GUY
-	ld [$c0ee], a
+	ld [wc0ee], a
 	call PlaySound
-	ld a, [$cf13]
+	ld a, [wSpriteIndex]
 	swap a
-	ld [$cf17], a
+	ld [wNPCMovementScriptSpriteOffset], a
 	xor a
-	ld [$c206], a
-	ld hl, $ccd3
+	ld [wSpriteStateData2 + $06], a
+	ld hl, wSimulatedJoypadStatesEnd
 	ld de, RLEList_PewterGymPlayer
 	call DecodeRLEList
 	dec a
-	ld [$cd38], a
+	ld [wSimulatedJoypadStatesIndex], a
 	ld a, $1
-	ld [$d12f], a
-	ld a, $4f
-	call Predef
-	ld hl, $cc97
+	ld [wd12f], a
+	predef PewterGuys
+	ld hl, wNPCMovementDirections2
 	ld de, RLEList_PewterGymGuy
 	call DecodeRLEList
-	ld hl, $d72e
+	ld hl, wd72e
 	res 7, [hl]
-	ld hl, $d730
+	ld hl, wd730
 	set 7, [hl]
 	ld a, $1
-	ld [$cf10], a
+	ld [wNPCMovementScriptFunctionNum], a
 	ret
 
 RLEList_PewterGymPlayer: ; 1a5cd (6:65cd)
-	db $00, $01
-	db $10, $02
-	db $80, $05
-	db $20, $0B
-	db $40, $05
-	db $20, $0F
+	db 0, $01
+	db D_RIGHT, $02
+	db D_DOWN, $05
+	db D_LEFT, $0B
+	db D_UP, $05
+	db D_LEFT, $0F
 	db $FF
 
 RLEList_PewterGymGuy: ; 1a5da (6:65da)
@@ -264,12 +260,11 @@ RLEList_PewterGymGuy: ; 1a5da (6:65da)
 	db $C0, $03
 	db $FF
 
-; XXX why would this function want to return on POKEMONTOWER_7?
-Func_1a5e7: ; 1a5e7 (6:65e7)
-	ld a, [W_CURMAP] ; $d35e
+FreezeEnemyTrainerSprite: ; 1a5e7 (6:65e7)
+	ld a, [W_CURMAP]
 	cp POKEMONTOWER_7
-	ret z
-	ld hl, RivalIDs ; $6605
+	ret z ; the Rockets on Pokemon Tower 7F leave after battling, so don't freeze them
+	ld hl, RivalIDs
 	ld a, [wEngagedTrainerClass]
 	ld b, a
 .loop
@@ -277,11 +272,11 @@ Func_1a5e7: ; 1a5e7 (6:65e7)
 	cp $ff
 	jr z, .notRival
 	cp b
-	ret z
+	ret z ; the rival leaves after battling, so don't freeze him
 	jr .loop
 .notRival
-	ld a, [$cf13]
-	ld [H_DOWNARROWBLINKCNT2], a ; $ff8c
+	ld a, [wSpriteIndex]
+	ld [H_SPRITEINDEX], a
 	jp SetSpriteMovementBytesToFF
 
 RivalIDs: ; 1a605 (6:6605)

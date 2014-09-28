@@ -6,7 +6,7 @@ GaryScript: ; 75f1d (1d:5f1d)
 
 GaryScript_75f29: ; 75f29 (1d:5f29)
 	xor a
-	ld [wJoypadForbiddenButtonsMask], a
+	ld [wJoyIgnore], a
 	ld [W_GARYCURSCRIPT], a
 	ret
 
@@ -28,13 +28,13 @@ GaryScript0: ; 75f47 (1d:5f47)
 
 GaryScript1: ; 75f48 (1d:5f48)
 	ld a, $ff
-	ld [wJoypadForbiddenButtonsMask], a
-	ld hl, $ccd3
+	ld [wJoyIgnore], a
+	ld hl, wSimulatedJoypadStatesEnd
 	ld de, RLEMovement75f63
 	call DecodeRLEList
 	dec a
-	ld [$cd38], a
-	call Func_3486
+	ld [wSimulatedJoypadStatesIndex], a
+	call StartSimulatingJoypadStates
 	ld a, $2
 	ld [W_GARYCURSCRIPT], a
 	ret
@@ -46,24 +46,24 @@ RLEMovement75f63: ; 75f63 (1d:5f63)
 	db $ff
 
 GaryScript2: ; 75f6a (1d:5f6a)
-	ld a, [$cd38]
+	ld a, [wSimulatedJoypadStatesIndex]
 	and a
 	ret nz
 	call Delay3
 	xor a
-	ld [wJoypadForbiddenButtonsMask], a
-	ld hl, $d355
+	ld [wJoyIgnore], a
+	ld hl, W_OPTIONS
 	res 7, [hl]
 	ld a, $1
 	ld [$ff8c], a
 	call DisplayTextID
 	call Delay3
-	ld hl, $d72d
+	ld hl, wd72d
 	set 6, [hl]
 	set 7, [hl]
 	ld hl, GaryText_760f9
 	ld de, GaryText_760fe
-	call PreBattleSaveRegisters
+	call SaveEndBattleTextPointers
 	ld a, SONY3 + $c8
 	ld [W_CUROPPONENT], a
 
@@ -84,7 +84,7 @@ GaryScript2: ; 75f6a (1d:5f6a)
 	ld [W_TRAINERNO], a
 
 	xor a
-	ld [H_CURRENTPRESSEDBUTTONS], a
+	ld [hJoyHeld], a
 	ld a, $3
 	ld [W_GARYCURSCRIPT], a
 	ret
@@ -94,10 +94,10 @@ GaryScript3: ; 75fbb (1d:5fbb)
 	cp $ff
 	jp z, GaryScript_75f29
 	call UpdateSprites ; move sprites
-	ld hl, $d867
+	ld hl, wd867
 	set 1, [hl]
 	ld a, $f0
-	ld [wJoypadForbiddenButtonsMask], a
+	ld [wJoyIgnore], a
 	ld a, $1
 	ld [$ff8c], a
 	call GaryScript_760c8
@@ -121,9 +121,8 @@ GaryScript4: ; 75fe4 (1d:5fe4)
 	ld [$ff8c], a
 	call MoveSprite
 	ld a, $d6
-	ld [$cc4d], a
-	ld a, $15
-	call Predef
+	ld [wcc4d], a
+	predef ShowObject
 	ld a, $5
 	ld [W_GARYCURSCRIPT], a
 	ret
@@ -132,21 +131,21 @@ MovementData_76014: ; 76014 (1d:6014)
 	db $40,$40,$40,$40,$40,$FF
 
 GaryScript5: ; 7601a (1d:601a)
-	ld a, [$d730]
+	ld a, [wd730]
 	bit 0, a
 	ret nz
 	ld a, $2
-	ld [$d528], a
+	ld [wd528], a
 	ld a, $1
 	ld [$ff8c], a
 	ld a, $8
 	ld [$ff8d], a
-	call Func_34a6
+	call SetSpriteFacingDirectionAndDelay
 	ld a, $2
 	ld [$ff8c], a
 	xor a
 	ld [$ff8d], a
-	call Func_34a6 ; face object
+	call SetSpriteFacingDirectionAndDelay ; face object
 	ld a, $3
 	ld [$ff8c], a
 	call GaryScript_760c8
@@ -159,7 +158,7 @@ GaryScript6: ; 76047 (1d:6047)
 	ld [$ff8c], a
 	ld a, $c
 	ld [$ff8d], a
-	call Func_34a6 ; face object
+	call SetSpriteFacingDirectionAndDelay ; face object
 	ld a, $4
 	ld [$ff8c], a
 	call GaryScript_760c8
@@ -172,7 +171,7 @@ GaryScript7: ; 7605f (1d:605f)
 	ld [$ff8c], a
 	xor a
 	ld [$ff8d], a
-	call Func_34a6 ; face object
+	call SetSpriteFacingDirectionAndDelay ; face object
 	ld a, $5
 	ld [$ff8c], a
 	call GaryScript_760c8
@@ -188,26 +187,25 @@ MovementData_76080: ; 76080 (1d:6080)
 	db $40,$40,$FF
 
 GaryScript8: ; 76083 (1d:6083)
-	ld a, [$d730]
+	ld a, [wd730]
 	bit 0, a
 	ret nz
 	ld a, $d6
-	ld [$cc4d], a
-	ld a, $11
-	call Predef
+	ld [wcc4d], a
+	predef HideObject
 	ld a, $9
 	ld [W_GARYCURSCRIPT], a
 	ret
 
 GaryScript9: ; 76099 (1d:6099)
 	ld a, $ff
-	ld [wJoypadForbiddenButtonsMask], a
-	ld hl, $ccd3
+	ld [wJoyIgnore], a
+	ld hl, wSimulatedJoypadStatesEnd
 	ld de, RLEMovement760b4
 	call DecodeRLEList
 	dec a
-	ld [$cd38], a
-	call Func_3486
+	ld [wSimulatedJoypadStatesIndex], a
+	call StartSimulatingJoypadStates
 	ld a, $a
 	ld [W_GARYCURSCRIPT], a
 	ret
@@ -218,21 +216,21 @@ RLEMovement760b4 ; 760b4 (1d:60b4)
 	db $ff
 
 GaryScript10: ; 760b9 (1d:60b9)
-	ld a, [$cd38]
+	ld a, [wSimulatedJoypadStatesIndex]
 	and a
 	ret nz
 	xor a
-	ld [wJoypadForbiddenButtonsMask], a
+	ld [wJoyIgnore], a
 	ld a, $0
 	ld [W_GARYCURSCRIPT], a
 	ret
 
 GaryScript_760c8 ; 760c8 (1d:60c8)
 	ld a, $f0
-	ld [wJoypadForbiddenButtonsMask], a
+	ld [wJoyIgnore], a
 	call DisplayTextID
 	ld a, $ff
-	ld [wJoypadForbiddenButtonsMask], a
+	ld [wJoyIgnore], a
 	ret
 
 GaryTextPointers: ; 760d6 (1d:60d6)
@@ -244,7 +242,7 @@ GaryTextPointers: ; 760d6 (1d:60d6)
 
 GaryText1: ; 760e0 (1d:60e0)
 	db $08 ; asm
-	ld a, [$d867]
+	ld a, [wd867]
 	bit 1, a
 	ld hl, GaryText_760f4
 	jr z, .asm_17e9f ; 0x760e9
@@ -275,8 +273,8 @@ GaryText2: ; 76108 (1d:6108)
 
 GaryText3: ; 7610d (1d:610d)
 	db $8
-	ld a, [$d717]
-	ld [$d11e], a
+	ld a, [W_PLAYERSTARTER]
+	ld [wd11e], a
 	call GetMonName
 	ld hl, GaryText_76120
 	call PrintText

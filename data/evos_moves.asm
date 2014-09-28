@@ -190,6 +190,7 @@ EvosMovesPointerTable: ; 3b05c (e:705c)
 	dw Mon070_EvosMoves
 	dw Mon071_EvosMoves
 
+EvosMoves:
 Mon112_EvosMoves: ; 3b1d8 (e:71d8)
 ;RHYDON
 ;Evolutions

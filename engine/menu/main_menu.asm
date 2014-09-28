@@ -26,6 +26,12 @@ MainMenu: ; 5af2 (1:5af2)
 	ld hl,$D72E
 	res 6,[hl]
 	call ClearScreen
+	
+	FuncCoord 0, 8
+	ld hl, Coord
+	ld de, TitleScreenText
+	call PlaceString ; show randomizer options
+	
 	call GoPAL_SET_CF1C
 	call LoadTextBoxTilePatterns
 	call LoadFontTilePatterns
@@ -434,6 +440,7 @@ SaveScreenInfoText: ; 5e6a (1:5e6a)
 	next "TIME@"
 
 DisplayOptionMenu: ; 5e8a (1:5e8a)
+    call ClearScreen ; to clean title screen text
 	FuncCoord 0,0
 	ld hl,Coord
 	ld b,3

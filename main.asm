@@ -102,6 +102,15 @@ CopyData:: ; 00b5 (0:00b5)
 	jr nz,CopyData
 	ret
 
+UncompressMonSpriteAdvice:
+	cp MEW ; 2
+	ld a,BANK(MewPicFront) ; 2
+	jp z, UncompressSpriteData
+	ld a, [$d0d3]
+	and a
+	jp z, UncompressMonSpritePointcut
+	jp UncompressSpriteData
+
 SECTION "romheader",ROM0[$100]
 	nop
 	jp Start
@@ -3014,6 +3023,8 @@ Func_152e:: ; 152e (0:152e)
 ; INPUT:
 ; [$D0B5] = pokemon ID
 GetMonHeader:: ; 1537 (0:1537)
+    xor a ; 1
+    ld [$d0d3], a ; 3
 	ld a,[H_LOADEDROMBANK]
 	push af
 	ld a,BANK(BulbasaurBaseStats)
@@ -3194,9 +3205,14 @@ UncompressMonSprite:: ; 1627 (0:1627)
 ; $99 ≤ index,       bank $D
 	ld a,[$CF91] ; XXX name for this ram location
 	ld b,a
-	cp MEW
-	ld a,BANK(MewPicFront)
-	jr z,.GotBank
+	jp UncompressMonSpriteAdvice
+	nop
+	nop
+	nop
+	;cp MEW ; 2
+	;ld a,BANK(MewPicFront) ; 2
+	;jr z,.GotBank ; 2
+UncompressMonSpritePointcut:
 	ld a,b
 	cp FOSSIL_KABUTOPS
 	ld a,BANK(FossilKabutopsPic)
@@ -8879,6 +8895,9 @@ PrintLetterDelay:: ; 38d3 (0:38d3)
 	ld a,[$d730]
 	bit 6,a
 	ret nz
+	ld a,[$00ff] ; HACK
+	bit 0,a
+	ret nz
 	ld a,[$d358]
 	bit 1,a
 	ret z
@@ -13156,6 +13175,8 @@ Func_7c18: ; 7c18 (1:7c18)
 	ld [$cc3c], a
 	ret
 
+TitleScreenText:
+    db "@"
 
 SECTION "bank3",ROMX,BANK[$3]
 
@@ -17118,6 +17139,8 @@ INCLUDE "engine/evos_moves.asm"
 
 INCLUDE "engine/battle/e_2.asm"
 
+INCLUDE "data/evos_moves.asm"
+
 SECTION "bankF",ROMX,BANK[$F]
 
 INCLUDE "engine/battle/core.asm"
@@ -19008,3 +19031,16 @@ INCLUDE "engine/evolution.asm"
 INCLUDE "engine/overworld/elevator.asm"
 
 INCLUDE "engine/items/tm_prices.asm"
+
+SECTION "bank2d",ROMX,BANK[$2d]
+    db $ff
+SECTION "bank2e",ROMX,BANK[$2e]
+    db $ff
+SECTION "bank2f",ROMX,BANK[$2f]
+    db $ff
+SECTION "bank30",ROMX,BANK[$30]
+    db $ff
+SECTION "bank31",ROMX,BANK[$31]
+    db $ff
+SECTION "bank32",ROMX,BANK[$32]
+    db $ff

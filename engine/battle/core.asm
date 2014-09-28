@@ -5285,8 +5285,6 @@ AIGetTypeEffectiveness: ; 3e449 (f:6449)
 	ld [$d11e],a           ; store damage multiplier
 	ret
 
-INCLUDE "data/type_effects.asm"
-
 ; some tests that need to pass for a move to hit
 MoveHitTest: ; 3e56b (f:656b)
 ; player's turn
@@ -8545,3 +8543,5 @@ Func_3fbbc: ; 3fbbc (f:7bbc)
 	pop de
 	pop hl
 	ret
+
+INCLUDE "data/type_effects.asm"

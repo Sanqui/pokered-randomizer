@@ -26,8 +26,7 @@ MainMenu: ; 5af2 (1:5af2)
 	res 6,[hl]
 	call ClearScreen
 	
-	FuncCoord 0, 8
-	ld hl, Coord
+	hlCoord 0, 8
 	ld de, TitleScreenText
 	call PlaceString ; show randomizer options
 	

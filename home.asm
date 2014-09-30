@@ -82,7 +82,7 @@ HideSprites::
 
 INCLUDE "home/copy.asm"
 
-UncompressMonSpriteAdvice:
+UncompressMonSpriteAdvice::
 	cp MEW ; 2
 	ld a,BANK(MewPicFront) ; 2
 	jp z, UncompressSpriteData
@@ -744,9 +744,15 @@ UncompressMonSprite:: ; 1627 (0:1627)
 ; $99 ≤ index,       bank $D
 	ld a,[wcf91] ; XXX name for this ram location
 	ld b,a
-	cp MEW
-	ld a,BANK(MewPicFront)
-	jr z,.GotBank
+    jp UncompressMonSpriteAdvice
+    nop
+    nop
+    nop
+    ;cp MEW ; 2
+    ;ld a,BANK(MewPicFront) ; 2
+    ;jr z,.GotBank ; 2
+UncompressMonSpritePointcut::
+
 	ld a,b
 	cp FOSSIL_KABUTOPS
 	ld a,BANK(FossilKabutopsPic)

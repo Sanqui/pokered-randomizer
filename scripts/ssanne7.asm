@@ -54,7 +54,7 @@ SSAnne7RubText: ; 618ec (18:58ec)
 	ld a, $ff
 	ld [wc0ee], a
 	call PlaySound
-	ld a, Bank(Func_9876)
+	ld a, 0 ; Bank(Func_9876)
 	ld [wc0ef], a
 .asm_61908
 	ld a, MUSIC_PKMN_HEALED

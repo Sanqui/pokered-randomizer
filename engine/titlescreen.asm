@@ -17,7 +17,7 @@ SetDefaultNamesBeforeTitlescreen: ; 42b7 (1:42b7)
 	ld [hli], a
 	ld [hli], a
 	ld [hl], a
-	ld a, BANK(Music_TitleScreen)
+	ld a, 0 ; BANK(Music_TitleScreen)
 	ld [wc0ef], a
 	ld [wc0f0], a
 
@@ -175,6 +175,9 @@ ENDC
 	jr nz, .ScrollTitleScreenPokemonLogo
 	ret
 .asm_43f4
+    xor a
+	ld [hSCY], a
+    
 	call LoadScreenTilesFromBuffer1
 	ld c, $24
 	call DelayFrames

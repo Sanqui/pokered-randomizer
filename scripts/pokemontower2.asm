@@ -26,7 +26,7 @@ PokemonTower2Script0: ; 6050f (18:450f)
 	ld a, $ff
 	ld [wc0ee], a
 	call PlaySound
-	ld c, BANK(Music_MeetRival)
+	ld c, 0 ; BANK(Music_MeetRival)
 	ld a, MUSIC_MEET_RIVAL
 	call PlayMusic
 	ld hl, wd764

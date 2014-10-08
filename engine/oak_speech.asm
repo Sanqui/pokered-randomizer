@@ -34,7 +34,7 @@ SetDefaultNames: ; 60ca (1:60ca)
 OakSpeech: ; 6115 (1:6115)
 	ld a,$FF
 	call PlaySound ; stop music
-	ld a, BANK(Music_Routes2) ; bank of song
+	ld a, 0 ; 0 ; BANK(Music_Routes2) ; bank of song
 	ld c,a
 	ld a, MUSIC_ROUTES2 ; song #
 	call PlayMusic  ; plays music
@@ -129,7 +129,7 @@ Func_61bc: ; 61bc (1:61bc)
 	call ResetPlayerSpriteData
 	ld a,[H_LOADEDROMBANK]
 	push af
-	ld a, BANK(Music_PalletTown)
+	ld a,0 ;  0 ; BANK(Music_PalletTown)
 	ld [wc0ef],a
 	ld [wc0f0],a
 	ld a,$A

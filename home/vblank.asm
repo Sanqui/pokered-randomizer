@@ -50,26 +50,28 @@ VBlank::
 	ld [H_FRAMECOUNTER], a
 .decced
 
-	call Func_28cb
+	;call Func_28cb
 
-	ld a, [wc0ef] ; music ROM bank
-	ld [H_LOADEDROMBANK], a
-	ld [MBC1RomBank], a
 
-	cp BANK(Music2_UpdateMusic)
-	jr nz, .notbank2
-.bank2
-	call Music2_UpdateMusic
-	jr .afterMusic
-.notbank2
-	cp BANK(Music8_UpdateMusic)
-	jr nz, .bank1F
-.bank8
-	call Func_2136e
-	call Music8_UpdateMusic
-	jr .afterMusic
-.bank1F
-	call Music1f_UpdateMusic
+    call UpdateSound
+;	ld a, [wc0ef] ; music ROM bank
+;	ld [H_LOADEDROMBANK], a
+;	ld [MBC1RomBank], a
+;
+;	cp BANK(Music2_UpdateMusic)
+;	jr nz, .notbank2
+;.bank2
+;	call Music2_UpdateMusic
+;	jr .afterMusic
+;.notbank2
+;	cp BANK(Music8_UpdateMusic)
+;	jr nz, .bank1F
+;.bank8
+;	call Func_2136e
+;	call Music8_UpdateMusic
+;	jr .afterMusic
+;.bank1F
+;	call Music1f_UpdateMusic
 .afterMusic
 
 	callba TrackPlayTime ; keep track of time played

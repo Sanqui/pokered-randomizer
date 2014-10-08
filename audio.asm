@@ -4,29 +4,164 @@ AUDIO_2 EQU $8
 AUDIO_3 EQU $1f
 
 INCLUDE "constants.asm"
+INCLUDE "crysmacros.asm"
 
+; crystal.py macros: 
+octave: MACRO
+	db $d8 - (\1)
+	ENDM
+	
+notetype: MACRO
+	db $d8, \1
+IF _NARG==2
+    db \2
+ENDC
+	ENDM
+forceoctave: MACRO
+	db $d9, \1
+	ENDM
+tempo: MACRO
+	db $da
+	bigdw \1
+	ENDM
+dutycycle: MACRO
+	db $db, \1
+	ENDM
+intensity: MACRO
+	db $dc, \1
+	ENDM
+soundinput: MACRO
+	db $dd, \1
+	ENDM
+unknownmusic0xde: MACRO
+	db $de, \1
+	ENDM
+togglesfx: MACRO
+	db $df
+	ENDM
+unknownmusic0xe0: MACRO
+	db $e0, \1, \2
+	ENDM
+vibrato: MACRO
+	db $e1, \1, \2
+	ENDM
+unknownmusic0xe2: MACRO
+	db $e2, \1
+	ENDM
+togglenoise: MACRO
+	db $e3, \1
+	ENDM
+panning: MACRO
+	db $e4, \1
+	ENDM
+volume: MACRO
+	db $e5, \1
+	ENDM
+tone: MACRO
+	db $e6
+	bigdw \1
+	ENDM
+unknownmusic0xe7: MACRO
+	db $e7, \1
+	ENDM
+unknownmusic0xe8: MACRO
+	db $e8, \1
+	ENDM
+globaltempo: MACRO
+	db $e9
+	bigdw \1
+	ENDM
+restartchannel: MACRO
+	dbw $ea, \1
+	ENDM
+newsong: MACRO
+	db $eb
+	bigdw \1
+	ENDM
+sfxpriorityon: MACRO
+	db $ec
+	ENDM
+sfxpriorityoff: MACRO
+	db $ed
+	ENDM
+unknownmusic0xee: MACRO
+	dbw $ee, \1
+	ENDM
+stereopanning: MACRO
+	db $ef, \1
+	ENDM
+sfxtogglenoise: MACRO
+	db $f0, \1
+	ENDM
+ftempo: MACRO
+	db $f1
+	bigdw \1
+	ENDM
+fdutycycle: MACRO
+	db $f2, \1
+	ENDM
+music0xf3: MACRO
+	db $f3
+	ENDM
+incoctave: MACRO
+	db $f4
+	ENDM
+decoctave: MACRO
+	db $f5
+	ENDM
+music0xf6: MACRO
+	db $f6
+	ENDM
+music0xf7: MACRO
+	db $f7
+	ENDM
+music0xf8: MACRO
+	db $f8
+	ENDM
+unknownmusic0xf9: MACRO
+	db $f9, \1
+	ENDM
+setcondition: MACRO
+	db $fa, \1
+	ENDM
+jumpif: MACRO
+	db $fb, \1
+	dw \2
+	ENDM
+jumpchannel: MACRO
+	dbw $fc, \1
+	ENDM
+loopchannel: MACRO
+	db $fd, \1
+	dw \2
+	ENDM
+callchannel: MACRO
+	dbw $fe, \1
+	ENDM
+endchannel: MACRO
+	db $ff
+	ENDM
+	
+	
+sound: MACRO
+    db \1, \2
+    dw \3
+    ENDM
+
+noise: MACRO
+    db \1, \2, \3
+    ENDM
+    
+toggleperfectpitch: MACRO ; XXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+	ENDM
+; red:
 
 SECTION "Sound Effect Headers 1", ROMX, BANK[AUDIO_1]
 INCLUDE "audio/headers/sfxheaders02.asm"
-
 SECTION "Sound Effect Headers 2", ROMX, BANK[AUDIO_2]
 INCLUDE "audio/headers/sfxheaders08.asm"
-
 SECTION "Sound Effect Headers 3", ROMX, BANK[AUDIO_3]
 INCLUDE "audio/headers/sfxheaders1f.asm"
-
-
-
-SECTION "Music Headers 1", ROMX, BANK[AUDIO_1]
-INCLUDE "audio/headers/musicheaders02.asm"
-
-SECTION "Music Headers 2", ROMX, BANK[AUDIO_2]
-INCLUDE "audio/headers/musicheaders08.asm"
-
-SECTION "Music Headers 3", ROMX, BANK[AUDIO_3]
-INCLUDE "audio/headers/musicheaders1f.asm"
-
-
 
 SECTION "Sound Effects 1", ROMX, BANK[AUDIO_1]
 
@@ -358,10 +493,29 @@ INCLUDE "audio/sfx/sfx_1f_34.asm"
 INCLUDE "audio/sfx/sfx_1f_35.asm"
 INCLUDE "audio/sfx/sfx_1f_36.asm"
 
+SECTION "SFX previously interleaved with music", ROMX
+;INCLUDE "audio/music/pkmnhealed.asm"
+INCLUDE "audio/sfx/sfx_02_3a.asm"
+INCLUDE "audio/sfx/sfx_02_41.asm"
+INCLUDE "audio/sfx/sfx_02_3b.asm"
+INCLUDE "audio/sfx/sfx_02_42.asm"
+INCLUDE "audio/sfx/sfx_08_3a.asm"
+INCLUDE "audio/sfx/sfx_08_3b.asm"
+INCLUDE "audio/sfx/sfx_08_46.asm"
+INCLUDE "audio/sfx/sfx_08_pokeflute.asm"
+INCLUDE "audio/sfx/sfx_08_unused2.asm"
+INCLUDE "audio/sfx/sfx_1f_3a.asm"
+INCLUDE "audio/sfx/sfx_1f_41.asm"
+INCLUDE "audio/sfx/sfx_1f_3b.asm"
+INCLUDE "audio/sfx/sfx_1f_42.asm"
 
 
-SECTION "Audio Engine 1", ROMX, BANK[AUDIO_1]
 
+
+SECTION "Bill's PC", ROMX
+INCLUDE "engine/menu/bills_pc.asm"
+
+SECTION "Music Routines", ROMX
 PlayBattleMusic:: ; 0x90c6
 	xor a
 	ld [wMusicHeaderPointer], a
@@ -370,7 +524,7 @@ PlayBattleMusic:: ; 0x90c6
 	ld [wc0ee], a
 	call PlaySound ; stop music
 	call DelayFrame
-	ld c, BANK(Music_GymLeaderBattle)
+	;ld c, BANK(Music_GymLeaderBattle)
 	ld a, [W_GYMLEADERNO]
 	and a
 	jr z, .notGymLeaderBattle
@@ -397,44 +551,32 @@ PlayBattleMusic:: ; 0x90c6
 .playSong
 	jp PlayMusic
 
-
-INCLUDE "audio/engine_1.asm"
-
-
-; an alternate start for MeetRival which has a different first measure
+SECTION "Alt Music Routines", ROMX
 Music_RivalAlternateStart:: ; 0x9b47
-	ld c, BANK(Music_MeetRival)
 	ld a, MUSIC_MEET_RIVAL
-	call PlayMusic
-	ld hl, wc006
-	ld de, Music_MeetRival_branch_b1a2
-	call Music2_OverwriteChannelPointer
-	ld de, Music_MeetRival_branch_b21d
-	call Music2_OverwriteChannelPointer
-	ld de, Music_MeetRival_branch_b2b5
-
-Music2_OverwriteChannelPointer: ; 0x9b60
-	ld a, e
-	ld [hli], a
-	ld a, d
-	ld [hli], a
-	ret
+	jp PlayMusic
+	;ld hl, wc006
+	;ld de, Music_MeetRival_branch_b1a2
+	;call Music2_OverwriteChannelPointer
+	;ld de, Music_MeetRival_branch_b21d
+	;call Music2_OverwriteChannelPointer
+	;ld de, Music_MeetRival_branch_b2b5
 
 ; an alternate tempo for MeetRival which is slightly slower
 Music_RivalAlternateTempo:: ; 0x9b65
 	ld c, BANK(Music_MeetRival)
 	ld a, MUSIC_MEET_RIVAL
-	call PlayMusic
-	ld hl, wc006
-	ld de, Music_MeetRival_branch_b119
-	jp Music2_OverwriteChannelPointer
+	jp PlayMusic
+	;ld hl, wc006
+	;ld de, Music_MeetRival_branch_b119
+	;jp Music2_OverwriteChannelPointer
 
 ; applies both the alternate start and alternate tempo
 Music_RivalAlternateStartAndTempo:: ; 0x9b75
-	call Music_RivalAlternateStart
-	ld hl, wc006
-	ld de, Music_MeetRival_branch_b19b
-	jp Music2_OverwriteChannelPointer
+	jp Music_RivalAlternateStart
+	;ld hl, wc006
+	;ld de, Music_MeetRival_branch_b19b
+	;jp Music2_OverwriteChannelPointer
 
 ; an alternate tempo for Cities1 which is used for the Hall of Fame room
 Music_Cities1AlternateTempo:: ; 0x9b81
@@ -447,99 +589,12 @@ Music_Cities1AlternateTempo:: ; 0x9b81
 	call DelayFrames
 	ld c, BANK(Music_Cities1)
 	ld a, MUSIC_CITIES1
-	call PlayMusic
-	ld hl, wc006
-	ld de, Music_Cities1_branch_aa6f
-	jp Music2_OverwriteChannelPointer
+	jp PlayMusic
+	;ld hl, wc006
+	;ld de, Music_Cities1_branch_aa6f
+	;jp Music2_OverwriteChannelPointer
 
-
-SECTION "Audio Engine 2", ROMX, BANK[AUDIO_2]
-
-Func_2136e:: ; 2136e (8:536e)
-	ld a, [wd083]
-	cp $ff
-	jr z, .asm_2139b
-	bit 7, a
-	ret z
-	and $7f
-	jr nz, .asm_21383
-	call Func_213a7
-	ld a, $1e
-	jr .asm_21395
-.asm_21383
-	cp $14
-	jr nz, .asm_2138a
-	call Func_213ac
-.asm_2138a
-	ld a, $86
-	ld [wc02a], a
-	ld a, [wd083]
-	and $7f
-	dec a
-.asm_21395
-	set 7, a
-	ld [wd083], a
-	ret
-.asm_2139b
-	xor a
-	ld [wd083], a
-	ld [wc02a], a
-	ld de, Unknown_213c4 ; $53c4
-	jr asm_213af
-
-Func_213a7: ; 213a7 (8:53a7)
-	ld de, Unknown_213bc ; $53bc
-	jr asm_213af
-
-Func_213ac: ; 213ac (8:53ac)
-	ld de, Unknown_213c0 ; $53c0
-asm_213af: ; 213af (8:53af)
-	ld hl, $ff10
-	ld c, $5
-	xor a
-.asm_213b5
-	ld [hli], a
-	ld a, [de]
-	inc de
-	dec c
-	jr nz, .asm_213b5
-	ret
-
-Unknown_213bc: ; 213bc (8:53bc)
-	db $A0,$E2,$50,$87
-
-Unknown_213c0: ; 213c0 (8:53c0)
-	db $B0,$E2,$EE,$86
-
-Unknown_213c4: ; 213c4 (8:53c4)
-	db $00,$00,$00,$80
-
-
-INCLUDE "engine/menu/bills_pc.asm"
-
-INCLUDE "audio/engine_2.asm"
-
-
-Music_PokeFluteInBattle:: ; 22306 (8:6306)
-	ld a, (SFX_08_46 - SFX_Headers_08) / 3 ; PokeFlute outside of battle
-	call PlaySoundWaitForCurrent
-	ld hl, wc00e
-	ld de, SFX_08_PokeFlute_Ch1
-	call Music8_OverwriteChannelPointer
-	ld de, SFX_08_PokeFlute_Ch2
-	call Music8_OverwriteChannelPointer
-	ld de, SFX_08_PokeFlute_Ch3
-
-Music8_OverwriteChannelPointer: ; 2231d (8:631d)
-	ld a, e
-	ld [hli], a
-	ld a, d
-	ld [hli], a
-	ret
-
-
-SECTION "Audio Engine 3", ROMX, BANK[AUDIO_3]
-
+SECTION "Pokedex Rating SFX Routines", ROMX
 Func_7d13b:: ; 7d13b (1f:513b)
 	ld a, [$ffdc]
 	ld c, $0
@@ -577,78 +632,346 @@ PokedexRatingSfxPointers: ; 7d162 (1f:5162)
 OwnedMonValues: ; 7d170 (1f:5170)
 	db 10, 40, 60, 90, 120, 150, $ff
 
-
-INCLUDE "audio/engine_3.asm"
-
-
-
-SECTION "Music 1", ROMX, BANK[AUDIO_1]
-
-INCLUDE "audio/music/pkmnhealed.asm"
-INCLUDE "audio/music/routes1.asm"
-INCLUDE "audio/music/routes2.asm"
-INCLUDE "audio/music/routes3.asm"
-INCLUDE "audio/music/routes4.asm"
-INCLUDE "audio/music/indigoplateau.asm"
-INCLUDE "audio/music/pallettown.asm"
-INCLUDE "audio/music/unusedsong.asm"
-INCLUDE "audio/music/cities1.asm"
-INCLUDE "audio/sfx/sfx_02_3a.asm"
-INCLUDE "audio/music/museumguy.asm"
-INCLUDE "audio/music/meetprofoak.asm"
-INCLUDE "audio/music/meetrival.asm"
-INCLUDE "audio/sfx/sfx_02_41.asm"
-INCLUDE "audio/sfx/sfx_02_3b.asm"
-INCLUDE "audio/sfx/sfx_02_42.asm"
-INCLUDE "audio/music/ssanne.asm"
-INCLUDE "audio/music/cities2.asm"
-INCLUDE "audio/music/celadon.asm"
-INCLUDE "audio/music/cinnabar.asm"
-INCLUDE "audio/music/vermilion.asm"
-INCLUDE "audio/music/lavender.asm"
-INCLUDE "audio/music/safarizone.asm"
-INCLUDE "audio/music/gym.asm"
-INCLUDE "audio/music/pokecenter.asm"
+; crystal:
+    
+SECTION "Audio Engine 1", ROMX, BANK[AUDIO_1]
 
 
-SECTION "Music 2", ROMX, BANK[AUDIO_2]
+INCLUDE "crysaudio/engine.asm"
 
-INCLUDE "audio/sfx/sfx_08_pokeflute.asm"
-INCLUDE "audio/sfx/sfx_08_unused2.asm"
-INCLUDE "audio/music/gymleaderbattle.asm"
-INCLUDE "audio/music/trainerbattle.asm"
-INCLUDE "audio/music/wildbattle.asm"
-INCLUDE "audio/music/finalbattle.asm"
-INCLUDE "audio/sfx/sfx_08_3a.asm"
-INCLUDE "audio/sfx/sfx_08_3b.asm"
-INCLUDE "audio/sfx/sfx_08_46.asm"
-INCLUDE "audio/music/defeatedtrainer.asm"
-INCLUDE "audio/music/defeatedwildmon.asm"
-INCLUDE "audio/music/defeatedgymleader.asm"
+; What music plays when a trainer notices you
+;INCLUDE "crysaudio/trainer_encounters.asm"
+
+MusicMT:
+INCLUDE "crysaudio/music_pointers_music_test.asm"
+
+Music:
+INCLUDE "crysaudio/red_pointers.asm"
+;INCLUDE "crysaudio/music_pointers.asm"
+
+Music2:
+INCLUDE "crysaudio/music_pointers2.asm"
 
 
-SECTION "Music 3", ROMX, BANK[AUDIO_3]
+INCLUDE "crysaudio/music/nothing.asm"
 
-INCLUDE "audio/music/bikeriding.asm"
-INCLUDE "audio/music/dungeon1.asm"
-INCLUDE "audio/music/gamecorner.asm"
-INCLUDE "audio/music/titlescreen.asm"
-INCLUDE "audio/sfx/sfx_1f_3a.asm"
-INCLUDE "audio/music/dungeon2.asm"
-INCLUDE "audio/music/dungeon3.asm"
-INCLUDE "audio/music/cinnabarmansion.asm"
-INCLUDE "audio/sfx/sfx_1f_41.asm"
-INCLUDE "audio/sfx/sfx_1f_3b.asm"
-INCLUDE "audio/sfx/sfx_1f_42.asm"
-INCLUDE "audio/music/oakslab.asm"
-INCLUDE "audio/music/pokemontower.asm"
-INCLUDE "audio/music/silphco.asm"
-INCLUDE "audio/music/meeteviltrainer.asm"
-INCLUDE "audio/music/meetfemaletrainer.asm"
-INCLUDE "audio/music/meetmaletrainer.asm"
-INCLUDE "audio/music/introbattle.asm"
-INCLUDE "audio/music/surfing.asm"
-INCLUDE "audio/music/jigglypuffsong.asm"
-INCLUDE "audio/music/halloffame.asm"
-INCLUDE "audio/music/credits.asm"
+Cries:
+INCLUDE "crysaudio/cry_pointers.asm"
+
+SFX:
+INCLUDE "crysaudio/sfx_pointers.asm"
+
+
+SECTION "Songs 1", ROMX
+
+INCLUDE "crysaudio/music/route36.asm"
+INCLUDE "crysaudio/music/rivalbattle.asm"
+INCLUDE "crysaudio/music/rocketbattle.asm"
+INCLUDE "crysaudio/music/elmslab.asm"
+INCLUDE "crysaudio/music/darkcave.asm"
+INCLUDE "crysaudio/music/johtogymbattle.asm"
+INCLUDE "crysaudio/music/championbattle.asm"
+INCLUDE "crysaudio/music/ssaqua.asm"
+INCLUDE "crysaudio/music/newbarktown.asm"
+INCLUDE "crysaudio/music/goldenrodcity.asm"
+INCLUDE "crysaudio/music/vermilioncity.asm"
+INCLUDE "crysaudio/music/titlescreen.asm"
+INCLUDE "crysaudio/music/ruinsofalphinterior.asm"
+INCLUDE "crysaudio/music/lookpokemaniac.asm"
+INCLUDE "crysaudio/music/trainervictory.asm"
+
+
+SECTION "Songs 2", ROMX
+
+INCLUDE "crysaudio/music/route1.asm"
+INCLUDE "crysaudio/music/route3.asm"
+INCLUDE "crysaudio/music/route12.asm"
+INCLUDE "crysaudio/music/kantogymbattle.asm"
+INCLUDE "crysaudio/music/kantowildbattle.asm"
+INCLUDE "crysaudio/music/pokemoncenter.asm"
+INCLUDE "crysaudio/music/looklass.asm"
+INCLUDE "crysaudio/music/lookofficer.asm"
+INCLUDE "crysaudio/music/route2.asm"
+INCLUDE "crysaudio/music/mtmoon.asm"
+INCLUDE "crysaudio/music/showmearound.asm"
+INCLUDE "crysaudio/music/gamecorner.asm"
+INCLUDE "crysaudio/music/bicycle.asm"
+INCLUDE "crysaudio/music/looksage.asm"
+INCLUDE "crysaudio/music/pokemonchannel.asm"
+INCLUDE "crysaudio/music/lighthouse.asm"
+INCLUDE "crysaudio/music/lakeofrage.asm"
+INCLUDE "crysaudio/music/indigoplateau.asm"
+INCLUDE "crysaudio/music/route37.asm"
+INCLUDE "crysaudio/music/rockethideout.asm"
+INCLUDE "crysaudio/music/dragonsden.asm"
+INCLUDE "crysaudio/music/ruinsofalphradio.asm"
+INCLUDE "crysaudio/music/lookbeauty.asm"
+INCLUDE "crysaudio/music/route26.asm"
+INCLUDE "crysaudio/music/ecruteakcity.asm"
+INCLUDE "crysaudio/music/lakeofragerocketradio.asm"
+INCLUDE "crysaudio/music/magnettrain.asm"
+INCLUDE "crysaudio/music/lavendertown.asm"
+INCLUDE "crysaudio/music/dancinghall.asm"
+INCLUDE "crysaudio/music/contestresults.asm"
+INCLUDE "crysaudio/music/route30.asm"
+
+
+SECTION "Songs 3", ROMX
+
+INCLUDE "crysaudio/music/violetcity.asm"
+INCLUDE "crysaudio/music/route29.asm"
+INCLUDE "crysaudio/music/halloffame.asm"
+INCLUDE "crysaudio/music/healpokemon.asm"
+INCLUDE "crysaudio/music/evolution.asm"
+INCLUDE "crysaudio/music/printer.asm"
+
+
+SECTION "Songs 4", ROMX
+
+INCLUDE "crysaudio/music/viridiancity.asm"
+INCLUDE "crysaudio/music/celadoncity.asm"
+INCLUDE "crysaudio/music/wildpokemonvictory.asm"
+INCLUDE "crysaudio/music/successfulcapture.asm"
+INCLUDE "crysaudio/music/gymleadervictory.asm"
+INCLUDE "crysaudio/music/mtmoonsquare.asm"
+INCLUDE "crysaudio/music/gym.asm"
+INCLUDE "crysaudio/music/pallettown.asm"
+INCLUDE "crysaudio/music/profoakspokemontalk.asm"
+INCLUDE "crysaudio/music/profoak.asm"
+INCLUDE "crysaudio/music/lookrival.asm"
+INCLUDE "crysaudio/music/aftertherivalfight.asm"
+INCLUDE "crysaudio/music/surf.asm"
+INCLUDE "crysaudio/music/nationalpark.asm"
+INCLUDE "crysaudio/music/azaleatown.asm"
+INCLUDE "crysaudio/music/cherrygrovecity.asm"
+INCLUDE "crysaudio/music/unioncave.asm"
+INCLUDE "crysaudio/music/johtowildbattle.asm"
+INCLUDE "crysaudio/music/johtowildbattlenight.asm"
+INCLUDE "crysaudio/music/johtotrainerbattle.asm"
+INCLUDE "crysaudio/music/lookyoungster.asm"
+INCLUDE "crysaudio/music/tintower.asm"
+INCLUDE "crysaudio/music/sprouttower.asm"
+INCLUDE "crysaudio/music/burnedtower.asm"
+INCLUDE "crysaudio/music/mom.asm"
+INCLUDE "crysaudio/music/victoryroad.asm"
+INCLUDE "crysaudio/music/pokemonlullaby.asm"
+INCLUDE "crysaudio/music/pokemonmarch.asm"
+INCLUDE "crysaudio/music/goldsilveropening.asm"
+INCLUDE "crysaudio/music/goldsilveropening2.asm"
+INCLUDE "crysaudio/music/lookhiker.asm"
+INCLUDE "crysaudio/music/lookrocket.asm"
+INCLUDE "crysaudio/music/rockettheme.asm"
+INCLUDE "crysaudio/music/mainmenu.asm"
+INCLUDE "crysaudio/music/lookkimonogirl.asm"
+INCLUDE "crysaudio/music/pokeflutechannel.asm"
+INCLUDE "crysaudio/music/bugcatchingcontest.asm"
+
+
+SECTION "Songs 5", ROMX
+
+INCLUDE "crysaudio/music/mobileadaptermenu.asm"
+INCLUDE "crysaudio/music/buenaspassword.asm"
+INCLUDE "crysaudio/music/lookmysticalman.asm"
+INCLUDE "crysaudio/music/crystalopening.asm"
+INCLUDE "crysaudio/music/battletowertheme.asm"
+INCLUDE "crysaudio/music/suicunebattle.asm"
+INCLUDE "crysaudio/music/battletowerlobby.asm"
+INCLUDE "crysaudio/music/mobilecenter.asm"
+INCLUDE "crysaudio/music/kantotrainerbattle.asm"
+
+
+SECTION "Extra Songs 1", ROMX
+
+INCLUDE "crysaudio/music/credits.asm"
+INCLUDE "crysaudio/music/clair.asm"
+INCLUDE "crysaudio/music/mobileadapter.asm"
+
+SECTION "Extra Songs 2", ROMX
+
+INCLUDE "crysaudio/music/postcredits.asm"
+
+
+SECTION "RBY Songs 1", ROMX
+
+INCLUDE "crysaudio/music/RBY/bikeriding.asm"
+INCLUDE "crysaudio/music/RBY/dungeon1.asm"
+INCLUDE "crysaudio/music/RBY/gamecorner.asm"
+INCLUDE "crysaudio/music/RBY/titlescreen.asm"
+INCLUDE "crysaudio/music/RBY/dungeon2.asm"
+INCLUDE "crysaudio/music/RBY/dungeon3.asm"
+INCLUDE "crysaudio/music/RBY/cinnabarmansion.asm"
+INCLUDE "crysaudio/music/RBY/oakslab.asm"
+INCLUDE "crysaudio/music/RBY/pokemontower.asm"
+INCLUDE "crysaudio/music/RBY/silphco.asm"
+INCLUDE "crysaudio/music/RBY/meeteviltrainer.asm"
+INCLUDE "crysaudio/music/RBY/meetfemaletrainer.asm"
+INCLUDE "crysaudio/music/RBY/meetmaletrainer.asm"
+INCLUDE "crysaudio/music/RBY/introbattle.asm"
+INCLUDE "crysaudio/music/RBY/surfing.asm"
+INCLUDE "crysaudio/music/RBY/jigglypuffsong.asm"
+INCLUDE "crysaudio/music/RBY/halloffame.asm"
+INCLUDE "crysaudio/music/RBY/credits.asm"
+INCLUDE "crysaudio/music/RBY/gymleaderbattle.asm"
+INCLUDE "crysaudio/music/RBY/trainerbattle.asm"
+INCLUDE "crysaudio/music/RBY/wildbattle.asm"
+INCLUDE "crysaudio/music/RBY/finalbattle.asm"
+
+SECTION "RBY Songs 2", ROMX
+
+INCLUDE "crysaudio/music/RBY/defeatedtrainer.asm"
+INCLUDE "crysaudio/music/RBY/defeatedwildmon.asm"
+INCLUDE "crysaudio/music/RBY/defeatedgymleader.asm"
+INCLUDE "crysaudio/music/RBY/pkmnhealed.asm"
+INCLUDE "crysaudio/music/RBY/routes1.asm"
+INCLUDE "crysaudio/music/RBY/routes2.asm"
+INCLUDE "crysaudio/music/RBY/routes3.asm"
+INCLUDE "crysaudio/music/RBY/routes4.asm"
+INCLUDE "crysaudio/music/RBY/indigoplateau.asm"
+INCLUDE "crysaudio/music/RBY/pallettown.asm"
+INCLUDE "crysaudio/music/RBY/unusedsong.asm"
+INCLUDE "crysaudio/music/RBY/cities1.asm"
+INCLUDE "crysaudio/music/RBY/museumguy.asm"
+INCLUDE "crysaudio/music/RBY/meetprofoak.asm"
+INCLUDE "crysaudio/music/RBY/meetrival.asm"
+INCLUDE "crysaudio/music/RBY/ssanne.asm"
+INCLUDE "crysaudio/music/RBY/cities2.asm"
+INCLUDE "crysaudio/music/RBY/celadon.asm"
+INCLUDE "crysaudio/music/RBY/cinnabar.asm"
+INCLUDE "crysaudio/music/RBY/vermilion.asm"
+INCLUDE "crysaudio/music/RBY/lavender.asm"
+INCLUDE "crysaudio/music/RBY/safarizone.asm"
+INCLUDE "crysaudio/music/RBY/gym.asm"
+INCLUDE "crysaudio/music/RBY/pokecenter.asm"
+INCLUDE "crysaudio/music/RBY/yellowintro.asm"
+INCLUDE "crysaudio/music/RBY/surfingpikachu.asm"
+INCLUDE "crysaudio/music/RBY/meetjessiejames.asm"
+INCLUDE "crysaudio/music/RBY/yellowunusedsong.asm"
+
+SECTION "Custom Songs 1", ROMX
+
+INCLUDE "crysaudio/music/custom/johtoGSC.asm"
+INCLUDE "crysaudio/music/custom/ceruleanGSC.asm"
+INCLUDE "crysaudio/music/custom/cinnabarGSC.asm"
+INCLUDE "crysaudio/music/custom/nuggetbridge.asm"
+INCLUDE "crysaudio/music/custom/shop.asm"
+INCLUDE "crysaudio/music/custom/pokeathelonfinal.asm"
+
+SECTION "Custom Songs 2", ROMX
+
+INCLUDE "crysaudio/music/custom/naljowildbattle.asm"
+INCLUDE "crysaudio/music/custom/naljogymbattle.asm"
+INCLUDE "crysaudio/music/custom/palletbattle.asm"
+INCLUDE "crysaudio/music/custom/cinnabarremix.asm"
+INCLUDE "crysaudio/music/custom/kantogymleaderremix.asm"
+
+SECTION "DPPt Songs 1", ROMX
+
+INCLUDE "crysaudio/music/DPPt/pokeradar.asm"
+INCLUDE "crysaudio/music/DPPt/sinnohtrainer.asm"
+INCLUDE "crysaudio/music/DPPt/sinnohwild.asm"
+INCLUDE "crysaudio/music/DPPt/route206.asm"
+INCLUDE "crysaudio/music/DPPt/jubilifecity.asm"
+
+SECTION "TCG Songs 1", ROMX
+INCLUDE "crysaudio/music/TCG/titlescreen.asm"
+INCLUDE "crysaudio/music/TCG/dueltheme1.asm"
+INCLUDE "crysaudio/music/TCG/dueltheme2.asm"
+INCLUDE "crysaudio/music/TCG/dueltheme3.asm"
+INCLUDE "crysaudio/music/TCG/pausemenu.asm"
+INCLUDE "crysaudio/music/TCG/pcmainmenu.asm"
+INCLUDE "crysaudio/music/TCG/deckmachine.asm"
+INCLUDE "crysaudio/music/TCG/cardpop.asm"
+INCLUDE "crysaudio/music/TCG/overworld.asm"
+INCLUDE "crysaudio/music/TCG/pokemondome.asm"
+INCLUDE "crysaudio/music/TCG/challengehall.asm"
+INCLUDE "crysaudio/music/TCG/club1.asm"
+INCLUDE "crysaudio/music/TCG/club2.asm"
+INCLUDE "crysaudio/music/TCG/club3.asm"
+
+SECTION "TCG Songs 2", ROMX
+INCLUDE "crysaudio/music/TCG/ronald.asm"
+INCLUDE "crysaudio/music/TCG/imakuni.asm"
+INCLUDE "crysaudio/music/TCG/hallofhonor.asm"
+INCLUDE "crysaudio/music/TCG/credits.asm"
+INCLUDE "crysaudio/music/TCG/matchstart1.asm"
+INCLUDE "crysaudio/music/TCG/matchstart2.asm"
+INCLUDE "crysaudio/music/TCG/matchstart3.asm"
+INCLUDE "crysaudio/music/TCG/matchvictory.asm"
+INCLUDE "crysaudio/music/TCG/matchloss.asm"
+INCLUDE "crysaudio/music/TCG/darkdiddly.asm"
+INCLUDE "crysaudio/music/TCG/boosterpack.asm"
+INCLUDE "crysaudio/music/TCG/medal.asm"
+
+SECTION "TCG2 Songs 1", ROMX
+INCLUDE "crysaudio/music/TCG2/titlescreen.asm"
+INCLUDE "crysaudio/music/TCG2/herecomesgr.asm"
+INCLUDE "crysaudio/music/TCG2/groverworld.asm"
+INCLUDE "crysaudio/music/TCG2/fort1.asm"
+INCLUDE "crysaudio/music/TCG2/fort2.asm"
+INCLUDE "crysaudio/music/TCG2/fort3.asm"
+INCLUDE "crysaudio/music/TCG2/fort4.asm"
+INCLUDE "crysaudio/music/TCG2/grcastle.asm"
+INCLUDE "crysaudio/music/TCG2/grchallengecup.asm"
+
+SECTION "TCG2 Songs 2", ROMX
+INCLUDE "crysaudio/music/TCG2/gamecorner.asm"
+INCLUDE "crysaudio/music/TCG2/grblimp.asm"
+INCLUDE "crysaudio/music/TCG2/grdueltheme1.asm"
+INCLUDE "crysaudio/music/TCG2/grdueltheme2.asm"
+INCLUDE "crysaudio/music/TCG2/grdueltheme3.asm"
+INCLUDE "crysaudio/music/TCG2/ishihara.asm"
+
+SECTION "TCG2 Songs 3", ROMX
+INCLUDE "crysaudio/music/TCG2/imakuni2.asm"
+INCLUDE "crysaudio/music/TCG2/credits.asm"
+INCLUDE "crysaudio/music/TCG2/diddly1.asm"
+INCLUDE "crysaudio/music/TCG2/diddly2.asm"
+INCLUDE "crysaudio/music/TCG2/diddly3.asm"
+INCLUDE "crysaudio/music/TCG2/diddly4.asm"
+INCLUDE "crysaudio/music/TCG2/diddly5.asm"
+INCLUDE "crysaudio/music/TCG2/diddly6.asm"
+
+SECTION "Pinball Songs", ROMX
+INCLUDE "crysaudio/music/pinball/redfield.asm"
+INCLUDE "crysaudio/music/pinball/catchem_red.asm"
+INCLUDE "crysaudio/music/pinball/hurryup_red.asm"
+INCLUDE "crysaudio/music/pinball/pokedex.asm"
+INCLUDE "crysaudio/music/pinball/gengarstage_gastly.asm"
+INCLUDE "crysaudio/music/pinball/gengarstage_hauntergengar.asm" ; the two songs are interleaved
+INCLUDE "crysaudio/music/pinball/bluefield.asm"
+INCLUDE "crysaudio/music/pinball/catchem_blue.asm"
+INCLUDE "crysaudio/music/pinball/hurryup_blue.asm"
+INCLUDE "crysaudio/music/pinball/hiscorescreen.asm"
+INCLUDE "crysaudio/music/pinball/gameover.asm"
+INCLUDE "crysaudio/music/pinball/diglettstage_digletts.asm"
+INCLUDE "crysaudio/music/pinball/diglettstage_dugtrio.asm"
+
+SECTION "Pinball Songs 2", ROMX
+INCLUDE "crysaudio/music/pinball/seelstage.asm"
+INCLUDE "crysaudio/music/pinball/titlescreen.asm"
+INCLUDE "crysaudio/music/pinball/mewtwostage.asm"
+INCLUDE "crysaudio/music/pinball/options.asm"
+INCLUDE "crysaudio/music/pinball/fieldselect.asm"
+INCLUDE "crysaudio/music/pinball/meowthstage.asm"
+INCLUDE "crysaudio/music/pinball/endcredits.asm"
+INCLUDE "crysaudio/music/pinball/nameentry.asm"
+
+SECTION "Sound Effects", ROMX
+
+INCLUDE "crysaudio/sfx.asm"
+
+
+SECTION "Crystal Sound Effects", ROMX
+
+INCLUDE "crysaudio/sfx_crystal.asm"
+
+
+
+SECTION "Cries", ROMX
+
+CryHeaders:: INCLUDE "crysaudio/cry_headers.asm"
+
+INCLUDE "crysaudio/cries.asm"
+
+
 

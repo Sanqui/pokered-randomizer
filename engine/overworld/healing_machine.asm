@@ -41,7 +41,7 @@ AnimateHealingMachine: ; 70433 (1c:4433)
 	ld a, $ff
 	ld [wc0ee], a
 	call PlaySound
-	ld a, BANK(Music_PkmnHealed)
+	ld a, 0 ; BANK(Music_PkmnHealed)
 	ld [wc0ef], a
 .asm_70495
 	ld a, MUSIC_PKMN_HEALED

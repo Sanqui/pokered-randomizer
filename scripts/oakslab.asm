@@ -326,7 +326,7 @@ OaksLabScript10: ; 1cd6d (7:4d6d)
 	call SetSpriteFacingDirectionAndDelay
 	ld a, $8
 	ld [wd528], a
-	ld c, BANK(Music_MeetRival)
+	ld c, 0 ; BANK(Music_MeetRival)
 	ld a, MUSIC_MEET_RIVAL
 	call PlayMusic ; play music
 	ld a, $f

@@ -554,4 +554,3 @@ JustAMomentText:: ; 21865 (8:5865)
 
 PredefText23:: ; 21878 (8:5878)
 	db $FD ; FuncTX_BillsPC
-

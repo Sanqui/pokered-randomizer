@@ -1036,7 +1036,7 @@ PlayBattleVictoryMusic: ; 3c6ee (f:46ee)
 	ld a, $ff
 	ld [wc0ee], a
 	call PlaySoundWaitForCurrent
-	ld c, BANK(Music_DefeatedTrainer)
+	ld c, 0 ; BANK(Music_DefeatedTrainer)
 	pop af
 	call PlayMusic
 	jp Delay3

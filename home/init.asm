@@ -126,7 +126,14 @@ ClearVram:
 
 
 StopAllSounds::
-	ld a, BANK(Music2_UpdateMusic)
+    call OpenSRAMForSound
+    ld hl, MusicPlaying
+	ld bc, (wChannelSelectorSwitches+4) - MusicPlaying
+	call FillMemory
+    
+    
+    
+	ld a, 0 ; BANK(Music2_UpdateMusic)
 	ld [wc0ef], a
 	ld [wc0f0], a
 	xor a

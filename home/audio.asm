@@ -30,7 +30,7 @@ asm_2324:: ; 2324 (0:2324)
 	ld b, a
 	ld a, d
 	and a
-	ld a, BANK(Music_BikeRiding)
+	ld a, 0 ; 0 ; BANK(Music_BikeRiding)
 	jr nz, .asm_233e
 	ld [wc0ef], a
 .asm_233e
@@ -51,133 +51,142 @@ asm_2324:: ; 2324 (0:2324)
 	ld a, b
 	ld [wcfca], a
 	ld [wc0ee], a
-	jp PlaySound
+	
+	ld [MusicFadeID], a
+	ld a, 1
+	ld [MusicFade], a
+	;call FadeMusic ; called in updatemusic
+	ret
 
 Func_235f:: ; 235f (0:235f)
-	ld a, [wc0ef]
-	ld b, a
-	cp BANK(Music2_UpdateMusic)
-	jr nz, .checkForBank08
-.bank02
-	ld hl, Music2_UpdateMusic
-	jr .asm_2378
-.checkForBank08
-	cp BANK(Music8_UpdateMusic)
-	jr nz, .bank1F
-.bank08
-	ld hl, Music8_UpdateMusic
-	jr .asm_2378
-.bank1F
-	ld hl, Music1f_UpdateMusic
-.asm_2378
-	ld c, $6
-.asm_237a
-	push bc
-	push hl
-	call Bankswitch
-	pop hl
-	pop bc
-	dec c
-	jr nz, .asm_237a
-	ret
+    ;jp UpdateSound
+    ret ; XXX UpdateMusic
 
-Func_2385:: ; 2385 (0:2385)
-	ld a, [wd35c]
-	ld e, a
-	ld a, [wc0ef]
-	cp e
-	jr nz, .asm_2394
-	ld [wc0f0], a
-	and a
-	ret
-.asm_2394
-	ld a, c
-	and a
-	ld a, e
-	jr nz, .asm_239c
-	ld [wc0ef], a
-.asm_239c
-	ld [wc0f0], a
-	scf
-	ret
-
-PlayMusic:: ; 23a1 (0:23a1)
-	ld b, a
-	ld [wc0ee], a
-	xor a
-	ld [wMusicHeaderPointer], a
-	ld a, c
-	ld [wc0ef], a
-	ld [wc0f0], a
-	ld a, b
+Func_2385:
+    
+    ret
 
 ; plays music specified by a. If value is $ff, music is stopped
 PlaySound:: ; 23b1 (0:23b1)
+    jp PlayMusic
+
+OpenSRAMForSound::
+	ld a, SRAM_ENABLE
+	ld [MBC1SRamEnable], a
+	xor a
+	ld [MBC1SRamBankingMode], a
+	ld [MBC1SRamBank], a
+	ret
+
+SoundRestart:: ; 3b4e
+
 	push hl
 	push de
 	push bc
-	ld b, a
-	ld a, [wc0ee]
-	and a
-	jr z, .asm_23c8
-	xor a
-	ld [wc02a], a
-	ld [wc02b], a
-	ld [wc02c], a
-	ld [wc02d], a
-.asm_23c8
-	ld a, [wMusicHeaderPointer]
-	and a
-	jr z, .asm_23e3
-	ld a, [wc0ee]
-	and a
-	jr z, .asm_2425
-	xor a
-	ld [wc0ee], a
-	ld a, [wcfca]
-	cp $ff
-	jr nz, .asm_2414
-	xor a
-	ld [wMusicHeaderPointer], a
-.asm_23e3
-	xor a
-	ld [wc0ee], a
-	ld a, [H_LOADEDROMBANK]
-	ld [$ffb9], a
-	ld a, [wc0ef]
-	ld [H_LOADEDROMBANK], a
+	push af
+	
+    call OpenSRAMForSound
+    
+	ld a, [hROMBank]
+	push af
+	ld a, BANK(_SoundRestart)
+	ld [hROMBank], a
 	ld [$2000], a
-	cp BANK(Func_9876)
-	jr nz, .checkForBank08
-.bank02
-	ld a, b
-	call Func_9876
-	jr .asm_240b
-.checkForBank08
-	cp BANK(Func_22035)
-	jr nz, .bank1F
-.bank08
-	ld a, b
-	call Func_22035
-	jr .asm_240b
-.bank1F
-	ld a, b
-	call Func_7d8ea
-.asm_240b
-	ld a, [$ffb9]
-	ld [H_LOADEDROMBANK], a
+
+	call _SoundRestart
+
+	pop af
+	ld [hROMBank], a
 	ld [$2000], a
-	jr .asm_2425
-.asm_2414
-	ld a, b
-	ld [wcfca], a
-	ld a, [wMusicHeaderPointer]
-	ld [wcfc8], a
-	ld [wcfc9], a
-	ld a, b
-	ld [wMusicHeaderPointer], a
-.asm_2425
+
+	pop af
 	pop bc
 	pop de
 	pop hl
+	ret
+; 3b6a
+
+
+UpdateSound:: ; 3b6a
+
+	push hl
+	push de
+	push bc
+	push af
+	
+    call OpenSRAMForSound
+    
+	ld a, [hROMBank]
+	push af
+	ld a, BANK(_UpdateSound)
+	ld [hROMBank], a
+	ld [$2000], a
+
+	call _UpdateSound
+
+	pop af
+	ld [hROMBank], a
+	ld [$2000], a
+
+	pop af
+	pop bc
+	pop de
+	pop hl
+	ret
+; 3b86
+
+PlayMusic:: ; 3b97
+    ld e, a
+    xor a
+    ld d, a
+; Play music de.
+
+	push hl
+	push de
+	push bc
+	push af
+	
+    call OpenSRAMForSound
+    
+	ld a, [hROMBank]
+	push af
+	ld a, BANK(_PlayMusic) ; and BANK(_SoundRestart)
+	ld [hROMBank], a
+	ld [$2000], a
+
+	ld a, e
+	and a
+	jr z, .nomusic
+
+	call _PlayMusic
+	jr .end
+
+.nomusic
+	call _SoundRestart
+
+.end
+	pop af
+	ld [hROMBank], a
+	ld [$2000], a
+	pop af
+	pop bc
+	pop de
+	pop hl
+	ret
+; 3bbc
+
+
+_LoadMusicByte:: ; 3b86
+; CurMusicByte = [a:de]
+GLOBAL LoadMusicByte
+    
+	ld [hROMBank], a
+	ld [$2000], a
+
+	ld a, [de]
+	ld [CurMusicByte], a
+	ld a, BANK(LoadMusicByte)
+
+	ld [hROMBank], a
+	ld [$2000], a
 	ret

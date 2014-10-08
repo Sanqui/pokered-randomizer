@@ -275,7 +275,7 @@ Func_5345: ; 5345
 	predef HealParty
 	jp Func_577d
 .asm_5506
-	ld c, BANK(Music_GameCorner)
+	ld c, 0 ; 0 ; BANK(Music_GameCorner)
 	ld a, MUSIC_GAME_CORNER
 	call PlayMusic
 	jr Func_551c
@@ -899,7 +899,7 @@ Func_5a5f: ; 5a5f (1:5a5f)
 	ld [hJoy5], a
 	ld a, $a
 	ld [wMusicHeaderPointer], a
-	ld a, BANK(Music_Celadon)
+	ld a, 0 ; 0 ; BANK(Music_Celadon)
 	ld [wc0f0], a
 	ld a, MUSIC_CELADON
 	ld [wc0ee], a

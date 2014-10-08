@@ -268,8 +268,8 @@ chars = {
 }
 
 def load_pokered_macros():
-    macros = [callchannel, loopchannel]
-    return macros
+    #macros = [callchannel, loopchannel]
+    return []
 
 def setup_processor():
     preprocessor.chars = chars

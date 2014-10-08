@@ -23,7 +23,7 @@ HallOfFamePC: ; 7405c (1d:405c)
 	call EnableLCD
 	ld a, $ff
 	call PlaySoundWaitForCurrent
-	ld c, BANK(Music_Credits)
+	ld c, 0 ; BANK(Music_Credits)
 	ld a, MUSIC_CREDITS
 	call PlayMusic
 	ld c, $80

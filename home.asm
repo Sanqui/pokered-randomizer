@@ -82,8 +82,6 @@ HideSprites::
 
 INCLUDE "home/copy.asm"
 
-
-
 SECTION "Entry", ROM0 [$100]
 
 	nop
@@ -315,9 +313,11 @@ LoadFrontSpriteByMonIndex:: ; 1389 (0:1389)
 
 PlayCry:: ; 13d0 (0:13d0)
 ; Play monster a's cry.
-	call GetCryData
-	call PlaySound
-	jp WaitForSoundToFinish
+    callab PlayCry_
+    ret
+	;call GetCryData
+	;call PlaySound
+	;jp WaitForSoundToFinish
 
 GetCryData:: ; 13d9 (0:13d9)
 ; Load cry data for monster a.
@@ -2613,7 +2613,7 @@ PlayTrainerMusic:: ; 33e8 (0:33e8)
 	ld [wMusicHeaderPointer], a
 	ld a, $ff
 	call PlaySound      ; stop music
-	ld a, BANK(Music_MeetEvilTrainer)
+	ld a, 0 ; 0 ; BANK(Music_MeetEvilTrainer)
 	ld [wc0ef], a
 	ld [wc0f0], a
 	ld a, [wEngagedTrainerClass]

@@ -1649,7 +1649,7 @@ ItemUsePokeflute: ; e140 (3:6140)
 	and a,$80
 	jr nz,.skipMusic
 	call WaitForSoundToFinish ; wait for sound to end
-	callba Music_PokeFluteInBattle ; play in-battle pokeflute music
+	;callba Music_PokeFluteInBattle ; play in-battle pokeflute music ; XXX
 .musicWaitLoop ; wait for music to finish playing
 	ld a,[wc02c]
 	and a ; music off?

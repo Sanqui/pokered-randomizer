@@ -2093,6 +2093,22 @@ wBoxMonOT::    ds 11 * MONS_PER_BOX ; dd2a
 wBoxMonNicks:: ds 11 * MONS_PER_BOX ; de06
 wBoxMonNicksEnd:: ; dee2
 
+SECTION "Splash", WRAMX, BANK[1]
+wVWFLetterNum:: ds 1
+wVWFChar:: ds 1
+wVWFTileLoc:: ds 2
+wVWFFirstTileNum:: ds 1
+wVWFCurTileNum:: ds 1
+wVWFCurTileCol:: ds 1
+wVWFNumTilesUsed:: ds 1
+wVWFCharWidth:: ds 1
+
+wVWFBuildArea0:: ds 8
+wVWFBuildArea1:: ds 8
+wVWFBuildArea2:: ds 8
+wVWFBuildArea3:: ds 8
+wVWFCopyArea:: ds $10
+
 
 SECTION "Stack", WRAMX[$dfff], BANK[1]
 wStack:: ; dfff

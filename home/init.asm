@@ -106,7 +106,6 @@ rLCDC_DEFAULT EQU %11100011
 	ld [$ffbc], a
 	dec a
 	ld [wUpdateSpritesEnabled], a
-
 	predef PlayIntro
 
 	call DisableLCD

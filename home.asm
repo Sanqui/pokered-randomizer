@@ -87,7 +87,7 @@ UncompressMonSpriteAdvice::
 	ld a,BANK(MewPicFront) ; 2
 	jp z, UncompressSpriteData
 	ld a, b
-	cp GHOST
+	cp MON_GHOST
 	ld a,BANK(GhostPic) ; 2
 	jp z, UncompressSpriteData
 	ld a, [$d0d3]

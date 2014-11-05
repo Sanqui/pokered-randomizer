@@ -1,5 +1,5 @@
 SFX_08_6e_Ch1: ; 20792 (8:4792)
-	duty 0
+	dutycycle 0
 	unknownsfx0x20 2, 241, 0, 2
 	unknownsfx0x20 3, 241, 0, 7
 	unknownsfx0x20 4, 241, 0, 5

@@ -1,5 +1,5 @@
 SFX_08_77_Ch1: ; 20412 (8:4412)
-	duty 0
+	dutycycle 0
 	unknownsfx0x20 0, 210, 0, 7
 	unknownsfx0x20 0, 210, 64, 7
 	unknownsfx0x20 0, 210, 128, 7

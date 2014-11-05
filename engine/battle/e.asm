@@ -1084,7 +1084,7 @@ DecrementAICount: ; 3a695 (e:6695)
 	ret
 
 Func_3a69b: ; 3a69b (e:669b)
-	ld a,(SFX_08_3e - SFX_Headers_08) / 3
+	ld a,RBSFX_08_3e
 	jp PlaySoundWaitForCurrent
 
 AIUseFullRestore: ; 3a6a0 (e:66a0)

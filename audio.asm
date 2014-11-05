@@ -156,6 +156,41 @@ toggleperfectpitch: MACRO ; XXX XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 	ENDM
 ; red:
 
+SECTION "Battle SFX Shim", ROMX
+Bank08OldSFXHeaderPositions:
+    db $01, $02, $03, $04, $05, $06, $07, $08, $09, $0A, $0B, $0C, $0D, $0E, $0F, $10, $11, $12, $13, $14, $17, $1A, $1D, $20, $23, $26, $29, $2C, $2F, $32, $35, $38, $3B, $3E, $41, $44, $47, $4A, $4D, $50, $53, $56, $59, $5C, $5F, $62, $65, $68, $6B, $6E, $71, $74, $77, $7A, $7D, $80, $83, $86, $89, $8C, $8D, $8E, $8F, $90, $91, $93, $95, $97, $98, $9A, $9D, $9E, $9F, $A0, $A1, $A2, $A3, $A4, $A5, $A6, $A7, $A8, $A9, $AA, $AB, $AC, $AD, $AE, $AF, $B0, $B1, $B2, $B3, $B4, $B6, $B7, $B8, $B9, $BA, $BB, $BD, $BE, $BF, $C2, $C5, $C7, $CA, $CC, $CF, $D2, $D5, $D8, $DB, $DD, $DF, $E1, $E4, $E6, $E9
+    db $ff
+
+_PlayAnimSoundShim::
+    ; Okay, so, basically, we need to convert old SFX IDs into
+    ; new ones.
+    ; This is done via a lookup table.
+    ld a, d
+    ld b, 1
+    ld c, a
+    ld hl, Bank08OldSFXHeaderPositions
+.loop
+    ld a, [hli]
+    cp c
+    jr z, .found
+    cp $ff
+    jr z, .not_found
+    inc b
+    jr .loop
+.found
+    ld a, b
+    ; Is this ID shared (02), or unique to the battle bank? (08)
+    ; $5d is the first 1F-only sfx
+    cp $40
+    jr c, .done
+    add $20 ; - $40 + $60
+.done
+    ld d, a
+    ret
+.not_found
+    ld b, b
+    ret
+
 SECTION "Sound Effect Headers 1", ROMX, BANK[AUDIO_1]
 INCLUDE "audio/headers/sfxheaders02.asm"
 SECTION "Sound Effect Headers 2", ROMX, BANK[AUDIO_2]
@@ -165,6 +200,7 @@ INCLUDE "audio/headers/sfxheaders1f.asm"
 
 SECTION "Sound Effects 1", ROMX, BANK[AUDIO_1]
 
+SFX_02:
 INCLUDE "audio/sfx/sfx_02_01.asm"
 INCLUDE "audio/sfx/sfx_02_02.asm"
 INCLUDE "audio/sfx/sfx_02_03.asm"
@@ -261,9 +297,14 @@ INCLUDE "audio/sfx/sfx_02_34.asm"
 INCLUDE "audio/sfx/sfx_02_35.asm"
 INCLUDE "audio/sfx/sfx_02_36.asm"
 
+INCLUDE "audio/sfx/sfx_02_3a.asm"
+INCLUDE "audio/sfx/sfx_02_41.asm"
+INCLUDE "audio/sfx/sfx_02_3b.asm"
+INCLUDE "audio/sfx/sfx_02_42.asm"
 
 SECTION "Sound Effects 2", ROMX, BANK[AUDIO_2]
 
+SFX_08:
 INCLUDE "audio/sfx/sfx_08_01.asm"
 INCLUDE "audio/sfx/sfx_08_02.asm"
 INCLUDE "audio/sfx/sfx_08_03.asm"
@@ -386,9 +427,16 @@ INCLUDE "audio/sfx/sfx_08_34.asm"
 INCLUDE "audio/sfx/sfx_08_35.asm"
 INCLUDE "audio/sfx/sfx_08_36.asm"
 
+INCLUDE "audio/sfx/sfx_08_3a.asm"
+INCLUDE "audio/sfx/sfx_08_3b.asm"
+INCLUDE "audio/sfx/sfx_08_46.asm"
+INCLUDE "audio/sfx/sfx_08_pokeflute.asm"
+INCLUDE "audio/sfx/sfx_08_unused2.asm"
+
 
 SECTION "Sound Effects 3", ROMX, BANK[AUDIO_3]
 
+SFX_1F:
 INCLUDE "audio/sfx/sfx_1f_01.asm"
 INCLUDE "audio/sfx/sfx_1f_02.asm"
 INCLUDE "audio/sfx/sfx_1f_03.asm"
@@ -493,21 +541,14 @@ INCLUDE "audio/sfx/sfx_1f_34.asm"
 INCLUDE "audio/sfx/sfx_1f_35.asm"
 INCLUDE "audio/sfx/sfx_1f_36.asm"
 
-SECTION "SFX previously interleaved with music", ROMX
-;INCLUDE "audio/music/pkmnhealed.asm"
-INCLUDE "audio/sfx/sfx_02_3a.asm"
-INCLUDE "audio/sfx/sfx_02_41.asm"
-INCLUDE "audio/sfx/sfx_02_3b.asm"
-INCLUDE "audio/sfx/sfx_02_42.asm"
-INCLUDE "audio/sfx/sfx_08_3a.asm"
-INCLUDE "audio/sfx/sfx_08_3b.asm"
-INCLUDE "audio/sfx/sfx_08_46.asm"
-INCLUDE "audio/sfx/sfx_08_pokeflute.asm"
-INCLUDE "audio/sfx/sfx_08_unused2.asm"
+
 INCLUDE "audio/sfx/sfx_1f_3a.asm"
 INCLUDE "audio/sfx/sfx_1f_41.asm"
 INCLUDE "audio/sfx/sfx_1f_3b.asm"
 INCLUDE "audio/sfx/sfx_1f_42.asm"
+
+SECTION "SFX previously interleaved with music", ROMX
+;INCLUDE "audio/music/pkmnhealed.asm"
 
 
 
@@ -522,7 +563,7 @@ PlayBattleMusic:: ; 0x90c6
 	ld [wd083], a
 	dec a
 	ld [wc0ee], a
-	call PlaySound ; stop music
+	call PlayMusic ; stop music
 	call DelayFrame
 	;ld c, BANK(Music_GymLeaderBattle)
 	ld a, [W_GYMLEADERNO]
@@ -621,13 +662,13 @@ Func_7d13b:: ; 7d13b (1f:513b)
 	jp PlayDefaultMusic
 
 PokedexRatingSfxPointers: ; 7d162 (1f:5162)
-	db (SFX_1f_51 - SFX_Headers_1f) / 3, BANK(SFX_1f_51)
-	db (SFX_02_41 - SFX_Headers_02) / 3, BANK(SFX_02_41)
-	db (SFX_02_3a - SFX_Headers_02) / 3, BANK(SFX_02_3a)
-	db (SFX_08_46 - SFX_Headers_08) / 3, BANK(SFX_08_46)
-	db (SFX_08_3a - SFX_Headers_08) / 3, BANK(SFX_08_3a)
-	db (SFX_02_42 - SFX_Headers_02) / 3, BANK(SFX_02_42)
-	db (SFX_02_3b - SFX_Headers_02) / 3, BANK(SFX_02_3b)
+	db RBSFX_1f_51, BANK(SFX_1f_51)
+	db RBSFX_02_41, BANK(SFX_02_41)
+	db RBSFX_02_3a, BANK(SFX_02_3a)
+	db RBSFX_08_46, BANK(SFX_08_46)
+	db RBSFX_08_3a, BANK(SFX_08_3a)
+	db RBSFX_02_42, BANK(SFX_02_42)
+	db RBSFX_02_3b, BANK(SFX_02_3b)
 
 OwnedMonValues: ; 7d170 (1f:5170)
 	db 10, 40, 60, 90, 120, 150, $ff
@@ -658,8 +699,8 @@ INCLUDE "crysaudio/music/nothing.asm"
 Cries:
 INCLUDE "crysaudio/cry_pointers.asm"
 
-SFX:
-INCLUDE "crysaudio/sfx_pointers.asm"
+;SFX:
+INCLUDE "crysaudio/rbsfx.asm"
 
 
 SECTION "Songs 1", ROMX

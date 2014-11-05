@@ -1597,7 +1597,7 @@ DisplayYesNoTextBox: ; 7559 (1:7559)
 	pop af
 	pop hl
 	ld [wFlags_0xcd60], a
-	ld a, (SFX_02_40 - SFX_Headers_02) / 3
+	ld a, RBSFX_02_40
 	call PlaySound
 	jr .asm_760f
 .asm_7603
@@ -2598,7 +2598,7 @@ ApplyOutOfBattlePoisonDamage: ; c69c (3:469c)
 	jr z, .skipPoisonEffectAndSound
 	ld b, $2
 	predef ChangeBGPalColor0_4Frames ; change BG white to dark grey for 4 frames
-	ld a, (SFX_02_43 - SFX_Headers_02) / 3
+	ld a, RBSFX_02_43
 	call PlaySound
 .skipPoisonEffectAndSound
 	predef AnyPartyAlive
@@ -3479,7 +3479,7 @@ TryPushingBoulder: ; f225 (3:7225)
 	ld de, PushBoulderRightMovementData
 .done
 	call MoveSprite
-	ld a, (SFX_02_53 - SFX_Headers_02) / 3
+	ld a, RBSFX_02_53
 	call PlaySound
 	ld hl, wFlags_0xcd60
 	set 1, [hl]
@@ -3510,7 +3510,7 @@ DoBoulderDustAnimation: ; f2b5 (3:72b5)
 	ld [H_SPRITEINDEX], a
 	call GetSpriteMovementByte2Pointer
 	ld [hl], $10
-	ld a, (SFX_02_56 - SFX_Headers_02) / 3
+	ld a, RBSFX_02_56
 	jp PlaySound
 
 ResetBoulderPushFlags: ; f2dd (3:72dd)

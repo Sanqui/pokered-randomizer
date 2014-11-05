@@ -116,7 +116,7 @@ MainSlotMachineLoop: ; 37395 (d:7395)
 	ld [hli], a
 	ld [hl], a
 	call WaitForSoundToFinish
-	ld a, (SFX_1f_66 - SFX_Headers_1f) / 3
+	ld a, RBSFX_1f_66
 	call PlaySound
 	ld hl, StartSlotMachineText
 	call PrintText
@@ -564,7 +564,7 @@ SlotReward15Func: ; 376e5 (d:76e5)
 	ret
 
 SlotReward100Func: ; 376f3 (d:76f3)
-	ld a, (SFX_1f_42 - SFX_Headers_1f) / 3
+	ld a, RBSFX_1f_42
 	call PlaySound
 	xor a
 	ld [wcd4c], a
@@ -575,7 +575,7 @@ SlotReward100Func: ; 376f3 (d:76f3)
 SlotReward300Func: ; 37702 (d:7702)
 	ld hl, YeahText
 	call PrintText
-	ld a, (SFX_1f_3b - SFX_Headers_1f) / 3
+	ld a, RBSFX_1f_3b
 	call PlaySound
 	call Random
 	cp $80
@@ -661,7 +661,7 @@ SlotMachine_3776b: ; 3776b (d:776b)
 	predef AddBCDPredef
 	call SlotMachine_37754
 	call SlotMachine_3775f
-	ld a, (SFX_1f_65 - SFX_Headers_1f) / 3
+	ld a, RBSFX_1f_65
 	call PlaySound
 	ld a, [W_SUBANIMTRANSFORM]
 	dec a
@@ -810,7 +810,7 @@ SlotMachine_37882: ; 37882 (d:7882)
 	jr z, .skip
 .loop
 	inc [hl]
-	ld a, (SFX_1f_64 - SFX_Headers_1f) / 3
+	ld a, RBSFX_1f_64
 	jp PlaySound
 .skip
 	ld a, [de]

@@ -35,14 +35,14 @@ PlayIntroScene: ; 4169d (10:569d)
 	ret c
 
 ; hip
-	ld a, (SFX_1f_5f - SFX_Headers_1f) / 3
+	ld a, RBSFX_1f_5f
 	call PlaySound
 	xor a
 	ld [wd09f], a
 	ld de, IntroNidorinoAnimation1
 	call AnimateIntroNidorino
 ; hop
-	ld a, (SFX_1f_60 - SFX_Headers_1f) / 3
+	ld a, RBSFX_1f_60
 	call PlaySound
 	ld de, IntroNidorinoAnimation2
 	call AnimateIntroNidorino
@@ -51,12 +51,12 @@ PlayIntroScene: ; 4169d (10:569d)
 	ret c
 
 ; hip
-	ld a, (SFX_1f_5f - SFX_Headers_1f) / 3
+	ld a, RBSFX_1f_5f
 	call PlaySound
 	ld de, IntroNidorinoAnimation1
 	call AnimateIntroNidorino
 ; hop
-	ld a, (SFX_1f_60 - SFX_Headers_1f) / 3
+	ld a, RBSFX_1f_60
 	call PlaySound
 	ld de, IntroNidorinoAnimation2
 	call AnimateIntroNidorino
@@ -67,7 +67,7 @@ PlayIntroScene: ; 4169d (10:569d)
 ; raise
 	ld b, $4
 	call Func_4183f
-	ld a, (SFX_1f_61 - SFX_Headers_1f) / 3
+	ld a, RBSFX_1f_61
 	call PlaySound
 	ld de, $401
 	call Func_4180e
@@ -78,12 +78,12 @@ PlayIntroScene: ; 4169d (10:569d)
 ; slash
 	ld b, $5
 	call Func_4183f
-	ld a, (SFX_1f_62 - SFX_Headers_1f) / 3
+	ld a, RBSFX_1f_62
 	call PlaySound
 	ld de, $800
 	call Func_4180e
 ; hip
-	ld a, (SFX_1f_5f - SFX_Headers_1f) / 3
+	ld a, RBSFX_1f_5f
 	call PlaySound
 	ld a, $24
 	ld [wd09f], a
@@ -102,14 +102,14 @@ PlayIntroScene: ; 4169d (10:569d)
 	ret c
 
 ; hip
-	ld a, (SFX_1f_5f - SFX_Headers_1f) / 3
+	ld a, RBSFX_1f_5f
 	call PlaySound
 	xor a
 	ld [wd09f], a
 	ld de, IntroNidorinoAnimation4 ; $5931
 	call AnimateIntroNidorino
 ; hop
-	ld a, (SFX_1f_60 - SFX_Headers_1f) / 3
+	ld a, RBSFX_1f_60
 	call PlaySound
 	ld de, IntroNidorinoAnimation5 ; $593c
 	call AnimateIntroNidorino
@@ -126,7 +126,7 @@ PlayIntroScene: ; 4169d (10:569d)
 	ret c
 
 ; lunge
-	ld a, (SFX_1f_5e - SFX_Headers_1f) / 3
+	ld a, RBSFX_1f_5e
 	call PlaySound
 	ld a, $48
 	ld [wd09f], a
@@ -323,7 +323,7 @@ PlayShootingStar: ; 4188a (10:588a)
 	ld [wc0f0], a
 	ld a, MUSIC_INTRO_BATTLE
 	ld [wc0ee], a
-	call PlaySound
+	call PlayMusic
 	call Func_417f8
 	call ClearSprites
 	jp Delay3

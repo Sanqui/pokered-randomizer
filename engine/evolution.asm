@@ -14,7 +14,7 @@ Func_7bde9: ; 7bde9 (1e:7de9)
 	call PlaySound
 	ld a, $1
 	ld [H_AUTOBGTRANSFERENABLED], a ; $ffba
-	ld a, (SFX_08_3c - SFX_Headers_08) / 3
+	ld a, RBSFX_08_3c
 	call PlaySound
 	call Delay3
 	xor a

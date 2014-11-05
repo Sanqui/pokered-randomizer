@@ -1,5 +1,5 @@
 SFX_02_16_Ch1: ; 8b0c (2:4b0c)
-	duty 0
+	dutycycle 0
 	unknownsfx0x20 8, 245, 128, 4
 	unknownsfx0x20 2, 225, 224, 5
 	unknownsfx0x20 8, 209, 220, 5

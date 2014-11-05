@@ -1,5 +1,5 @@
 SFX_02_43_Ch1: ; 84c6 (2:44c6)
-	duty 0
+	dutycycle 0
 	unknownsfx0x10 20
 	unknownsfx0x20 4, 242, 0, 6
 	loopchannel 4, SFX_02_43_Ch1

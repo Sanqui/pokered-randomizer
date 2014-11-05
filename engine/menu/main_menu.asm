@@ -476,7 +476,7 @@ DisplayOptionMenu: ; 5e8a (1:5e8a)
 	cp a,16 ; is the cursor on Cancel?
 	jr nz,.loop
 .exitMenu
-	ld a,(SFX_02_40 - SFX_Headers_02) / 3
+	ld a,RBSFX_02_40
 	call PlaySound ; play sound
 	ret
 .eraseOldMenuCursor

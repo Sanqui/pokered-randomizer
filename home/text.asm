@@ -626,13 +626,13 @@ TextCommand0B:: ; 1c31 (0:1c31)
 
 ; format: text command ID, sound ID or cry ID
 TextCommandSounds:: ; 1c64 (0:1c64)
-	db $0B,(SFX_02_3a - SFX_Headers_02) / 3
-	db $12,(SFX_02_46 - SFX_Headers_02) / 3
-	db $0E,(SFX_02_41 - SFX_Headers_02) / 3
-	db $0F,(SFX_02_3a - SFX_Headers_02) / 3
-	db $10,(SFX_02_3b - SFX_Headers_02) / 3
-	db $11,(SFX_02_42 - SFX_Headers_02) / 3
-	db $13,(SFX_02_44 - SFX_Headers_02) / 3
+	db $0B,RBSFX_02_3a
+	db $12,RBSFX_02_46
+	db $0E,RBSFX_02_41
+	db $0F,RBSFX_02_3a
+	db $10,RBSFX_02_3b
+	db $11,RBSFX_02_42
+	db $13,RBSFX_02_44
 	db $14,NIDORINA ; used in OakSpeech
 	db $15,PIDGEOT  ; used in SaffronCityText12
 	db $16,DEWGONG  ; unused?

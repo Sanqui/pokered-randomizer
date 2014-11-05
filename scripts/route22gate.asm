@@ -77,7 +77,7 @@ Route22GateText1: ; 1e6e1 (7:66e1)
 Route22GateText_1e704: ; 1e704 (7:6704)
 	TX_FAR _Route22GateText_1e704 ; 0x8cfbb
 	db $8
-	ld a, (SFX_02_51 - SFX_Headers_02) / 3
+	ld a, RBSFX_02_51
 	call PlaySoundWaitForCurrent
 	call WaitForSoundToFinish
 	ld hl, Route22GateText_1e715 ; $6715

@@ -734,7 +734,7 @@ SwitchPartyMon_OAM: ; 13625 (4:7625)
 	dec c
 	jr nz, .asm_13645
 	call WaitForSoundToFinish
-	ld a, (SFX_02_58 - SFX_Headers_02) / 3
+	ld a, RBSFX_02_58
 	jp PlaySound
 
 SwitchPartyMon_Stats: ; 13653 (4:7653)

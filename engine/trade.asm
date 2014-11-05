@@ -230,7 +230,7 @@ Func_41298: ; 41298 (10:5298)
 	ld b, $7
 	call Func_41842
 	call Func_41186
-	ld a, (SFX_02_3d - SFX_Headers_02) / 3
+	ld a, RBSFX_02_3d
 	call PlaySound
 	ld c, $14
 .asm_412c8
@@ -275,7 +275,7 @@ Func_412d2: ; 412d2 (10:52d2)
 	ld c, a
 	cp $a0
 	jr nc, .asm_41318
-	ld a, (SFX_02_3c - SFX_Headers_02) / 3
+	ld a, RBSFX_02_3c
 	call PlaySound
 	jr .asm_412e7
 .asm_41318

@@ -51,7 +51,7 @@ PrintCardKeyText: ; 52673 (14:6673)
 	predef ReplaceTileBlock
 	ld hl, wd126
 	set 5, [hl]
-	ld a, (SFX_1f_57 - SFX_Headers_1f) / 3
+	ld a, RBSFX_1f_57
 	jp PlaySound
 .noCardKey
 	ld a, $2

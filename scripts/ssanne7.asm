@@ -59,7 +59,7 @@ SSAnne7RubText: ; 618ec (18:58ec)
 .asm_61908
 	ld a, MUSIC_PKMN_HEALED
 	ld [wc0ee], a
-	call PlaySound
+	call PlayMusic
 .asm_61910
 	ld a, [wc026]
 	cp MUSIC_PKMN_HEALED

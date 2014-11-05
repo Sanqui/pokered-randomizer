@@ -161,7 +161,7 @@ Func_1a514: ; 1a514 (6:6514)
 	ld [wc0f0], a
 	ld a, MUSIC_MUSEUM_GUY
 	ld [wc0ee], a
-	call PlaySound
+	call PlayMusic
 	ld a, [wSpriteIndex]
 	swap a
 	ld [wNPCMovementScriptSpriteOffset], a

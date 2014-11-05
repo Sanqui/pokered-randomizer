@@ -107,7 +107,7 @@ Func_61bc: ; 61bc (1:61bc)
 .next
 	ld a,[H_LOADEDROMBANK]
 	push af
-	ld a,(SFX_02_48 - SFX_Headers_02) / 3
+	ld a,RBSFX_02_48
 	call PlaySound
 	pop af
 	ld [H_LOADEDROMBANK],a

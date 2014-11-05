@@ -161,7 +161,7 @@ SaveSAV: ;$770a
 	call DelayFrames
 	ld hl,GameSavedText
 	call PrintText
-	ld a, (SFX_02_5d - SFX_Headers_02) / 3 ;sound for saved game
+	ld a, RBSFX_02_5d ;sound for saved game
 	call PlaySoundWaitForCurrent
 	call WaitForSoundToFinish
 	ld c,$1e
@@ -375,7 +375,7 @@ ChangeBox:: ; 738a1 (1c:78a1)
 	call SaveSAVtoSRAM
 	ld hl, wChangeBoxSavedMapTextPointer
 	call SetMapTextPointer
-	ld a, (SFX_02_5d - SFX_Headers_02) / 3
+	ld a, RBSFX_02_5d
 	call PlaySoundWaitForCurrent
 	call WaitForSoundToFinish
 	ret

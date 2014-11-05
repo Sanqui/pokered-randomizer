@@ -66,9 +66,12 @@ Func_2385:
     
     ret
 
-; plays music specified by a. If value is $ff, music is stopped
+; plays <s>music</s>SFX specified by a. If value is $ff, music is stopped
 PlaySound:: ; 23b1 (0:23b1)
-    jp PlayMusic
+    ld e, a
+    xor a
+    ld d, a
+    jp PlaySFX
 
 OpenSRAMForSound::
 	ld a, SRAM_ENABLE
@@ -174,6 +177,117 @@ PlayMusic:: ; 3b97
 	pop hl
 	ret
 ; 3bbc
+
+
+PlayCryHeader:: ; 3be3
+; Play a cry given parameters in header de
+
+	push hl
+	push de
+	push bc
+	push af
+
+; Save current bank
+	ld a, [hROMBank]
+	push af
+
+; Cry headers are stuck in one bank.
+	ld a, BANK(CryHeaders)
+	ld [hROMBank], a
+	ld [$2000], a
+
+; Each header is 6 bytes long:
+	ld hl, CryHeaders
+	add hl, de
+	add hl, de
+	add hl, de
+	add hl, de
+	add hl, de
+	add hl, de
+
+	ld e, [hl]
+	inc hl
+	ld d, [hl]
+	inc hl
+
+	ld a, [hli]
+	ld [CryPitch], a
+	ld a, [hli]
+	ld [CryEcho], a
+	ld a, [hli]
+	ld [CryLength], a
+	ld a, [hl]
+	ld [CryLength+1], a
+
+	ld a, BANK(PlayCry)
+	ld [hROMBank], a
+	ld [$2000], a
+
+	call PlayCry
+
+	pop af
+	ld [hROMBank], a
+	ld [$2000], a
+	
+	pop af
+	pop bc
+	pop de
+	pop hl
+	ret
+; 3c23
+
+
+PlaySFX:: ; 3c23
+; Play sound effect de.
+; Sound effects are ordered by priority (lowest to highest)
+
+	push hl
+	push de
+	push bc
+	push af
+
+; Is something already playing?
+	;call CheckSFX
+	;jr nc, .play
+; Does it have priority?
+	;ld a, [CurSFX]
+	;cp e
+	;jr c, .quit
+
+PlaySFX_play
+.play
+	ld a, [hROMBank]
+	push af
+	ld a, BANK(_PlaySFX)
+	ld [hROMBank], a
+	ld [$2000], a ; bankswitch
+
+	ld a, e
+	ld [CurSFX], a
+	call _PlaySFX
+
+	pop af
+	ld [hROMBank], a
+	ld [$2000], a ; bankswitch
+.quit
+	pop af
+	pop bc
+	pop de
+	pop hl
+	ret
+; 3c4e
+
+PlayAnimSoundShim:
+	push hl
+	push de
+	push bc
+	push af
+	
+	ld d, a
+	callab _PlayAnimSoundShim
+	ld e, d
+	ld d, 00
+	jp PlaySFX_play
 
 
 _LoadMusicByte:: ; 3b86

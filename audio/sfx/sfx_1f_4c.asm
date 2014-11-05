@@ -1,5 +1,5 @@
 SFX_1f_4c_Ch1: ; 7c58d (1f:458d)
-	duty 1
+	dutycycle 1
 	unknownsfx0x10 23
 	unknownsfx0x20 15, 215, 0, 7
 	unknownsfx0x20 15, 183, 128, 6

@@ -18,8 +18,8 @@ ShakeElevator: ; 7bf15 (1e:7f15)
 	add d
 	ld [$ffaf], a
 	push bc
-	ld c, BANK(SFX_02_5b)
-	ld a, (SFX_02_5b - SFX_Headers_02) / 3
+	ld c, 0;BANK(SFX_02_5b)
+	ld a, RBSFX_02_5b
 	call PlayMusic
 	pop bc
 	ld c, $2
@@ -30,8 +30,8 @@ ShakeElevator: ; 7bf15 (1e:7f15)
 	ld [$ffaf], a
 	ld a, $ff
 	call PlaySound
-	ld c, BANK(SFX_02_5f)
-	ld a, (SFX_02_5f - SFX_Headers_02) / 3
+	ld c, 0;BANK(SFX_02_5f)
+	ld a, RBSFX_02_5f
 	call PlayMusic
 .asm_7bf57
 	ld a, [wc02a]

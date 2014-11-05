@@ -1328,7 +1328,7 @@ AddAmountSoldToMoney:: ; 2b9e (0:2b9e)
 	ld a,$13
 	ld [wd125],a
 	call DisplayTextBoxID ; redraw money text box
-	ld a, (SFX_02_5a - SFX_Headers_02) / 3
+	ld a, RBSFX_02_5a
 	call PlaySoundWaitForCurrent ; play sound
 	jp WaitForSoundToFinish ; wait until sound is done playing
 
@@ -2641,7 +2641,7 @@ PlayTrainerMusic:: ; 33e8 (0:33e8)
 	ld a, MUSIC_MEET_MALE_TRAINER
 .PlaySound
 	ld [wc0ee], a
-	jp PlaySound
+	jp PlayMusic
 
 INCLUDE "data/trainer_types.asm"
 
@@ -3481,7 +3481,7 @@ ManualTextScroll:: ; 3898 (0:3898)
 	cp $4
 	jr z, .inLinkBattle
 	call WaitForTextScrollButtonPress
-	ld a, (SFX_02_40 - SFX_Headers_02) / 3
+	ld a, RBSFX_02_40
 	jp PlaySound
 .inLinkBattle
 	ld c, $41
@@ -4007,7 +4007,7 @@ HandleMenuInputPokemonSelection:: ; 3ac2 (0:3ac2)
 	bit 5,[hl]
 	pop hl
 	jr nz,.skipPlayingSound
-	ld a,(SFX_02_40 - SFX_Headers_02) / 3
+	ld a,RBSFX_02_40
 	call PlaySound ; play sound
 .skipPlayingSound
 	pop af

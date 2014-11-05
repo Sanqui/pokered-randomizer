@@ -237,19 +237,21 @@ CH6		EQU 6
 CH7		EQU 7
 
 unknownsfx0x10: MACRO
-	db $10
+	db $dd ; soundinput
 	db \1
 ENDM
 
 unknownsfx0x20: MACRO
-	db $20 | \1
+    ; noise/sound
+    db \1
+	;db $20 | \1
 	db \2
 	db \3
 	db \4
 ENDM
 
 unknownnoise0x20: MACRO
-	db $20 | \1
+	db  \1 ; | $20
 	db \2
 	db \3
 ENDM
@@ -352,7 +354,8 @@ mutedsnare4: MACRO
 ENDM
 
 duty: MACRO
-	db $EC
+	;db $EC
+	db $db
 	db \1
 ENDM
 
@@ -362,7 +365,7 @@ rest: MACRO
 ENDM
 
 executemusic: MACRO
-	db $F8
+	togglesfx
 ENDM
 
 ;\1 (byte) = connected map id

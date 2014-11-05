@@ -57,7 +57,7 @@ Func_71e1: ; 71e1 (1:71e1)
 	jr nz, .asm_728f ; 0x723e $4f
 	callab SaveSAVtoSRAM
 	call WaitForSoundToFinish
-	ld a, (SFX_02_5d - SFX_Headers_02) / 3
+	ld a, RBSFX_02_5d
 	call PlaySoundWaitForCurrent
 	ld hl, CableClubNPCText3
 	call PrintText

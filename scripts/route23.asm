@@ -224,7 +224,7 @@ Route23Script_51388: ; 51388 (14:5388)
 VictoryRoadGuardText1: ; 5138e (14:538e)
 	TX_FAR _VictoryRoadGuardText1
 	db $08 ; asm
-	ld a, (SFX_02_51 - SFX_Headers_02) / 3
+	ld a, RBSFX_02_51
 	call PlaySoundWaitForCurrent
 	call WaitForSoundToFinish
 	jp TextScriptEnd

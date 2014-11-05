@@ -60,7 +60,7 @@ asm_ef82: ; ef82 (3:6f82)
 	callba Func_79e96
 	ld a, $1
 	ld [wUpdateSpritesEnabled], a
-	ld a, (SFX_02_56 - SFX_Headers_02) / 3
+	ld a, RBSFX_02_56
 	call PlaySound
 	ld a, $90
 	ld [hWY], a

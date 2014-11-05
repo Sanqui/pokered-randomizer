@@ -10,7 +10,7 @@ PlayerPC: ; 78e6 (1:78e6)
 	ld a, [wFlags_0xcd60]
 	bit 3, a
 	jr nz, Func_790c
-	ld a, (SFX_02_45 - SFX_Headers_02) / 3
+	ld a, RBSFX_02_45
 	call PlaySound
 	ld hl, TurnedOnPC2Text
 	call PrintText
@@ -65,7 +65,7 @@ Func_796d: ; 796d (1:796d)
 	ld a, [wFlags_0xcd60]
 	bit 3, a
 	jr nz, .asm_797c
-	ld a, (SFX_02_46 - SFX_Headers_02) / 3
+	ld a, RBSFX_02_46
 	call PlaySound
 	call WaitForSoundToFinish
 .asm_797c
@@ -128,7 +128,7 @@ Func_79ab: ; 79ab (1:79ab)
 	ld hl, wNumBagItems ; wNumBagItems
 	call RemoveItemFromInventory
 	call WaitForSoundToFinish
-	ld a, (SFX_02_55 - SFX_Headers_02) / 3
+	ld a, RBSFX_02_55
 	call PlaySound
 	call WaitForSoundToFinish
 	ld hl, ItemWasStoredText
@@ -182,7 +182,7 @@ Func_7a28: ; 7a28 (1:7a28)
 	ld hl, wNumBoxItems ; wNumBoxItems
 	call RemoveItemFromInventory
 	call WaitForSoundToFinish
-	ld a, (SFX_02_55 - SFX_Headers_02) / 3
+	ld a, RBSFX_02_55
 	call PlaySound
 	call WaitForSoundToFinish
 	ld hl, WithdrewItemText

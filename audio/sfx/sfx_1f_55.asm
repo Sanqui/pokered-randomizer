@@ -1,5 +1,5 @@
 SFX_1f_55_Ch1: ; 7c688 (1f:4688)
-	duty 1
+	dutycycle 1
 	unknownsfx0x10 58
 	unknownsfx0x20 4, 242, 0, 5
 	unknownsfx0x10 34

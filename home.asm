@@ -310,14 +310,7 @@ LoadFrontSpriteByMonIndex:: ; 1389 (0:1389)
 	ld [$2000], a
 	ret
 
-
-PlayCry:: ; 13d0 (0:13d0)
-; Play monster a's cry.
-    callab PlayCry_
-    ret
-	;call GetCryData
-	;call PlaySound
-	;jp WaitForSoundToFinish
+; PlayCry
 
 GetCryData:: ; 13d9 (0:13d9)
 ; Load cry data for monster a.
@@ -3223,22 +3216,35 @@ PlaySoundWaitForCurrent:: ; 3740 (0:3740)
 
 ; Wait for sound to finish playing
 WaitForSoundToFinish:: ; 3748 (0:3748)
-	ld a, [wd083]
-	and $80
-	ret nz
-	push hl
-.asm_374f
-	ld hl, wc02a
-	xor a
-	or [hl]
-	inc hl
-	or [hl]
-	inc hl
-	inc hl
-	or [hl]
-	jr nz, .asm_374f
-	pop hl
-	ret
+WaitSFX:: ; 3c55
+; infinite loop until sfx is done playing
+    ld a, [Danger]
+    and a
+    ret nz
+        push hl
+
+.loop
+        ; ch5 on?
+        ld hl, Channel5 + Channel1Flags - Channel1
+        bit 0, [hl]
+        jr nz, .loop
+        ; ch6 on?
+        ld hl, Channel6 + Channel1Flags - Channel1
+        bit 0, [hl]
+        jr nz, .loop
+        ; ch7 on?
+        ld hl, Channel7 + Channel1Flags - Channel1
+        bit 0, [hl]
+        jr nz, .loop
+        ; ch8 on?
+        ld hl, Channel8 + Channel1Flags - Channel1
+        bit 0, [hl]
+        jr nz, .loop
+
+        pop hl
+        ret
+; 3c74
+
 
 NamePointers:: ; 375d (0:375d)
 	dw MonsterNames

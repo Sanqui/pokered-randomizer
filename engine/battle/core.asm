@@ -941,7 +941,7 @@ EnemyMonFaintedText: ; 0x3c63e
 
 Func_3c643: ; 3c643 (f:4643)
 	xor a
-	ld [wd083], a
+	ld [wDanger], a
 	ld [wc02a], a
 	inc a
 	ld [wccf6], a
@@ -1083,11 +1083,11 @@ RemoveFaintedPlayerMon: ; 3c741 (f:4741)
 	predef FlagActionPredef ; clear gain exp flag for fainted mon
 	ld hl, W_ENEMYBATTSTATUS1
 	res 2, [hl]   ; reset "attacking multiple times" flag
-	ld a, [wd083]
+	ld a, [wDanger]
 	bit 7, a      ; skip sound flag (red bar (?))
 	jr z, .skipWaitForSound
 	ld a, $ff
-	ld [wd083], a
+	ld [wDanger], a
 	call WaitForSoundToFinish
 .skipWaitForSound
 	ld hl, wcd05
@@ -1926,7 +1926,7 @@ DrawPlayerHUDAndHPBar: ; 3cd60 (f:4d60)
 	cp $2
 	jr z, .asm_3cde6
 .asm_3cdd9
-	ld hl, wd083
+	ld hl, wDanger
 	bit 7, [hl]
 	ld [hl], $0
 	ret z
@@ -1934,7 +1934,7 @@ DrawPlayerHUDAndHPBar: ; 3cd60 (f:4d60)
 	ld [wc02a], a
 	ret
 .asm_3cde6
-	ld hl, wd083
+	ld hl, wDanger
 	set 7, [hl]
 	ret
 

@@ -45,7 +45,7 @@ EndOfBattle: ; 137aa (4:77aa)
 	predef EvolutionAfterBattle
 .resetVariables
 	xor a
-	ld [wd083], a
+	ld [wDanger], a
 	ld [wc02a], a
 	ld [W_ISINBATTLE], a
 	ld [W_BATTLETYPE], a

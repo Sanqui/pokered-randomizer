@@ -128,7 +128,7 @@ ClearVram:
 StopAllSounds::
     call OpenSRAMForSound
     ld hl, MusicPlaying
-	ld bc, (wChannelSelectorSwitches+8) - MusicPlaying
+	ld bc, (wChannelSelectorSwitches+8) - Crysaudio
 	call FillMemory
     
     

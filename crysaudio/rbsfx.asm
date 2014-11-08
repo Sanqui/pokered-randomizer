@@ -174,3 +174,7 @@ RedSfxHeaderPointers:
     dbw BANK(SFX_1f_66), SFX_1f_66
     dbw BANK(SFX_1f_67), SFX_1f_67
 
+	dbw BANK(Sfx_NotVeryEffective), Sfx_NotVeryEffective
+	dbw BANK(Sfx_Damage), Sfx_Damage
+	dbw BANK(Sfx_SuperEffective), Sfx_SuperEffective
+

@@ -2869,21 +2869,21 @@ TossBallAnimation: ; 79e16 (1e:5e16)
 
 Func_79e6a: ; 79e6a (1e:5e6a)
 	call WaitForSoundToFinish
-	ld a, [wd05b]
+	ld a, [wd05b] ; effectiveness
 	and $7f
 	ret z
 	cp $a
 	ld a, $20
 	ld b, $30
-	ld c, RBSFX_08_50
+	ld c, GSSFX_DAMAGE ;RBSFX_08_50
 	jr z, .asm_79e8b
 	ld a, $e0
 	ld b, $ff
-	ld c, RBSFX_08_5a
+	ld c, GSSFX_SUPER_EFFECTIVE ;RBSFX_08_5a
 	jr nc, .asm_79e8b
 	ld a, $50
 	ld b, $1
-	ld c, RBSFX_08_51
+	ld c, GSSFX_NOT_VERY_EFFECTIVE ;RBSFX_08_51
 .asm_79e8b
 	ld [wc0f1], a
 	ld a, b

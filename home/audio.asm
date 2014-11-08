@@ -60,14 +60,18 @@ asm_2324:: ; 2324 (0:2324)
 
 Func_235f:: ; 235f (0:235f)
     ;jp UpdateSound
-    ret ; XXX UpdateMusic
-
+;    ret ; XXX UpdateMusic
 Func_2385:
     
     ret
 
 ; plays <s>music</s>SFX specified by a. If value is $ff, music is stopped
 PlaySound:: ; 23b1 (0:23b1)
+    cp $ff
+    jr nz, .notff
+    xor a
+    jp PlayMusic
+.notff
     ld e, a
     xor a
     ld d, a
@@ -81,41 +85,44 @@ OpenSRAMForSound::
 	ld [MBC1SRamBank], a
 	ret
 
-SoundRestart:: ; 3b4e
-
-	push hl
-	push de
-	push bc
-	push af
-	
-    call OpenSRAMForSound
-    
-	ld a, [hROMBank]
-	push af
-	ld a, BANK(_SoundRestart)
-	ld [hROMBank], a
-	ld [$2000], a
-
-	call _SoundRestart
-
-	pop af
-	ld [hROMBank], a
-	ld [$2000], a
-
-	pop af
-	pop bc
-	pop de
-	pop hl
-	ret
+;SoundRestart:: ; 3b4e
+;
+;	push hl
+;	push de
+;	push bc
+;	push af
+;	
+;    call OpenSRAMForSound
+;    
+;	ld a, [hROMBank]
+;	push af
+;	ld a, BANK(_SoundRestart)
+;	ld [hROMBank], a
+;	ld [$2000], a
+;
+;	call _SoundRestart
+;
+;	pop af
+;	ld [hROMBank], a
+;	ld [$2000], a
+;
+;	pop af
+;	pop bc
+;	pop de
+;	pop hl
+;	ret
 ; 3b6a
 
 
 UpdateSound:: ; 3b6a
 
-	push hl
-	push de
-	push bc
-	push af
+;	push hl
+;	push de
+;	push bc
+;	push af   
+    ld a, [wHaltAudio]
+    and a
+    ret nz
 	
     call OpenSRAMForSound
     
@@ -131,10 +138,10 @@ UpdateSound:: ; 3b6a
 	ld [hROMBank], a
 	ld [$2000], a
 
-	pop af
-	pop bc
-	pop de
-	pop hl
+;	pop af
+;	pop bc
+;	pop de
+;	pop hl
 	ret
 ; 3b86
 
@@ -179,13 +186,20 @@ PlayMusic:: ; 3b97
 ; 3bbc
 
 
-PlayCryHeader:: ; 3be3
+PlayCry:: ; 13d0 (0:13d0)
+; Play monster a's cry.
 ; Play a cry given parameters in header de
 
 	push hl
 	push de
 	push bc
 	push af
+	ld [wd11e], a
+	predef IndexToPokedex
+	ld a, [wd11e]
+	dec a
+	ld e, a
+	ld d, 0
 
 ; Save current bank
 	ld a, [hROMBank]
@@ -219,15 +233,17 @@ PlayCryHeader:: ; 3be3
 	ld a, [hl]
 	ld [CryLength+1], a
 
-	ld a, BANK(PlayCry)
+	ld a, BANK(PlayCry_)
 	ld [hROMBank], a
 	ld [$2000], a
 
-	call PlayCry
+	call PlayCry_
 
 	pop af
 	ld [hROMBank], a
 	ld [$2000], a
+	
+	call WaitForSoundToFinish
 	
 	pop af
 	pop bc

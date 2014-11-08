@@ -2545,12 +2545,10 @@ _PlayMusic:: ; e8b30
 	ld hl, MusicMT
 	jr .ContinueMusic
 PlayCry_:: ; e8b79
-    ret ; XXX TODO
 ; Play cry de using parameters:
 ;	CryPitch
 ;	CryEcho
 ;	CryLength
-	
 	call MusicOff
 	
 ; Overload the music id with the cry id

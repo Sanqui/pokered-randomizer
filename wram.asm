@@ -120,8 +120,9 @@ wc0ee:: ds 1
 wc0ef:: ds 1
 wc0f0:: ds 1
 wc0f1:: ds 1
-wc0f2:: ds 14
+wc0f2:: ds 13 ;14
 
+wHaltAudio:: ds 1
 
 SECTION "Sprite State Data", WRAM0[$c100]
 
@@ -2355,6 +2356,7 @@ MusicNoiseSampleSet:: ; c2a4
 SFXNoiseSampleSet:: ; c2a5
 	ds 1
 Danger:: ; c2a6
+wDanger:: ; because i'm dumb
 ; bit 7: on/off
 ; bit 4: pitch
 ; bit 0-3: counter
@@ -2420,4 +2422,4 @@ wNoteEnded:: ds 3
 wSelectorTop:: ds 1
 wSelectorCur:: ds 1
 wChannelSelector:: ds 1
-wChannelSelectorSwitches:: ds 4
+wChannelSelectorSwitches:: ds 8

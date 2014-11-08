@@ -2,54 +2,6 @@ tbp: MACRO
     dbw BANK(\1), \1
     ENDM
 
-
-    tbp Music_Nothing
-    tbp Music_NewBarkTown
-    tbp Music_MobileCenter
-    tbp Music_Gym
-    tbp Music_CherrygroveCity
-    tbp Music_AzaleaTown
-    tbp Music_VioletCity
-    tbp Music_EcruteakCity
-    tbp Music_Vermilion
-    tbp Music_Lavender
-    tbp Music_SSAnne
-    tbp Music_ProfOak
-    tbp Music_LookRival
-    tbp Music_MuseumGuy
-    tbp Music_SafariZone
-    tbp Music_PkmnHealed
-    tbp Music_Route29
-    tbp Music_Route30
-    tbp Music_Route36
-    tbp Music_Route37
-    tbp Music_IndigoPlateau
-    tbp Music_JohtoGymBattle
-    tbp Music_JohtoTrainerBattle
-    tbp Music_JohtoWildBattle
-    tbp Music_ChampionBattle
-    tbp Music_TrainerVictory
-    tbp Music_WildPokemonVictory
-    tbp Music_GymLeaderVictory
-    tbp Music_TitleScreen
-    tbp Music_Credits
-    tbp Music_HallOfFame
-    tbp Music_ElmsLab
-    tbp Music_RuinsOfAlphRadio
-    tbp Music_Bicycle
-    tbp Music_Surf
-    tbp Music_GameCorner
-    tbp Music_GoldSilverOpening2
-    tbp Music_UnionCave
-    tbp Music_DarkCave
-    tbp Music_Dungeon3
-    tbp Music_CinnabarMansion
-    tbp Music_PokemonTower
-    tbp Music_SilphCo
-    tbp Music_MeetEvilTrainer
-    tbp Music_LookLass
-    tbp Music_LookYoungster
-
     tbp Music_Nothing
     tbp Music_RBYPalletTown
     tbp Music_Pokecenter

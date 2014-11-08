@@ -5434,7 +5434,8 @@ SECTION "bankE",ROMX,BANK[$E]
 
 INCLUDE "data/moves.asm"
 BaseStats: INCLUDE "data/base_stats.asm"
-INCLUDE "data/cries.asm"
+CryData:
+;INCLUDE "data/cries.asm"
 INCLUDE "engine/battle/e.asm"
 
 TradingAnimationGraphics:

@@ -3559,6 +3559,10 @@ Divide:: ; 38b9 (0:38b9)
 ; screen unless the player presses the A/B button or the delay is turned off
 ; through the [wd730] or [wd358] flags.
 PrintLetterDelay:: ; 38d3 (0:38d3)
+    ld a, [$00ff]
+    bit 0, a
+    ret nz
+    
 	ld a,[wd730]
 	bit 6,a
 	ret nz

@@ -200,7 +200,7 @@ PlayAnimation: ; 780f1 (1e:40f1)
 	push hl
 	push de
 	call Func_7986f
-	call PlaySound
+	call PlayAnimSoundShim
 	pop de
 	pop hl
 .skipPlayingSound
@@ -549,7 +549,7 @@ PlaySubanimation: ; 78e53 (1e:4e53)
 	cp a,$FF
 	jr z,.skipPlayingSound
 	call Func_7986f
-	call PlaySound ; play sound effect
+	call PlayAnimSoundShim ; play sound effect
 .skipPlayingSound
 	ld hl,wOAMBuffer ; base address of OAM buffer
 	ld a,l
@@ -736,7 +736,7 @@ DoBallTossSpecialEffects: ; 78f3e (1e:4f3e)
 	cp a,11 ; is it the beginning of the subanimation?
 	jr nz,.skipPlayingSound
 ; if it is the beginning of the subanimation, play a sound
-	ld a,(SFX_08_41 - SFX_Headers_08) / 3
+	ld a,RBSFX_08_41
 	call PlaySound ; play sound
 .skipPlayingSound
 	ld a,[W_ISINBATTLE]
@@ -782,7 +782,7 @@ DoBallShakeSpecialEffects: ; 78f96 (1e:4f96)
 	cp a,4 ; is it the beginning of a shake?
 	jr nz,.skipPlayingSound
 ; if it is the beginning of a shake, play a sound and wait 2/3 of a second
-	ld a,(SFX_08_3c - SFX_Headers_08) / 3
+	ld a,RBSFX_08_3c
 	call PlaySound ; play sound
 	ld c,40
 	call DelayFrames
@@ -815,7 +815,7 @@ DoPoofSpecialEffects: ; 78fce (1e:4fce)
 	ld a,[W_SUBANIMCOUNTER]
 	cp a,5
 	ret nz
-	ld a,(SFX_08_42 - SFX_Headers_08) / 3
+	ld a,RBSFX_08_42
 	jp PlaySound
 
 DoRockSlideSpecialEffects: ; 78fd9 (1e:4fd9)
@@ -918,7 +918,7 @@ Func_7904c: ; 7904c (1e:504c)
 	jr .loop
 .done
 	call AnimationCleanOAM
-	ld a,(SFX_02_44 - SFX_Headers_02) / 3
+	ld a,RBSFX_02_44
 	jp PlaySound ; play sound
 
 BallMoveDistances1: ; 79078 (1e:5078)
@@ -950,7 +950,7 @@ Func_7907c ; 507C
 	cp a,$ff
 	jr nz,.skipPlayingSound
 .playSound ; play sound if next move distance is 12 or this is the last one
-	ld a,(SFX_08_58 - SFX_Headers_08) / 3
+	ld a,RBSFX_08_58
 	call PlaySound
 .skipPlayingSound
 	push bc
@@ -2861,7 +2861,7 @@ TossBallAnimation: ; 79e16 (1e:5e16)
 	ld a,TOSS_ANIM
 	ld [W_ANIMATIONID],a
 	call PlayAnimation
-	ld a,(SFX_08_43 - SFX_Headers_08) / 3
+	ld a,RBSFX_08_43
 	call PlaySound ; play sound effect
 	ld a,BLOCKBALL_ANIM
 	ld [W_ANIMATIONID],a
@@ -2869,24 +2869,27 @@ TossBallAnimation: ; 79e16 (1e:5e16)
 
 Func_79e6a: ; 79e6a (1e:5e6a)
 	call WaitForSoundToFinish
-	ld a, [wd05b]
+	ld a, [wd05b] ; effectiveness
 	and $7f
 	ret z
 	cp $a
 	ld a, $20
 	ld b, $30
-	ld c, (SFX_08_50 - SFX_Headers_08) / 3
+	ld c, GSSFX_DAMAGE ;RBSFX_08_50
 	jr z, .asm_79e8b
 	ld a, $e0
 	ld b, $ff
-	ld c, (SFX_08_5a - SFX_Headers_08) / 3
+	ld c, GSSFX_SUPER_EFFECTIVE ;RBSFX_08_5a
 	jr nc, .asm_79e8b
 	ld a, $50
 	ld b, $1
-	ld c, (SFX_08_51 - SFX_Headers_08) / 3
+	ld c, GSSFX_NOT_VERY_EFFECTIVE ;RBSFX_08_51
 .asm_79e8b
 	ld [wc0f1], a
 	ld a, b
 	ld [wc0f2], a
 	ld a, c
-	jp PlaySound
+	jp PlaySound 
+
+
+

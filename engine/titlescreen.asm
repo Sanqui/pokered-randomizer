@@ -17,7 +17,7 @@ SetDefaultNamesBeforeTitlescreen: ; 42b7 (1:42b7)
 	ld [hli], a
 	ld [hli], a
 	ld [hl], a
-	ld a, BANK(Music_TitleScreen)
+	ld a, 0 ; BANK(Music_TitleScreen)
 	ld [wc0ef], a
 	ld [wc0f0], a
 
@@ -145,7 +145,7 @@ ENDC
 	ld d, a
 	cp $fd
 	jr nz, .asm_43d4
-	ld a, (SFX_1f_62 - SFX_Headers_1f) / 3
+	ld a, RBSFX_1f_62
 	call PlaySound
 .asm_43d4
 	ld a, [hli]
@@ -175,10 +175,13 @@ ENDC
 	jr nz, .ScrollTitleScreenPokemonLogo
 	ret
 .asm_43f4
+    xor a
+	ld [hSCY], a
+    
 	call LoadScreenTilesFromBuffer1
 	ld c, $24
 	call DelayFrames
-	ld a, (SFX_1f_63 - SFX_Headers_1f) / 3
+	ld a, RBSFX_1f_63
 	call PlaySound
 	call PrintGameVersionOnTitleScreen
 	ld a, $90
@@ -204,7 +207,7 @@ ENDC
 	call WaitForSoundToFinish
 	ld a, MUSIC_TITLE_SCREEN
 	ld [wc0ee], a
-	call PlaySound
+	call PlayMusic
 	xor a
 	ld [wcc5b], a
 .asm_443b

@@ -324,12 +324,7 @@ LoadFrontSpriteByMonIndex:: ; 1389 (0:1389)
 	ld [$2000], a
 	ret
 
-
-PlayCry:: ; 13d0 (0:13d0)
-; Play monster a's cry.
-	call GetCryData
-	call PlaySound
-	jp WaitForSoundToFinish
+; PlayCry
 
 GetCryData:: ; 13d9 (0:13d9)
 ; Load cry data for monster a.
@@ -1346,7 +1341,7 @@ AddAmountSoldToMoney:: ; 2b9e (0:2b9e)
 	ld a,$13
 	ld [wd125],a
 	call DisplayTextBoxID ; redraw money text box
-	ld a, (SFX_02_5a - SFX_Headers_02) / 3
+	ld a, RBSFX_02_5a
 	call PlaySoundWaitForCurrent ; play sound
 	jp WaitForSoundToFinish ; wait until sound is done playing
 
@@ -2631,7 +2626,7 @@ PlayTrainerMusic:: ; 33e8 (0:33e8)
 	ld [wMusicHeaderPointer], a
 	ld a, $ff
 	call PlaySound      ; stop music
-	ld a, BANK(Music_MeetEvilTrainer)
+	ld a, 0 ; 0 ; BANK(Music_MeetEvilTrainer)
 	ld [wc0ef], a
 	ld [wc0f0], a
 	ld a, [wEngagedTrainerClass]
@@ -2659,7 +2654,7 @@ PlayTrainerMusic:: ; 33e8 (0:33e8)
 	ld a, MUSIC_MEET_MALE_TRAINER
 .PlaySound
 	ld [wc0ee], a
-	jp PlaySound
+	jp PlayMusic
 
 INCLUDE "data/trainer_types.asm"
 
@@ -3241,22 +3236,35 @@ PlaySoundWaitForCurrent:: ; 3740 (0:3740)
 
 ; Wait for sound to finish playing
 WaitForSoundToFinish:: ; 3748 (0:3748)
-	ld a, [wd083]
-	and $80
-	ret nz
-	push hl
-.asm_374f
-	ld hl, wc02a
-	xor a
-	or [hl]
-	inc hl
-	or [hl]
-	inc hl
-	inc hl
-	or [hl]
-	jr nz, .asm_374f
-	pop hl
-	ret
+WaitSFX:: ; 3c55
+; infinite loop until sfx is done playing
+    ld a, [Danger]
+    and a
+    ret nz
+        push hl
+
+.loop
+        ; ch5 on?
+        ld hl, Channel5 + Channel1Flags - Channel1
+        bit 0, [hl]
+        jr nz, .loop
+        ; ch6 on?
+        ld hl, Channel6 + Channel1Flags - Channel1
+        bit 0, [hl]
+        jr nz, .loop
+        ; ch7 on?
+        ld hl, Channel7 + Channel1Flags - Channel1
+        bit 0, [hl]
+        jr nz, .loop
+        ; ch8 on?
+        ld hl, Channel8 + Channel1Flags - Channel1
+        bit 0, [hl]
+        jr nz, .loop
+
+        pop hl
+        ret
+; 3c74
+
 
 NamePointers:: ; 375d (0:375d)
 	dw MonsterNames
@@ -3499,7 +3507,7 @@ ManualTextScroll:: ; 3898 (0:3898)
 	cp $4
 	jr z, .inLinkBattle
 	call WaitForTextScrollButtonPress
-	ld a, (SFX_02_40 - SFX_Headers_02) / 3
+	ld a, RBSFX_02_40
 	jp PlaySound
 .inLinkBattle
 	ld c, $41
@@ -4025,7 +4033,7 @@ HandleMenuInputPokemonSelection:: ; 3ac2 (0:3ac2)
 	bit 5,[hl]
 	pop hl
 	jr nz,.skipPlayingSound
-	ld a,(SFX_02_40 - SFX_Headers_02) / 3
+	ld a,RBSFX_02_40
 	call PlaySound ; play sound
 .skipPlayingSound
 	pop af

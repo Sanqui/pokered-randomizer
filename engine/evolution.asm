@@ -7,14 +7,14 @@ Func_7bde9: ; 7bde9 (1e:7de9)
 	ld a, [wd0b5]
 	push af
 	xor a
-	ld [wd083], a
+	ld [wDanger], a
 	ld [wc02a], a
 	dec a
 	ld [wc0ee], a
 	call PlaySound
 	ld a, $1
 	ld [H_AUTOBGTRANSFERENABLED], a ; $ffba
-	ld a, (SFX_08_3c - SFX_Headers_08) / 3
+	ld a, RBSFX_08_3c
 	call PlaySound
 	call Delay3
 	xor a
@@ -41,7 +41,7 @@ Func_7bde9: ; 7bde9 (1e:7de9)
 	ld a, [wHPBarMaxHP]
 	call PlayCry
 	call WaitForSoundToFinish
-	ld c, BANK(Music_SafariZone)
+	ld c, 0 ; BANK(Music_SafariZone)
 	ld a, MUSIC_SAFARI_ZONE
 	call PlayMusic
 	ld c, $50

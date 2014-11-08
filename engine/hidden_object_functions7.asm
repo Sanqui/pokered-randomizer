@@ -68,8 +68,8 @@ asm_1e9b0: ; 1e9b0 (7:69b0)
 	ld [wMusicHeaderPointer], a
 	dec a
 	call PlaySound
-	ld c, BANK(SFX_02_5f)
-	ld a, (SFX_02_5f - SFX_Headers_02) / 3
+	ld c, 0;BANK(SFX_02_5f)
+	ld a, RBSFX_02_5f
 	call PlayMusic
 .asm_1e9c2
 	ld a, [wc02a]
@@ -216,7 +216,7 @@ CinnabarGymQuiz_1ea92: ; 1ea92 (7:6a92)
 	jp CinnabarGymQuiz_1eb0a
 .asm_1eab8
 	call WaitForSoundToFinish
-	ld a, (SFX_02_51 - SFX_Headers_02) / 3
+	ld a, RBSFX_02_51
 	call PlaySound
 	call WaitForSoundToFinish
 	ld hl, CinnabarGymQuizIncorrectText
@@ -248,7 +248,7 @@ CinnabarGymQuizCorrectText: ; 1eae3 (7:6ae3)
 	and a
 	jp nz, TextScriptEnd
 	call WaitForSoundToFinish
-	ld a, (SFX_02_57 - SFX_Headers_02) / 3
+	ld a, RBSFX_02_57
 	call PlaySound
 	call WaitForSoundToFinish
 	jp TextScriptEnd
@@ -339,22 +339,22 @@ BillsHousePC: ; 1eb6e (7:6b6e)
 	call PrintPredefTextID
 	ld c, $20
 	call DelayFrames
-	ld a, (SFX_02_3c - SFX_Headers_02) / 3
+	ld a, RBSFX_02_3c
 	call PlaySound
 	call WaitForSoundToFinish
 	ld c, $50
 	call DelayFrames
-	ld a, (SFX_02_48 - SFX_Headers_02) / 3
+	ld a, RBSFX_02_48
 	call PlaySound
 	call WaitForSoundToFinish
 	ld c, $30
 	call DelayFrames
-	ld a, (SFX_02_3c - SFX_Headers_02) / 3
+	ld a, RBSFX_02_3c
 	call PlaySound
 	call WaitForSoundToFinish
 	ld c, $20
 	call DelayFrames
-	ld a, (SFX_02_3a - SFX_Headers_02) / 3
+	ld a, RBSFX_02_3a
 	call PlaySound
 	call WaitForSoundToFinish
 	call PlayDefaultMusic
@@ -381,7 +381,7 @@ BillsHouseInitiatedText: ; 1ebe2 (7:6be2)
 	call PlaySound
 	ld c, $10
 	call DelayFrames
-	ld a, (SFX_02_49 - SFX_Headers_02) / 3
+	ld a, RBSFX_02_49
 	call PlaySound
 	call WaitForSoundToFinish
 	ld c, $3c

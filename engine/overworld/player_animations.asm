@@ -9,7 +9,7 @@ EnterMapAnim: ; 70510 (1c:4510)
 	bit 7, [hl] ; used fly out of battle?
 	res 7, [hl]
 	jr nz, .flyAnimation
-	ld a, (SFX_02_4c - SFX_Headers_02) / 3
+	ld a, RBSFX_02_4c
 	call PlaySound
 	ld hl, wd732
 	bit 4, [hl] ; used dungeon warp?
@@ -17,7 +17,7 @@ EnterMapAnim: ; 70510 (1c:4510)
 	pop hl
 	jr nz, .dungeonWarpAnimation
 	call PlayerSpinWhileMovingDown
-	ld a, (SFX_02_4f - SFX_Headers_02) / 3
+	ld a, RBSFX_02_4f
 	call PlaySound
 	call IsPlayerStandingOnWarpPadOrHole
 	ld a, b
@@ -50,7 +50,7 @@ EnterMapAnim: ; 70510 (1c:4510)
 	ld bc, (BANK(BirdSprite) << 8) + $0c
 	call CopyVideoData
 	call LoadBirdSpriteGraphics
-	ld a, (SFX_02_50 - SFX_Headers_02) / 3
+	ld a, RBSFX_02_50
 	call PlaySound
 	ld hl, wFlyAnimUsingCoordList
 	xor a ; is using coord list
@@ -99,7 +99,7 @@ _LeaveMapAnim: ; 705ba (1c:45ba)
 	dec a
 	jp nz, LeaveMapThroughHoleAnim
 .spinWhileMovingUp
-	ld a, (SFX_02_4b - SFX_Headers_02) / 3
+	ld a, RBSFX_02_4b
 	call PlaySound
 	ld hl, wPlayerSpinWhileMovingUpOrDownAnimDeltaY
 	ld a, -$10
@@ -146,7 +146,7 @@ _LeaveMapAnim: ; 705ba (1c:45ba)
 	ld [hli], a ; wFlyAnimCounter
 	ld [hl], $c ; wFlyAnimBirdSpriteImageIndex
 	call DoFlyAnimation
-	ld a, (SFX_02_50 - SFX_Headers_02) / 3
+	ld a, RBSFX_02_50
 	call PlaySound
 	ld hl, wFlyAnimUsingCoordList
 	xor a ; is using coord list

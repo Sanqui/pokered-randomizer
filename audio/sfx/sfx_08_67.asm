@@ -1,5 +1,5 @@
 SFX_08_67_Ch1: ; 20624 (8:4624)
-	duty 2
+	dutycycle 2
 	unknownsfx0x20 15, 63, 192, 7
 
 SFX_08_67_branch_2062a:

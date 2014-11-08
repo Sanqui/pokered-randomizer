@@ -35,7 +35,7 @@ FoundHiddenItemText: ; 7675b (1d:675b)
 	ld c, a
 	ld b, $1
 	predef FlagActionPredef
-	ld a, (SFX_02_3b - SFX_Headers_02) / 3
+	ld a, RBSFX_02_3b
 	call PlaySoundWaitForCurrent ; play sound
 	call WaitForSoundToFinish ; wait for sound to finish playing
 	jp TextScriptEnd

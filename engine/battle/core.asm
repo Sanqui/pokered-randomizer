@@ -350,7 +350,7 @@ EnemyRan: ; 3c202 (f:4202)
 	ld hl, EnemyRanText
 .printText
 	call PrintText
-	ld a, (SFX_08_44 - SFX_Headers_08) / 3
+	ld a, RBSFX_08_44
 	call PlaySoundWaitForCurrent
 	xor a
 	ld [H_WHOSETURN], a
@@ -857,13 +857,13 @@ FaintEnemyPokemon ; 0x3c567
 	xor a
 	ld [wc0f1], a
 	ld [wc0f2], a
-	ld a, (SFX_08_48 - SFX_Headers_08) / 3 ; SFX_FALL?
+	ld a, RBSFX_08_48 ; SFX_FALL?
 	call PlaySoundWaitForCurrent
 .sfxwait
 	ld a, [wc02a]
-	cp (SFX_08_48 - SFX_Headers_08) / 3
+	cp RBSFX_08_48
 	jr z, .sfxwait
-	ld a, (SFX_08_43 - SFX_Headers_08) / 3 ; SFX_DROP
+	ld a, RBSFX_08_43 ; SFX_DROP
 	call PlaySound
 	call WaitForSoundToFinish
 	jr .sfxplayed
@@ -941,7 +941,7 @@ EnemyMonFaintedText: ; 0x3c63e
 
 Func_3c643: ; 3c643 (f:4643)
 	xor a
-	ld [wd083], a
+	ld [wDanger], a
 	ld [wc02a], a
 	inc a
 	ld [wccf6], a
@@ -1036,7 +1036,7 @@ PlayBattleVictoryMusic: ; 3c6ee (f:46ee)
 	ld a, $ff
 	ld [wc0ee], a
 	call PlaySoundWaitForCurrent
-	ld c, BANK(Music_DefeatedTrainer)
+	ld c, 0 ; BANK(Music_DefeatedTrainer)
 	pop af
 	call PlayMusic
 	jp Delay3
@@ -1083,11 +1083,11 @@ RemoveFaintedPlayerMon: ; 3c741 (f:4741)
 	predef FlagActionPredef ; clear gain exp flag for fainted mon
 	ld hl, W_ENEMYBATTSTATUS1
 	res 2, [hl]   ; reset "attacking multiple times" flag
-	ld a, [wd083]
+	ld a, [wDanger]
 	bit 7, a      ; skip sound flag (red bar (?))
 	jr z, .skipWaitForSound
 	ld a, $ff
-	ld [wd083], a
+	ld [wDanger], a
 	call WaitForSoundToFinish
 .skipWaitForSound
 	ld hl, wcd05
@@ -1667,7 +1667,7 @@ TryRunningFromBattle: ; 3cab9 (f:4ab9)
 	dec a
 .playSound
 	ld [wBattleResult], a
-	ld a, (SFX_08_44 - SFX_Headers_08) / 3
+	ld a, RBSFX_08_44
 	call PlaySoundWaitForCurrent
 	ld hl, GotAwayText
 	call PrintText
@@ -1926,7 +1926,7 @@ DrawPlayerHUDAndHPBar: ; 3cd60 (f:4d60)
 	cp $2
 	jr z, .asm_3cde6
 .asm_3cdd9
-	ld hl, wd083
+	ld hl, wDanger
 	bit 7, [hl]
 	ld [hl], $0
 	ret z
@@ -1934,7 +1934,7 @@ DrawPlayerHUDAndHPBar: ; 3cd60 (f:4d60)
 	ld [wc02a], a
 	ret
 .asm_3cde6
-	ld hl, wd083
+	ld hl, wDanger
 	set 7, [hl]
 	ret
 

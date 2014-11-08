@@ -26,7 +26,7 @@ LoadShootingStarGraphics: ; 70000 (1c:4000)
 
 AnimateShootingStar: ; 70044 (1c:4044)
 	call LoadShootingStarGraphics
-	ld a, (SFX_1f_67 - SFX_Headers_1f) / 3
+	ld a, RBSFX_1f_67
 	call PlaySound
 	ld hl, wOAMBuffer
 	ld bc, $a004

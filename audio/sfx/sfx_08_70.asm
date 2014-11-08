@@ -1,5 +1,5 @@
 SFX_08_70_Ch1: ; 207fa (8:47fa)
-	duty 2
+	dutycycle 2
 	unknownsfx0x10 247
 	unknownsfx0x20 8, 196, 189, 7
 	unknownsfx0x20 8, 196, 190, 7
@@ -12,7 +12,7 @@ SFX_08_70_Ch1: ; 207fa (8:47fa)
 
 
 SFX_08_70_Ch2: ; 20819 (8:4819)
-	duty 2
+	dutycycle 2
 	unknownsfx0x20 8, 196, 112, 7
 	unknownsfx0x20 8, 196, 97, 7
 	unknownsfx0x20 8, 196, 98, 7

@@ -1,5 +1,5 @@
 SFX_08_42_Ch1: ; 2043d (8:443d)
-	duty 2
+	dutycycle 2
 	unknownsfx0x10 22
 	unknownsfx0x20 15, 242, 0, 4
 	unknownsfx0x10 8

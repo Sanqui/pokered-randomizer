@@ -1,5 +1,5 @@
 SFX_08_16_Ch1: ; 20db4 (8:4db4)
-	duty 0
+	dutycycle 0
 	unknownsfx0x20 8, 245, 128, 4
 	unknownsfx0x20 2, 225, 224, 5
 	unknownsfx0x20 8, 209, 220, 5

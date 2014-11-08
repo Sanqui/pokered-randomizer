@@ -1,6 +1,6 @@
 ActivatePC: ; 17e2c (5:7e2c)
 	call SaveScreenTilesToBuffer2  ;XXX: copy background from wTileMap to wTileMapBackup2
-	ld a, (SFX_02_45 - SFX_Headers_02) / 3
+	ld a, RBSFX_02_45
 	call PlaySound  ;XXX: play sound or stop music
 	ld hl, TurnedOnPC1Text
 	call PrintText
@@ -51,7 +51,7 @@ PCMainMenu: ; 17e48 (5:7e48)
 	ld hl, wFlags_0xcd60
 	res 5, [hl]
 	set 3, [hl]
-	ld a, (SFX_02_47 - SFX_Headers_02) / 3
+	ld a, RBSFX_02_47
 	call PlaySound  ;XXX: play sound or stop music
 	call WaitForSoundToFinish  ;XXX: wait for sound to be done
 	ld hl, AccessedMyPCText
@@ -59,19 +59,19 @@ PCMainMenu: ; 17e48 (5:7e48)
 	callba PlayerPC
 	jr ReloadMainMenu
 OaksPC: ; 17ec0 (5:7ec0)
-	ld a, (SFX_02_47 - SFX_Headers_02) / 3
+	ld a, RBSFX_02_47
 	call PlaySound  ;XXX: play sound or stop music
 	call WaitForSoundToFinish  ;XXX: wait for sound to be done
 	callba OpenOaksPC
 	jr ReloadMainMenu
 PKMNLeague: ; 17ed2 (5:7ed2)
-	ld a, (SFX_02_47 - SFX_Headers_02) / 3
+	ld a, RBSFX_02_47
 	call PlaySound  ;XXX: play sound or stop music
 	call WaitForSoundToFinish  ;XXX: wait for sound to be done
 	callba PKMNLeaguePC
 	jr ReloadMainMenu
 BillsPC: ; 17ee4 (5:7ee4)
-	ld a, (SFX_02_47 - SFX_Headers_02) / 3
+	ld a, RBSFX_02_47
 	call PlaySound    ;XXX: play sound or stop music
 	call WaitForSoundToFinish    ;XXX: wait for sound to be done
 	ld a, [wd7f1] ;has to do with having met Bill
@@ -91,7 +91,7 @@ ReloadMainMenu: ; 17f06 (5:7f06)
 	call UpdateSprites  ;XXX: moves sprites
 	jp PCMainMenu
 LogOff: ; 17f13 (5:7f13)
-	ld a, (SFX_02_46 - SFX_Headers_02) / 3
+	ld a, RBSFX_02_46
 	call PlaySound  ;XXX: play sound or stop music
 	call WaitForSoundToFinish  ;XXX: wait for sound to be done
 	ld hl, wFlags_0xcd60

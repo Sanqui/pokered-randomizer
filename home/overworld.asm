@@ -674,10 +674,10 @@ PlayMapChangeSound:: ; 08c9 (0:08c9)
 	aCoord 8, 8 ; upper left tile of the 4x4 square the player's sprite is standing on
 	cp a,$0b ; door tile in tileset 0
 	jr nz,.didNotGoThroughDoor
-	ld a,(SFX_02_57 - SFX_Headers_02) / 3
+	ld a,RBSFX_02_57
 	jr .playSound
 .didNotGoThroughDoor
-	ld a,(SFX_02_5c - SFX_Headers_02) / 3
+	ld a,RBSFX_02_5c
 .playSound
 	call PlaySound
 	ld a,[wMapPalOffset]
@@ -754,15 +754,25 @@ HandleBlackOut::
 	jp SpecialEnterMap
 
 StopMusic::
-	ld [wMusicHeaderPointer], a
-	ld a, $ff
-	ld [wc0ee], a
-	call PlaySound
-.wait
-	ld a, [wMusicHeaderPointer]
-	and a
-	jr nz, .wait
-	jp StopAllSounds
+    xor a
+	ld [MusicFadeID], a
+	ld a, 1
+	ld [MusicFade], a
+.wait0
+    ld a, [MusicFadeCount]
+    and a
+    jr z, .wait0
+.wait1
+    ld a, [MusicFadeCount]
+    and a
+    jr nz, .wait1
+    ret
+	;call PlayMusic ; PlaySound
+;.wait
+;	ld a, [wMusicHeaderPointer]
+;	and a
+;	jr nz, .wait
+	;jp StopAllSounds
 
 HandleFlyWarpOrDungeonWarp::
 	call UpdateSprites
@@ -1226,10 +1236,16 @@ CollisionCheckOnLand:: ; 0bd1 (0:0bd1)
 	call CheckTilePassable
 	jr nc,.noCollision
 .collision
-	ld a,[wc02a]
-	cp a,(SFX_02_5b - SFX_Headers_02) / 3 ; check if collision sound is already playing
-	jr z,.setCarry
-	ld a,(SFX_02_5b - SFX_Headers_02) / 3
+	;ld a,[CurSFX]
+	;cp a,RBSFX_02_5b ; check if collision sound is already playing
+	; curSFX is not cleared for some reason.
+	
+    ; ch5 on?
+    ld hl, Channel5 + Channel1Flags - Channel1
+    bit 0, [hl]
+    
+	jr nz,.setCarry
+	ld a,RBSFX_02_5b
 	call PlaySound ; play collision sound (if it's not already playing)
 .setCarry
 	scf
@@ -1930,9 +1946,9 @@ CollisionCheckOnWater:: ; 0fb7 (0:0fb7)
 	jr .loop
 .collision
 	ld a,[wc02a]
-	cp a,(SFX_02_5b - SFX_Headers_02) / 3 ; check if collision sound is already playing
+	cp a,RBSFX_02_5b ; check if collision sound is already playing
 	jr z,.setCarry
-	ld a,(SFX_02_5b - SFX_Headers_02) / 3
+	ld a,RBSFX_02_5b
 	call PlaySound ; play collision sound (if it's not already playing)
 .setCarry
 	scf

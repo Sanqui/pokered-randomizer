@@ -33,7 +33,7 @@ AnimateHallOfFame: ; 701a0 (1c:41a0)
 .asm_701eb
 	ld a, $90
 	ld [hWY], a
-	ld c, BANK(Music_HallOfFame)
+	ld c, 0 ; BANK(Music_HallOfFame)
 	ld a, MUSIC_HALL_OF_FAME
 	call PlayMusic
 	ld hl, wPartySpecies

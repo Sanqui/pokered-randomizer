@@ -1,4 +1,7 @@
 AnimateHealingMachine: ; 70433 (1c:4433)
+	xor a
+	call PlayMusic
+	
 	ld de, PokeCenterFlashingMonitorAndHealBall ; $44b7
 	ld hl, vChars0 + $7c0
 	ld bc, (BANK(PokeCenterFlashingMonitorAndHealBall) << 8) + $03
@@ -15,20 +18,13 @@ AnimateHealingMachine: ; 70433 (1c:4433)
 	ld hl, wOAMBuffer + $84
 	ld de, PokeCenterOAMData ; $44d7
 	call Func_70503
-	ld a, $4
-	ld [wMusicHeaderPointer], a
-	ld a, $ff
-	ld [wc0ee], a
-	call PlaySound
-.asm_70464
-	ld a, [wMusicHeaderPointer]
-	and a
-	jr nz, .asm_70464
+	
+	
 	ld a, [wPartyCount] ; wPartyCount
 	ld b, a
 .asm_7046e
 	call Func_70503
-	ld a, (SFX_02_4a - SFX_Headers_02) / 3
+	ld a, RBSFX_02_4a
 	call PlaySound
 	ld c, $1e
 	call DelayFrames
@@ -41,18 +37,23 @@ AnimateHealingMachine: ; 70433 (1c:4433)
 	ld a, $ff
 	ld [wc0ee], a
 	call PlaySound
-	ld a, BANK(Music_PkmnHealed)
+	ld a, 0 ; BANK(Music_PkmnHealed)
 	ld [wc0ef], a
 .asm_70495
 	ld a, MUSIC_PKMN_HEALED
 	ld [wc0ee], a
-	call PlaySound
+	call PlayMusic
 	ld d, $28
 	call Func_704f3
-.asm_704a2
-	ld a, [wc026]
-	cp MUSIC_PKMN_HEALED
-	jr z, .asm_704a2
+	
+.loop
+	ld a, [Channel1MusicID]
+	and a
+	jr nz, .loop
+	
+	ld a, MUSIC_POKECENTER
+	call PlayMusic
+	
 	ld c, $20
 	call DelayFrames
 	pop af
@@ -60,6 +61,8 @@ AnimateHealingMachine: ; 70433 (1c:4433)
 	pop hl
 	pop af
 	ld [hl], a
+	
+	
 	jp UpdateSprites
 
 PokeCenterFlashingMonitorAndHealBall: ; 704b7 (1c:44b7)

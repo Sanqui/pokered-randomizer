@@ -156,7 +156,7 @@ DayCareMScript_562e1: ; 562e1 (15:62e1)
 	ld de, wPlayerMoney + 2
 	ld c, $3
 	predef SubBCDPredef
-	ld a, (SFX_02_5a - SFX_Headers_02) / 3
+	ld a, RBSFX_02_5a
 	call PlaySoundWaitForCurrent
 	ld a, $13
 	ld [wd125], a

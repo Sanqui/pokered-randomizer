@@ -1,5 +1,5 @@
 SFX_08_64_Ch1: ; 205ec (8:45ec)
-	duty 1
+	dutycycle 1
 	unknownsfx0x10 151
 	unknownsfx0x20 15, 242, 0, 7
 	unknownsfx0x10 8

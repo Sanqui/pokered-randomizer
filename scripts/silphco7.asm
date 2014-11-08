@@ -132,7 +132,7 @@ SilphCo7Script0: ; 51c23 (14:5c23)
 	ld a, $ff
 	ld [wc0ee], a
 	call PlaySound
-	ld c, BANK(Music_MeetRival)
+	ld c, 0 ; BANK(Music_MeetRival)
 	ld a, MUSIC_MEET_RIVAL
 	call PlayMusic
 	ld a, $9

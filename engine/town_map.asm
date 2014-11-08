@@ -70,7 +70,7 @@ Func_70e92: ; 70e92 (1c:4e92)
 	ld b, a
 	and $c3
 	jr z, .asm_70ec8
-	ld a, (SFX_02_3c - SFX_Headers_02) / 3
+	ld a, RBSFX_02_3c
 	call PlaySound
 	bit 6, b
 	jr nz, .asm_70ef2
@@ -195,7 +195,7 @@ LoadTownMap_Fly: ; 70f90 (1c:4f90)
 	jr z, .asm_71004
 	bit 0, b
 	jr nz, .asm_71026
-	ld a, (SFX_02_3c - SFX_Headers_02) / 3
+	ld a, RBSFX_02_3c
 	call PlaySound
 	bit 6, b
 	jr nz, .asm_71042
@@ -203,7 +203,7 @@ LoadTownMap_Fly: ; 70f90 (1c:4f90)
 	jr nz, .asm_71058
 	jr .asm_71037
 .asm_71026
-	ld a, (SFX_02_3e - SFX_Headers_02) / 3
+	ld a, RBSFX_02_3e
 	call PlaySound
 	ld a, [hl]
 	ld [wDestinationMap], a

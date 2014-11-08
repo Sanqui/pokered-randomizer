@@ -32,7 +32,7 @@ PalletTownScript0: ; 18e81 (6:4e81)
 	ld [wd528],a
 	ld a,$FF
 	call PlaySound ; stop music
-	ld a, BANK(Music_MeetProfOak)
+	ld a, 0;0 ; BANK(Music_MeetProfOak)
 	ld c,a ; song bank
 	ld a, MUSIC_MEET_PROF_OAK ; “oak appears” music
 	call PlayMusic ; plays music

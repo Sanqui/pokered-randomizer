@@ -172,7 +172,7 @@ DisplayPokemartDialogue_: ; 6c20 (1:6c20)
 	ld a,$01
 	ld [wcf0a],a
 .skipSettingFlag2
-	ld a,(SFX_02_5a - SFX_Headers_02) / 3
+	ld a,RBSFX_02_5a
 	call PlaySoundWaitForCurrent
 	call WaitForSoundToFinish
 	ld hl,PokemartBoughtItemText

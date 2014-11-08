@@ -25,6 +25,7 @@
 
 # swap files for vim
 .*.swp
+*~
 
 # no data from extras/
 *.json

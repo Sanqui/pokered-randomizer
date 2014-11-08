@@ -97,7 +97,7 @@ rLCDC_DEFAULT EQU %11100011
 
 	predef LoadSGB
 
-	ld a, BANK(SFX_1f_67)
+	ld a, 0 ; BANK(SFX_1f_67)
 	ld [wc0ef], a
 	ld [wc0f0], a
 	ld a, $9c
@@ -125,7 +125,14 @@ ClearVram:
 
 
 StopAllSounds::
-	ld a, BANK(Music2_UpdateMusic)
+    call OpenSRAMForSound
+    ld hl, MusicPlaying
+	ld bc, (wChannelSelectorSwitches+8) - Crysaudio
+	call FillMemory
+    
+    
+    
+	ld a, 0 ; BANK(Music2_UpdateMusic)
 	ld [wc0ef], a
 	ld [wc0f0], a
 	xor a

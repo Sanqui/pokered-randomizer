@@ -145,6 +145,16 @@ dbw: MACRO
 	dw \2
 	ENDM
 
+bigdw: MACRO ; big-endian word
+        dw ((\1)/$100) + (((\1)&$ff)*$100)
+        ENDM
+
+dt: MACRO ; three-byte (big-endian)
+        db (\1 >> 16) & $ff
+        db (\1 >> 8) & $ff
+        db \1 & $ff
+        ENDM
+
 ; data format macros
 RGB: MACRO
 	dw (\3 << 10 | \2 << 5 | \1)

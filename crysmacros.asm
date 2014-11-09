@@ -4,15 +4,7 @@
 
 
 
-dt: MACRO ; three-byte (big-endian)
-	db (\1 >> 16) & $ff
-	db (\1 >> 8) & $ff
-	db \1 & $ff
-	ENDM
 
-bigdw: MACRO ; big-endian word
-	dw ((\1)/$100) + (((\1)&$ff)*$100)
-	ENDM
 
 lb: MACRO ; r, hi, lo
 	ld \1, \2 << 8 + \3

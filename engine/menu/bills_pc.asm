@@ -226,9 +226,11 @@ BillsPCDeposit:
 	jp c, BillsPCMenu
 	call Func_2174b
 	jp nc, BillsPCMenu
+	call WaitForSoundToFinish
 	ld a, [wcf91]
-	call GetCryData
-	call PlaySoundWaitForCurrent
+	call PlayCry
+	;call GetCryData
+	;call PlaySoundWaitForCurrent
 	ld a, $1
 	ld [wcf95], a
 	call Func_3a68
@@ -278,9 +280,9 @@ Func_21618: ; 21618 (8:5618)
 	ld a, [wWhichPokemon] ; wWhichPokemon
 	ld hl, wBoxMonNicks
 	call GetPartyMonName
+	call WaitForSoundToFinish
 	ld a, [wcf91]
-	call GetCryData
-	call PlaySoundWaitForCurrent
+	call PlayCry
 	xor a
 	ld [wcf95], a
 	call Func_3a68

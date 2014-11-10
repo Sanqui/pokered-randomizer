@@ -67,15 +67,20 @@ Func_2385:
 
 ; plays <s>music</s>SFX specified by a. If value is $ff, music is stopped
 PlaySound:: ; 23b1 (0:23b1)
+    push de
     cp $ff
     jr nz, .notff
     xor a
-    jp PlayMusic
+    call PlayMusic
+    pop de
+    ret
 .notff
     ld e, a
     xor a
     ld d, a
-    jp PlaySFX
+    call PlaySFX
+    pop de
+    ret
 
 OpenSRAMForSound::
 	ld a, SRAM_ENABLE

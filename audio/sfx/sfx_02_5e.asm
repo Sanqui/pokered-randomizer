@@ -1,4 +1,5 @@
 SFX_02_5e_Ch1: ; 83ca (2:43ca)
+	togglesfx
 	vibrato 16, (1<<4) + 4
 	notetype 12, (1<<4) + 0
 	octave 5

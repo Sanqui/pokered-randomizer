@@ -53,7 +53,7 @@ asm_2324:: ; 2324 (0:2324)
 	ld [wc0ee], a
 	
 	ld [MusicFadeID], a
-	ld a, 1
+	ld a, 8
 	ld [MusicFade], a
 	;call FadeMusic ; called in updatemusic
 	ret

@@ -1722,11 +1722,8 @@ PlayedFluteHadEffectText: ; e215 (3:6215)
 	call PlaySound ; turn off music
 	ld a, RBSFX_02_5e
 	ld c, 0;BANK(SFX_02_5e)
-	call PlayMusic ; play music
-.musicWaitLoop ; wait for music to finish playing
-	ld a,[wc028]
-	cp a,$b8
-	jr z,.musicWaitLoop
+	call PlaySound ; play music
+    call WaitForSoundToFinish
 	call PlayDefaultMusic ; start playing normal music again
 .done
 	jp TextScriptEnd ; end text

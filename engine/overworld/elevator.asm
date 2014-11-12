@@ -20,7 +20,7 @@ ShakeElevator: ; 7bf15 (1e:7f15)
 	push bc
 	ld c, 0;BANK(SFX_02_5b)
 	ld a, RBSFX_02_5b
-	call PlayMusic
+	call PlaySound
 	pop bc
 	ld c, $2
 	call DelayFrames
@@ -32,7 +32,7 @@ ShakeElevator: ; 7bf15 (1e:7f15)
 	call PlaySound
 	ld c, 0;BANK(SFX_02_5f)
 	ld a, RBSFX_02_5f
-	call PlayMusic
+	call PlaySound
 .asm_7bf57
 	ld a, [wc02a]
 	cp $b9

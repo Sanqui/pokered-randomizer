@@ -30,7 +30,7 @@ DisplayPokemonCenterDialogue_: ; 6fe6 (1:6fe6)
 	ld a, [wd35b]
 	ld [wcfca], a
 	ld [wc0ee], a
-	call PlaySound
+	call PlayMusic
 	ld hl, PokemonFightingFitText
 	call PrintText
 	ld a, $14

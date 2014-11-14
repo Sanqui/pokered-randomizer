@@ -2479,7 +2479,7 @@ SetLRTracks: ; e8b1b
 
 _PlayMusic:: ; e8b30
     ld a, e
-    cp 45
+    cp 46
     ret nc ; sfx
 ; load music
 	call MusicOff

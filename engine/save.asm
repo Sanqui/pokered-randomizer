@@ -605,6 +605,9 @@ SAVCheckRandomID: ;$7ad1
 ;checks if Sav file is the same by checking player's name 1st letter ($a598)
 ; and the two random numbers generated at game beginning
 ;(which are stored at wPlayerID)
+	ld a, 1
+	ld [wHaltAudio], a
+	
 	ld a,$0a
 	ld [$0000],a
 	ld a,$01
@@ -633,6 +636,9 @@ SAVCheckRandomID: ;$7ad1
 	ld a,$00
 	ld [MBC1SRamBankingMode],a
 	ld [$0000],a
+	
+	xor a
+	ld [wHaltAudio], a
 	ret
 
 SaveHallOfFameTeams: ; 73b0d (1c:7b0d)

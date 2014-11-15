@@ -3569,6 +3569,7 @@ PrintLetterDelay:: ; 38d3 (0:38d3)
 	ld a,[wd358]
 	bit 1,a
 	ret z
+		
 	push hl
 	push de
 	push bc
@@ -3592,7 +3593,7 @@ PrintLetterDelay:: ; 38d3 (0:38d3)
 .checkBButton
 	bit 1,a ; is the B button pressed?
 	jr z,.buttonsNotPressed
-.endWait
+.endWait	
 	call DelayFrame
 	jr .done
 .buttonsNotPressed ; if neither A nor B is pressed
@@ -3600,6 +3601,9 @@ PrintLetterDelay:: ; 38d3 (0:38d3)
 	and a
 	jr nz,.checkButtons
 .done
+	ld a, TRANSFERBOTTOM
+	ld [H_AUTOBGTRANSFERPORTION], a
+	
 	pop bc
 	pop de
 	pop hl

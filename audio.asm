@@ -561,6 +561,7 @@ PlayBattleMusic:: ; 0x90c6
 	xor a
 	ld [wMusicHeaderPointer], a
 	ld [wd083], a
+	ld [MusicFade], a
 	dec a
 	ld [wc0ee], a
 	call PlayMusic ; stop music

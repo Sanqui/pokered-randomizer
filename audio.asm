@@ -189,6 +189,7 @@ _PlayAnimSoundShim::
     ret
 .not_found
     ld b, b
+    ld d,0
     ret
 
 SECTION "Sound Effect Headers 1", ROMX, BANK[AUDIO_1]

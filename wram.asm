@@ -120,9 +120,10 @@ wc0ee:: ds 1
 wc0ef:: ds 1
 wc0f0:: ds 1
 wc0f1:: ds 1
-wc0f2:: ds 13 ;14
+wc0f2:: ds 12 ;14
 
 wHaltAudio:: ds 1
+wSFXDontWait:: ds 1
 
 SECTION "Sprite State Data", WRAM0[$c100]
 

@@ -3241,6 +3241,9 @@ WaitSFX:: ; 3c55
     ld a, [Danger]
     and a
     ret nz
+    ld a, [wSFXDontWait]
+    and a
+    ret nz
         push hl
 
 .loop

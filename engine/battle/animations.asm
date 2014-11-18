@@ -200,7 +200,7 @@ PlayAnimation: ; 780f1 (1e:40f1)
 	push hl
 	push de
 	call Func_7986f
-	call PlayAnimSoundShim
+	call nc, PlayAnimSoundShim
 	pop de
 	pop hl
 .skipPlayingSound
@@ -552,7 +552,7 @@ PlaySubanimation: ; 78e53 (1e:4e53)
 	cp a,$FF
 	jr z,.skipPlayingSound
 	call Func_7986f
-	call PlayAnimSoundShim ; play sound effect
+	call nc, PlayAnimSoundShim ; play sound effect
 .skipPlayingSound
 	ld hl,wOAMBuffer ; base address of OAM buffer
 	ld a,l
@@ -2283,24 +2283,34 @@ Func_7986f: ; 7986f (1e:586f)
 .next
 	ld a,[wEnemyMonSpecies]
 .Continue
-	push hl
-	call GetCryData
-	ld b,a
-	pop hl
-	ld a,[wc0f1]
-	add [hl]
-	ld [wc0f1],a
-	inc hl
-	ld a,[wc0f2]
-	add [hl]
-	ld [wc0f2],a
-	jr .done
+    push af
+    ld a, 1
+    ld [wSFXDontWait], a
+    pop af
+    call PlayCry
+    xor a
+    ld [wSFXDontWait], a
+    ld a, b
+    scf
+    ret
+	;push hl
+	;call GetCryData
+	;ld b,a
+	;pop hl
+	;ld a,[wc0f1]
+	;add [hl]
+	;ld [wc0f1],a
+	;inc hl
+	;ld a,[wc0f2]
+	;add [hl]
+	;ld [wc0f2],a
 .NotCryMove
 	ld a,[hli]
 	ld [wc0f1],a
 	ld a,[hli]
 	ld [wc0f2],a
 .done
+    xor a ; just in case c got set somewhere
 	ld a,b
 	ret
 

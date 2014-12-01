@@ -450,3 +450,8 @@ WEST_MAP_CONNECTION: MACRO
 	db (\2 * 2) - 1 ; x alignment
 	dw wOverworldMap + 6 + (2 * \2) ; window (position of the upper left block after entring the map)
 ENDM
+
+inc_section: MACRO
+    SECTION \1, ROMX
+    include \1
+ENDM

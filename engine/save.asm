@@ -59,17 +59,17 @@ LoadSAVCheckSum: ; 73623 (1c:7623)
 	call CopyData
 	ld hl, $a5a3
 	ld de, wPokedexOwned
-	ld bc, $789
+	ld bc, W_NUMINBOX-wPokedexOwned
 	call CopyData
 	ld hl, W_CURMAPTILESET
 	set 7, [hl]
-	ld hl, $ad2c
+	ld hl, $ad2c+26
 	ld de, wSpriteStateData1
 	ld bc, $200
 	call CopyData
 	ld a, [$b522]
 	ld [hTilesetType], a
-	ld hl, $b0c0
+	ld hl, $b0c0+26
 	ld de, W_NUMINBOX
 	ld bc, wBoxMonNicksEnd - W_NUMINBOX
 	call CopyData
@@ -207,11 +207,11 @@ SaveSAVtoSRAM0: ; 7378c (1c:778c)
 	ld bc, W_NUMINBOX - wPokedexOwned
 	call CopyData
 	ld hl, wSpriteStateData1
-	ld de, $ad2c
+	ld de, $ad2c+26
 	ld bc, $200
 	call CopyData
 	ld hl, W_NUMINBOX
-	ld de, $b0c0
+	ld de, $b0c0+26
 	ld bc, wBoxMonNicksEnd - W_NUMINBOX
 	call CopyData
 	ld a, [hTilesetType]

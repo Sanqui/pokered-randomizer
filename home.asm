@@ -735,6 +735,24 @@ UncompressMonSprite:: ; 1627 (0:1627)
 ; $74 ≤ index < $99, bank $C
 ; $99 ≤ index,       bank $D
 	;ld a,[wcf91] ; XXX name for this ram location
+	ld a,[wcf91]
+	ld b, a
+	cp FOSSIL_KABUTOPS
+	jr nz, .next0
+	ld a, BANK(FossilKabutopsPic)
+	jr .GotBank
+.next0
+    ld a, b
+	cp FOSSIL_AERODACTYL
+	jr nz, .next1
+	ld a, BANK(FossilAerodactylPic)
+	jr .GotBank
+.next1
+	cp MON_GHOST
+	jr nz, .next2
+	ld a, BANK(GhostPic)
+	jr .GotBank
+.next2
 	ld a, [W_MONSPRITEBANK]
 .GotBank
 	jp UncompressSpriteData

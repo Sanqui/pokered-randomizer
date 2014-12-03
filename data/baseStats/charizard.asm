@@ -30,4 +30,4 @@ IF DEF(_YELLOW)
 ELSE
 	db %00100110
 ENDC
-db 0 ; padding
+db BANK(CharizardPicFront)

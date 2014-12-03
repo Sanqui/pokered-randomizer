@@ -82,19 +82,6 @@ HideSprites::
 
 INCLUDE "home/copy.asm"
 
-UncompressMonSpriteAdvice::
-	cp MEW ; 2
-	ld a,BANK(MewPicFront) ; 2
-	jp z, UncompressSpriteData
-	ld a, b
-	cp MON_GHOST
-	ld a,BANK(GhostPic) ; 2
-	jp z, UncompressSpriteData
-	ld a, [$d0d3]
-	and a
-	jp z, UncompressMonSpritePointcut
-	jp UncompressSpriteData
-
 
 SECTION "Entry", ROM0 [$100]
 
@@ -741,38 +728,8 @@ UncompressMonSprite:: ; 1627 (0:1627)
 ; $4A ≤ index < $74, bank $B
 ; $74 ≤ index < $99, bank $C
 ; $99 ≤ index,       bank $D
-	ld a,[wcf91] ; XXX name for this ram location
-	ld b,a
-    jp UncompressMonSpriteAdvice
-    nop
-    nop
-    nop
-    ;cp MEW ; 2
-    ;ld a,BANK(MewPicFront) ; 2
-    ;jr z,.GotBank ; 2
-UncompressMonSpritePointcut::
-
-	ld a,b
-	cp FOSSIL_KABUTOPS
-	ld a,BANK(FossilKabutopsPic)
-	jr z,.GotBank
-	ld a,b
-	cp TANGELA + 1
-	ld a,BANK(TangelaPicFront)
-	jr c,.GotBank
-	ld a,b
-	cp MOLTRES + 1
-	ld a,BANK(MoltresPicFront)
-	jr c,.GotBank
-	ld a,b
-	cp BEEDRILL + 2
-	ld a,BANK(BeedrillPicFront)
-	jr c,.GotBank
-	ld a,b
-	cp STARMIE + 1
-	ld a,BANK(StarmiePicFront)
-	jr c,.GotBank
-	ld a,BANK(VictreebelPicFront)
+	;ld a,[wcf91] ; XXX name for this ram location
+	ld a, [W_MONSPRITEBANK]
 .GotBank
 	jp UncompressSpriteData
 

@@ -25,14 +25,14 @@ MainMenu: ; 5af2 (1:5af2)
 	ld hl,wd72e
 	res 6,[hl]
 	call ClearScreen
+	call GoPAL_SET_CF1C
+	call LoadTextBoxTilePatterns
+	call LoadFontTilePatterns
 	
 	hlCoord 0, 8
 	ld de, TitleScreenText
 	call PlaceString ; show randomizer options
 	
-	call GoPAL_SET_CF1C
-	call LoadTextBoxTilePatterns
-	call LoadFontTilePatterns
 	ld hl,wd730
 	set 6,[hl]
 	ld a,[wd088]

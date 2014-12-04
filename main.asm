@@ -6653,23 +6653,35 @@ BeachHouse_Block:
 	INCBIN "gfx/blocksets/beachhouse.bst"
 ENDC
 
+SECTION "bank34",ROMX,BANK[$34]
+SpriteBank1::
+    ds $4000
+SECTION "bank35",ROMX,BANK[$35]
+SpriteBank2::
+    ds $4000
+SECTION "bank36",ROMX,BANK[$36]
+SpriteBank3::
+    ds $4000
+SECTION "bank37",ROMX,BANK[$37]
+SpriteBank4::
+    ds $4000
 SECTION "bank38",ROMX,BANK[$38]
-SpriteBank1:
+SpriteBank5::
     ds $4000
 SECTION "bank39",ROMX,BANK[$39]
-SpriteBank2:
+SpriteBank6::
     ds $4000
 SECTION "bank3a",ROMX,BANK[$3A]
-SpriteBank3:
+SpriteBank7::
     ds $4000
 SECTION "bank3b",ROMX,BANK[$3b]
-SpriteBank4:
+SpriteBank8::
     ds $4000
 SECTION "bank3e",ROMX,BANK[$3e]
-SpriteBank5:
+SpriteBank9::
     ds $4000
 SECTION "bank3f",ROMX,BANK[$3f]
-SpriteBank6:
+SpriteBank10::
     ds $4000
 
     inc_section "engine/menu/debug_menu.asm"

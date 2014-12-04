@@ -22,6 +22,14 @@ DebugMenu:
 	call PrintDebugMenuItem
 	ld de,DebugMenuItem2
 	call PrintDebugMenuItem
+	ld de,DebugMenuItem3
+	call PrintDebugMenuItem
+	ld de,DebugMenuItem4
+	call PrintDebugMenuItem
+	ld de,DebugMenuItem5
+	call PrintDebugMenuItem
+	ld de,DebugMenuItem6
+	call PrintDebugMenuItem
 	ld hl,wd730
 	res 6,[hl] ; turn pauses between printing letters back on
 	
@@ -73,6 +81,12 @@ DebugMenu:
 	
 	cp a, 1
 	jp z, DebugMenuFly
+	
+	cp a, 2
+	jp z, DebugMenu251
+	
+	cp a, 3
+	jp z, DebugMenuMasterB
 
 CloseDebugMenu:: 
     ret
@@ -91,12 +105,13 @@ PrintDebugMenuItem: ; 71bb (1:71bb)
 	add hl,de
 	ret
 
-DebugMenuItem0:
-    db "WTW@"
-DebugMenuItem1:
-    db "FLY@"
-DebugMenuItem2:
-    db "LV.100@"
+DebugMenuItem0: db "WTW@"
+DebugMenuItem1: db "FLY@"
+DebugMenuItem2: db "Wild 251@"
+DebugMenuItem3: db "MasterB@"
+DebugMenuItem4: db "-@"
+DebugMenuItem5: db "-@"
+DebugMenuItem6: db "-@"
 
 DebugMenuWTW:
     ld a, 1
@@ -109,4 +124,25 @@ DebugMenuFly:
     ld [hli], a
     ld [hl], a
     call ChooseFlyDestination
+    ret
+
+DebugMenu251:
+    ld hl, wd72d
+    res 4, [hl]
+    ld hl, wd72e
+    res 4, [hl]
+    ld a, 251
+    ld [W_CUROPPONENT], a
+    ld a, 5
+    ld [W_CURENEMYLVL], a
+    ret
+
+DebugMenuMasterB:
+    ld hl, wNumBagItems
+    inc [hl]
+    inc hl
+    ld a, 1
+    ld [hli], a
+    ld a, 99
+    ld [hl], a
     ret

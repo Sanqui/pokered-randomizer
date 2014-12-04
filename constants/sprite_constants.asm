@@ -88,6 +88,8 @@ SPRITE_LYING_OLD_MAN             EQU $48
 ITEM    EQU $80
 TRAINER EQU $40
 
+OW_POKEMON EQU $80
+
 BOULDER_MOVEMENT_BYTE_2 EQU $10
 
 ; sprite facing directions

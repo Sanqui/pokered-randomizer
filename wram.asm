@@ -120,10 +120,11 @@ wc0ee:: ds 1
 wc0ef:: ds 1
 wc0f0:: ds 1
 wc0f1:: ds 1
-wc0f2:: ds 12 ;14
+wc0f2:: ds 11 ;14
 
 wHaltAudio:: ds 1
 wSFXDontWait:: ds 1
+wIsTrainerBattle:: ds 1
 
 SECTION "Sprite State Data", WRAM0[$c100]
 
@@ -2031,6 +2032,16 @@ W_GRASSRATE:: ; d887
 W_GRASSMONS:: ; d888
 	ds 20
 
+; Overload W_GRASSMONS
+wd893:: ds 3
+wd896:: ds 3
+
+; Overload enemy party data
+W_WATERRATE:: ds 1
+W_WATERMONS:: ds 20
+
+; Overload enemy stat modifiers
+wTradeMonNick:: ds 11
 
 wEnemyPartyCount:: ds 1     ; d89c
 wEnemyPartyMons::  ds PARTY_LENGTH + 1 ; d89d
@@ -2099,21 +2110,7 @@ wBoxMonOT::    ds 11 * MONS_PER_BOX ; dd2a
 wBoxMonNicks:: ds 11 * MONS_PER_BOX ; de06
 wBoxMonNicksEnd:: ; dee2
 
-SECTION "Splash", WRAMX, BANK[1]
-wVWFLetterNum:: ds 1
-wVWFChar:: ds 1
-wVWFTileLoc:: ds 2
-wVWFFirstTileNum:: ds 1
-wVWFCurTileNum:: ds 1
-wVWFCurTileCol:: ds 1
-wVWFNumTilesUsed:: ds 1
-wVWFCharWidth:: ds 1
-
-wVWFBuildArea0:: ds 8
-wVWFBuildArea1:: ds 8
-wVWFBuildArea2:: ds 8
-wVWFBuildArea3:: ds 8
-wVWFCopyArea:: ds $10
+SECTION "Empty", WRAMX, BANK[1]
 
 
 SECTION "Stack", WRAMX[$dfff], BANK[1]

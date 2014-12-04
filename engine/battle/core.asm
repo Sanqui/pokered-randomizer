@@ -1021,6 +1021,8 @@ TrainerBattleVictory: ; 3c696 (f:4696)
 	ld de, wPlayerMoney + 2
 	ld hl, wd07b
 	ld c, $3
+    xor a
+    ld [wIsTrainerBattle], a
 	predef_jump AddBCDPredef
 
 MoneyForWinningText: ; 3c6e4 (f:46e4)
@@ -1198,6 +1200,8 @@ ChooseNextMon: ; 3c7d8 (f:47d8)
 ; called when player is out of usable mons.
 ; prints approriate lose message, sets carry flag if player blacked out (special case for initial rival fight)
 HandlePlayerBlackOut: ; 3c837 (f:4837)
+	xor a
+	ld [wIsTrainerBattle], a
 	ld a, [W_ISLINKBATTLE]
 	cp $4
 	jr z, .notSony1Battle
@@ -6769,9 +6773,11 @@ asm_3ef3d: ; 3ef3d (f:6f3d)
 	push af
 	res 1, [hl]
 	callab Func_525af
-	ld a, [wEnemyMonSpecies2]
-	sub $c8
-	jp c, InitWildBattle
+	ld a, [wIsTrainerBattle]
+	and a
+	jp z, InitWildBattle
+    ld a, [wEnemyMonSpecies2]
+    sub $c8
 	ld [W_TRAINERCLASS], a
 	call GetTrainerInformation
 	callab ReadTrainer

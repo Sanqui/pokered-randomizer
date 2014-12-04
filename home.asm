@@ -2381,9 +2381,8 @@ EndTrainerBattle:: ; 3275 (0:3275)
 	ld c, a
 	ld b, $1
 	call TrainerFlagAction   ; flag trainer as fought
-	ld a, [W_ENEMYMONORTRAINERCLASS]
-	cp $c8
-	jr nc, .skipRemoveSprite    ; test if trainer was fought (in that case skip removing the corresponding sprite)
+	ld a, [wIsTrainerBattle]
+	jr nz, .skipRemoveSprite    ; test if trainer was fought (in that case skip removing the corresponding sprite)
 	ld hl, W_MISSABLEOBJECTLIST
 	ld de, $2
 	ld a, [wSpriteIndex]
@@ -2393,6 +2392,8 @@ EndTrainerBattle:: ; 3275 (0:3275)
 	ld [wcc4d], a               ; load corresponding missable object index and remove it
 	predef HideObject
 .skipRemoveSprite
+    xor a
+    ld [wIsTrainerBattle], a
 	ld hl, wd730
 	bit 4, [hl]
 	res 4, [hl]
@@ -2418,9 +2419,10 @@ InitBattleEnemyParameters:: ; 32d7 (0:32d7)
 	ld a, [wEngagedTrainerClass]
 	ld [W_CUROPPONENT], a ; wd059
 	ld [W_ENEMYMONORTRAINERCLASS], a
-	cp $c8
+	ld a, [wIsTrainerBattle]
+	and a
+	jr z, .noTrainer
 	ld a, [wEngagedTrainerSet] ; wcd2e
-	jr c, .noTrainer
 	ld [W_TRAINERNO], a ; wd05d
 	ret
 .noTrainer
@@ -2519,6 +2521,14 @@ EngageMapTrainer:: ; 336a (0:336a)
 	ld a, [hli]    ; load trainer class
 	ld [wEngagedTrainerClass], a
 	ld a, [hl]     ; load trainer mon set
+	bit 7, a
+	jr nz, .pokemon
+	ld [wEnemyMonAttackMod], a ; wcd2e
+	ld a, 1
+	ld [wIsTrainerBattle], a
+	jp PlayTrainerMusic
+.pokemon
+	and $7F
 	ld [wEnemyMonAttackMod], a ; wcd2e
 	jp PlayTrainerMusic
 

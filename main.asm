@@ -69,7 +69,6 @@ ResetStatusAndHalveMoneyOnBlackout::
 
 MewPicFront:: INCBIN "pic/bmon/mew.pic"
 MewPicBack::  INCBIN "pic/monback/mewb.pic"
-INCLUDE "data/baseStats/mew.asm"
 
 INCLUDE "engine/battle/safari_zone.asm"
 
@@ -5452,10 +5451,11 @@ TradingAnimationGraphics2:
 ; Pokeball traveling through the link cable.
 	INCBIN "gfx/trade2.2bpp"
 
-INCLUDE "engine/evos_moves.asm"
 INCLUDE "engine/battle/e_2.asm"
 
-INCLUDE "data/evos_moves.asm"
+SECTION "Evos Moves",ROMX
+INCLUDE "engine/evos_moves.asm"
+ds $400
 
 SECTION "bankF",ROMX,BANK[$F]
 

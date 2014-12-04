@@ -148,3 +148,5 @@ INCLUDE "data/baseStats/dratini.asm"
 INCLUDE "data/baseStats/dragonair.asm"
 INCLUDE "data/baseStats/dragonite.asm"
 INCLUDE "data/baseStats/mewtwo.asm"
+INCLUDE "data/baseStats/mew.asm"
+    ds (IvysaurBaseStats - BulbasaurBaseStats) * (NUM_POKEMON + -151)

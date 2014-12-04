@@ -497,4 +497,4 @@ WriteMonMoves_ShiftMoveData: ; 3b04e (e:704e)
 Evolution_FlagAction: ; 3b057 (e:7057)
 	predef_jump FlagActionPredef
 
-;INCLUDE "data/evos_moves.asm"
+INCLUDE "data/evos_moves.asm"

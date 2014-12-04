@@ -1084,7 +1084,7 @@ DrawStartMenu: ; 710b (1:710b)
 	ld c,$08
 .drawTextBoxBorder
 	call TextBoxBorder
-	ld a,%11001011 ; bit mask for down, up, start, B, and A buttons
+	ld a,%11001111 ; bit mask for down, up, start, B, and A buttons
 	ld [wMenuWatchedKeys],a
 	ld a,$02
 	ld [wTopMenuItemY],a ; Y position of first menu choice
@@ -6671,3 +6671,5 @@ SpriteBank5:
 SECTION "bank3f",ROMX,BANK[$3f]
 SpriteBank6:
     ds $4000
+
+    inc_section "engine/menu/debug_menu.asm"

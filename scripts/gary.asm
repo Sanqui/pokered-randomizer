@@ -82,6 +82,8 @@ GaryScript2: ; 75f6a (1d:5f6a)
 	ld a, $3
 .done
 	ld [W_TRAINERNO], a
+	ld a, 1
+	ld [wIsTrainerBattle], a
 
 	xor a
 	ld [hJoyHeld], a

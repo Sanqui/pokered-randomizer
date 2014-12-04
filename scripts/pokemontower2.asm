@@ -149,6 +149,8 @@ PokemonTower2Text1: ; 605df (18:45df)
 	ld a, $6
 .done
 	ld [W_TRAINERNO], a
+	ld a, 1
+	ld [wIsTrainerBattle], a
 
 	ld a, $1
 	ld [W_POKEMONTOWER2CURSCRIPT], a

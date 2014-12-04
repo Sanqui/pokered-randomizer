@@ -33,6 +33,8 @@ Route22Script_50ed6: ; 50ed6 (14:4ed6)
 .asm_50ee1
 	ld a, [hl]
 	ld [W_TRAINERNO], a ; wd05d
+	ld a, 1
+	ld [wIsTrainerBattle], a
 	ret
 
 Route22MoveRivalSprite: ; 50ee6 (14:4ee6)

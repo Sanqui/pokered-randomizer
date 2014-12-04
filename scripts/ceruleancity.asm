@@ -152,6 +152,8 @@ CeruleanCityScript1: ; 19567 (6:5567)
 	ld a, $9
 .done
 	ld [W_TRAINERNO], a
+	ld a, 1
+	ld [wIsTrainerBattle], a
 
 	xor a
 	ld [hJoyHeld], a

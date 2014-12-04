@@ -110,6 +110,8 @@ SSAnne2Script1: ; 61430 (18:5430)
 	ld a, $3
 .done
 	ld [W_TRAINERNO], a
+	ld a, 1
+	ld [wIsTrainerBattle], a
 
 	call SSAnne2Script_61416
 	ld a, $2

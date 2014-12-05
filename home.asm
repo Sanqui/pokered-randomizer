@@ -3265,11 +3265,14 @@ GetName:: ; 376b (0:376b)
 	ld a,[wd0b5]
 	ld [wd11e],a
 
+    ld a, [W_LISTTYPE]
+    cp 3 ; item names
+    jr nz, .notitem
 	; TM names are separate from item names.
-	; BUG: This applies to all names instead of just items.
 	cp HM_01
 	jp nc, GetMachineName
-
+.notitem
+    
 	ld a,[H_LOADEDROMBANK]
 	push af
 	push hl

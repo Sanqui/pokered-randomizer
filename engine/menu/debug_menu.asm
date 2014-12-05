@@ -87,6 +87,9 @@ DebugMenu:
 	
 	cp a, 3
 	jp z, DebugMenuMasterB
+	
+	cp a, 4
+	jp z, DebugMenuDex
 
 CloseDebugMenu:: 
     ret
@@ -109,7 +112,7 @@ DebugMenuItem0: db "WTW@"
 DebugMenuItem1: db "FLY@"
 DebugMenuItem2: db "Wild 251@"
 DebugMenuItem3: db "MasterB@"
-DebugMenuItem4: db "-@"
+DebugMenuItem4: db "DEX@"
 DebugMenuItem5: db "-@"
 DebugMenuItem6: db "-@"
 
@@ -145,4 +148,20 @@ DebugMenuMasterB:
     ld [hli], a
     ld a, 99
     ld [hl], a
+    ret
+
+DebugMenuDex:
+	ld a,[wd74b]
+	set 5, a
+	ld a, $ff
+	ld bc, 512/8
+	ld hl, wPokedexOwned
+	call FillMemory
+	
+	predef ShowPokedexMenu
+	call LoadScreenTilesFromBuffer2 ; restore saved screen
+	call Delay3
+	call LoadGBPal
+	call UpdateSprites
+	
     ret

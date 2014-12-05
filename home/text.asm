@@ -633,7 +633,9 @@ TextCommandSounds:: ; 1c64 (0:1c64)
 	db $10,RBSFX_02_3b
 	db $11,RBSFX_02_42
 	db $13,RBSFX_02_44
-	db $14,NIDORINA ; used in OakSpeech
+	db $14
+TextCommandSoundsIntroMon::
+	db NIDORINA ; used in OakSpeech
 	db $15,PIDGEOT  ; used in SaffronCityText12
 	db $16,DEWGONG  ; unused?
 

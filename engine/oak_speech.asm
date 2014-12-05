@@ -31,6 +31,9 @@ SetDefaultNames: ; 60ca (1:60ca)
 	ld bc, $b
 	jp CopyData
 
+OakSpeechPokemon:
+    db NIDORINO
+
 OakSpeech: ; 6115 (1:6115)
 	ld a,$FF
 	call PlaySound ; stop music
@@ -64,7 +67,7 @@ OakSpeech: ; 6115 (1:6115)
 	call PrintText      ; prints text box
 	call GBFadeOutToWhite
 	call ClearScreen
-	ld a,NIDORINO
+	ld a,[OakSpeechPokemon]
 	ld [wd0b5],a    ; pic displayed is stored at this location
 	ld [wcf91],a
 	call GetMonHeader      ; this is also related to the pic

@@ -805,8 +805,9 @@ SECTION "Johto Wild Battle", ROMX
 	inc_section "crysaudio/music/goldsilveropening.asm"
 	inc_section "crysaudio/music/goldsilveropening2.asm"
 	inc_section "crysaudio/music/lookhiker.asm"
-	inc_section "crysaudio/music/lookrocket.asm"
-	inc_section "crysaudio/music/rockettheme.asm"
+SECTION "Johto Rocket Themes", ROMX
+	INCLUDE "crysaudio/music/lookrocket.asm"
+	INCLUDE "crysaudio/music/rockettheme.asm"
 	inc_section "crysaudio/music/mainmenu.asm"
 	inc_section "crysaudio/music/lookkimonogirl.asm"
 	inc_section "crysaudio/music/pokeflutechannel.asm"

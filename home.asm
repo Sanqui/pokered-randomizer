@@ -2426,6 +2426,7 @@ InitBattleEnemyParameters:: ; 32d7 (0:32d7)
 	ld [W_TRAINERNO], a ; wd05d
 	ret
 .noTrainer
+	ld a, [wEngagedTrainerSet] ; wcd2e
 	ld [W_CURENEMYLVL], a ; W_CURENEMYLVL
 	ret
 

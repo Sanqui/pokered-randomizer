@@ -918,6 +918,7 @@ SECTION "DPPt Songs 1", ROMX
 	inc_section "crysaudio/music/DPPt/sinnohwild.asm"
 	inc_section "crysaudio/music/DPPt/route206.asm"
 	inc_section "crysaudio/music/DPPt/jubilifecity.asm"
+	inc_section "crysaudio/music/DPPt/frontierbrain.asm"
 
 SECTION "TCG Songs 1", ROMX
 	inc_section "crysaudio/music/TCG/titlescreen.asm"

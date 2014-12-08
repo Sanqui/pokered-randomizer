@@ -87,3 +87,4 @@ TypeEffects: ; 3e474 (f:6474)
 	db ICE,DRAGON,20
 	db DRAGON,DRAGON,20
 	db $FF
+    ds 3*50

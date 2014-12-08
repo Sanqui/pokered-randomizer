@@ -3248,13 +3248,13 @@ WaitSFX:: ; 3c55
 
 
 NamePointers:: ; 375d (0:375d)
-	dw MonsterNames
-	dw MoveNames
-	dw UnusedNames
-	dw ItemNames
-	dw wPartyMonOT ; player's OT names list
-	dw wEnemyMonOT ; enemy's OT names list
-	dw TrainerNames
+	dw MonsterNames ; 1
+	dw MoveNames ; 2
+	dw UnusedNames ; 3
+	dw ItemNames ; 4
+	dw wPartyMonOT ; 5 - player's OT names list
+	dw wEnemyMonOT ; 6 - enemy's OT names list
+	dw TrainerNames ; 7
 
 GetName:: ; 376b (0:376b)
 ; arguments:
@@ -3267,8 +3267,9 @@ GetName:: ; 376b (0:376b)
 	ld [wd11e],a
 
     ld a, [W_LISTTYPE]
-    cp 3 ; item names
+    cp 4 ; item names
     jr nz, .notitem
+	ld a, [wd11e]
 	; TM names are separate from item names.
 	cp HM_01
 	jp nc, GetMachineName

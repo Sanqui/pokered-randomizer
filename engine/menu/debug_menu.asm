@@ -1,4 +1,6 @@
 DebugMenu:
+    ld hl, $fff6
+    set 1, [hl] ; one spaced
 	hlCoord 0, 0
 	ld b,$0e
 	ld c,$08
@@ -33,6 +35,10 @@ DebugMenu:
 	ld hl,wd730
 	res 6,[hl] ; turn pauses between printing letters back on
 	
+	call DebugMenuLoop
+	jp CloseDebugMenu
+	
+DebugMenuLoop
 .loop
 	call HandleMenuInput
 	ld b,a
@@ -92,6 +98,13 @@ DebugMenu:
 	jp z, DebugMenuDex
 
 CloseDebugMenu:: 
+	xor a
+	ld [wCurrentMenuItem],a
+	ld [wLastMenuItem],a
+	ld [wcc37],a
+	
+    ld hl, $fff6
+    res 1, [hl] ; one spaced
     ret
 	;call Joypad
 	;ld a,[hJoyPressed]
@@ -104,7 +117,7 @@ PrintDebugMenuItem: ; 71bb (1:71bb)
 	push hl
 	call PlaceString
 	pop hl
-	ld de,$28
+	ld de,$28/2
 	add hl,de
 	ret
 

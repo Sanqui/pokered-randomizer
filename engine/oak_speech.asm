@@ -31,6 +31,8 @@ SetDefaultNames: ; 60ca (1:60ca)
 	ld bc, $b
 	jp CopyData
 
+BoxItem: db POTION
+
 OakSpeechPokemon:
     db NIDORINO
 
@@ -46,7 +48,7 @@ OakSpeech: ; 6115 (1:6115)
 	call SetDefaultNames
 	predef InitPlayerData2
 	ld hl,wNumBoxItems
-	ld a,POTION
+	ld a, [BoxItem]
 	ld [wcf91],a
 	ld a,1
 	ld [wcf96],a
@@ -59,8 +61,18 @@ OakSpeech: ; 6115 (1:6115)
 	ld a,[wd732]
 	bit 1,a ; XXX when is bit 1 set?
 	jp nz,Func_61bc ; easter egg: skip the intro
-	ld de,ProfOakPic
+	
+	;ld de,ProfOakPic
+	;ld bc, (Bank(ProfOakPic) << 8) | $00
+	ld a, PROF_OAK
+	ld [W_TRAINERCLASS], a
+	call GetTrainerInformation
+	ld hl, wd033
+	ld e, [hl]
+	inc hl
+	ld d, [hl]
 	ld bc, (Bank(ProfOakPic) << 8) | $00
+	
 	call IntroPredef3B   ; displays Oak pic?
 	call FadeInIntroPic
 	ld hl,OakSpeechText1

@@ -2383,6 +2383,10 @@ EndTrainerBattle:: ; 3275 (0:3275)
 	call TrainerFlagAction   ; flag trainer as fought
 	ld a, [wIsTrainerBattle]
 	jr nz, .skipRemoveSprite    ; test if trainer was fought (in that case skip removing the corresponding sprite)
+    ld a, [W_CURMAP]
+    cp POKEMONTOWER_7
+	jr z, .skipRemoveSprite ; the tower 7f scripts call EndTrainerBattle manually after
+	; wIsTrainerBattle has been unset.
 	ld hl, W_MISSABLEOBJECTLIST
 	ld de, $2
 	ld a, [wSpriteIndex]

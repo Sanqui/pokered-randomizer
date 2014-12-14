@@ -183,11 +183,7 @@ PlayMusic:: ; 3b97
 	pop af
 	ld [hROMBank], a
 	ld [$2000], a
-	pop af
-	pop bc
-	pop de
-	pop hl
-	ret
+	jr PopAllRet
 ; 3bbc
 
 
@@ -250,11 +246,7 @@ PlayCry:: ; 13d0 (0:13d0)
 	
 	call WaitForSoundToFinish
 	
-	pop af
-	pop bc
-	pop de
-	pop hl
-	ret
+	jr PopAllRet
 ; 3c23
 
 
@@ -291,6 +283,7 @@ PlaySFX_play
 	ld [hROMBank], a
 	ld [$2000], a ; bankswitch
 .quit
+PopAllRet:
 	pop af
 	pop bc
 	pop de

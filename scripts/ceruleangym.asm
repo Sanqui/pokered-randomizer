@@ -42,13 +42,16 @@ CeruleanGymScript3: ; 5c700 (17:4700)
 	ld a, $f0
 	ld [wJoyIgnore], a
 
+OWItemTM11: db TM_11
+
 CeruleanGymScript_5c70d: ; 5c70d (17:470d)
 	ld a, $5
 	ld [H_DOWNARROWBLINKCNT2], a ; $ff8c
 	call DisplayTextID
 	ld hl, wd75e
 	set 7, [hl]
-	ld bc, (TM_11 << 8) | 1
+	lda b, [OWItemTM11]
+	ld c, 1
 	call GiveItem
 	jr nc, .BagFull
 	ld a, $6

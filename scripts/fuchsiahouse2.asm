@@ -8,6 +8,8 @@ FuchsiaHouse2TextPointers: ; 750b8 (1d:50b8)
 	dw FuchsiaHouse2Text4
 	dw FuchsiaHouse2Text5
 
+OWItemHM04: db HM_04
+
 FuchsiaHouse2Text1: ; 750c2 (1d:50c2)
 	db $08 ; asm
 	ld a, [wd78e]
@@ -41,7 +43,8 @@ FuchsiaHouse2Text1: ; 750c2 (1d:50c2)
 .asm_60cba ; 0x75109
 	ld hl, WardenThankYouText
 	call PrintText
-	ld bc,(HM_04 << 8) | 1
+	lda b, [OWItemHM04]
+	ld c, 1
 	call GiveItem
 	jr nc, .BagFull
 	ld hl, ReceivedHM04Text

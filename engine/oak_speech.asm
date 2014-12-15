@@ -31,7 +31,7 @@ SetDefaultNames: ; 60ca (1:60ca)
 	ld bc, $b
 	jp CopyData
 
-BoxItem: db POTION
+OWItemBox: db POTION
 
 OakSpeechPokemon:
     db NIDORINO
@@ -48,7 +48,7 @@ OakSpeech: ; 6115 (1:6115)
 	call SetDefaultNames
 	predef InitPlayerData2
 	ld hl,wNumBoxItems
-	ld a, [BoxItem]
+	ld a, [OWItemBox]
 	ld [wcf91],a
 	ld a,1
 	ld [wcf96],a

@@ -128,6 +128,8 @@ CinnabarGymScript2: ; 757f6 (1d:57f6)
 	ld [W_CURMAPSCRIPT], a
 	ret
 
+OWItemTM38: db TM_38
+
 CinnabarGymScript3: ; 7584a (1d:584a)
 	ld a, [W_ISINBATTLE]
 	cp $ff
@@ -140,7 +142,8 @@ CinnabarGymScript3_75857: ; 75857 (1d:5857)
 	call DisplayTextID
 	ld hl, wd79a
 	set 1, [hl]
-	ld bc, (TM_38 << 8) | 1
+	lda b, [OWItemTM38]
+	ld c, 1
 	call GiveItem
 	jr nc, .BagFull
 	ld a, $b

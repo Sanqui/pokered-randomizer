@@ -234,6 +234,8 @@ ViridianCityText_19191: ; 19191 (6:5191)
 	TX_FAR _ViridianCityText_19191
 	db "@"
 
+OWItemTM42: db TM_42
+
 ViridianCityText6: ; 19196 (6:5196)
 	db $08 ; asm
 	ld a, [wd74c]
@@ -241,7 +243,8 @@ ViridianCityText6: ; 19196 (6:5196)
 	jr nz, .asm_4e5a0 ; 0x1919c
 	ld hl, ViridianCityText_191ca
 	call PrintText
-	ld bc, (TM_42 << 8) | 1
+	lda b, [OWItemTM42]
+	ld c, 1
 	call GiveItem
 	jr nc, .BagFull
 	ld hl, ReceivedTM42Text

@@ -455,3 +455,8 @@ inc_section: MACRO
     SECTION \1, ROMX
     include \1
 ENDM
+
+lda: MACRO
+    ld a, \2
+    ld \1, a
+ENDM

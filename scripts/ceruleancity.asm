@@ -267,6 +267,8 @@ CeruleanCityText_19677: ; 19677 (6:5677)
 	TX_FAR _CeruleanCityText_19677
 	db "@"
 
+OWItemTM28: db TM_28
+
 CeruleanCityText2: ; 1967c (6:567c)
 	db $8
 	ld a, [wd75b]
@@ -290,7 +292,8 @@ CeruleanCityText2: ; 1967c (6:567c)
 .asm_4ca20 ; 0x196ad
 	ld hl, CeruleanCityText_196f3
 	call PrintText
-	ld bc, (TM_28 << 8) + 1
+	lda b, [OWItemTM28]
+	ld c, 1
 	call GiveItem
 	jr c, .Success
 	ld hl, TM28NoRoomText

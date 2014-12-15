@@ -6,6 +6,8 @@ BikeShopTextPointers: ; 1d73f (7:573f)
 	dw BikeShopText2
 	dw BikeShopText3
 
+OWItemBicycle: db BICYCLE
+
 BikeShopText1: ; 1d745 (7:5745)
 	db $08 ; asm
 	ld a, [wd75f]
@@ -20,7 +22,8 @@ BikeShopText1: ; 1d745 (7:5745)
 	jr z, .asm_41190 ; 0x1d75b
 	ld hl, BikeShopText_1d81f
 	call PrintText
-	ld bc, (BICYCLE << 8) | 1
+	lda b, [OWItemBicycle]
+	ld c, 1
 	call GiveItem
 	jr nc, .BagFull
 	ld a, BIKE_VOUCHER

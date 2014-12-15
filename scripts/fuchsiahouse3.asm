@@ -4,6 +4,8 @@ FuchsiaHouse3Script: ; 5617c (15:617c)
 FuchsiaHouse3TextPointers: ; 5617f (15:617f)
 	dw FuchsiaHouse3Text1
 
+OWItemGoodRod: db GOOD_ROD
+
 FuchsiaHouse3Text1: ; 56181 (15:6181)
 	db $08 ; asm
 	ld a, [wd728]
@@ -18,7 +20,8 @@ FuchsiaHouse3Text1: ; 56181 (15:6181)
 	and a
 	jr nz, .refused
 
-	ld bc, (GOOD_ROD << 8) | 1
+	lda b, [OWItemGoodRod]
+	ld c, 1
 	call GiveItem
 	jr nc, .full
 

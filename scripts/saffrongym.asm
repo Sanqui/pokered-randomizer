@@ -42,13 +42,16 @@ SaffronGymScript3: ; 5d05b (17:505b)
 	ld a, $f0
 	ld [wJoyIgnore], a
 
+OWItemTM46: db TM_46
+
 SaffronGymText_5d068: ; 5d068 (17:5068)
 	ld a, $a
 	ld [H_DOWNARROWBLINKCNT2], a ; $ff8c
 	call DisplayTextID
 	ld hl, wd7b3
 	set 1, [hl]
-	ld bc, (TM_46 << 8) | 1
+	lda b, [OWItemTM46]
+	ld c, 1
 	call GiveItem
 	jr nc, .BagFull
 	ld a, $b

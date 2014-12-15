@@ -146,6 +146,8 @@ Route24TrainerHeader6: ; 51497 (14:5497)
 
 	db $ff
 
+OWItemNugget: db NUGGET
+
 Route24Text1: ; 514a4 (14:54a4)
 	db $8
 	ld hl, wd7f0
@@ -155,7 +157,8 @@ Route24Text1: ; 514a4 (14:54a4)
 	jr nz, .asm_a03f5 ; 0x514af $48
 	ld hl, Route24Text_51510
 	call PrintText
-	ld bc, (NUGGET << 8) | 1
+	lda b, [OWItemNugget]
+	ld c, 1
 	call GiveItem
 	jr nc, .BagFull
 	ld hl, wd7ef

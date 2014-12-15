@@ -20,6 +20,8 @@ CeladonMart3TextPointers: ; 48228 (12:4228)
 	dw CeladonMart3Text16
 	dw CeladonMart3Text17
 
+OWItemTM18: db TM_18
+
 CeladonMart3Text1: ; 4824a (12:424a)
 	db $08 ; asm
 	ld a, [wd778]
@@ -27,7 +29,8 @@ CeladonMart3Text1: ; 4824a (12:424a)
 	jr nz, .asm_a5463 ; 0x48250
 	ld hl, TM18PreReceiveText
 	call PrintText
-	ld bc, (TM_18 << 8) | 1
+	lda b, [OWItemTM18]
+	ld c, 1
 	call GiveItem
 	jr nc, .BagFull
 	ld hl, wd778

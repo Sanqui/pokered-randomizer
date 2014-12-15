@@ -301,6 +301,8 @@ SilphCo11TrainerHeader1: ; 622cf (18:62cf)
 
 	db $ff
 
+OWItemMasterBall: db MASTER_BALL
+
 SilphCo11Text1: ; 622dc (18:62dc)
 	db $08 ; asm
 	ld a, [wd838]
@@ -308,7 +310,8 @@ SilphCo11Text1: ; 622dc (18:62dc)
 	jp nz, .asm_62308
 	ld hl, SilphCoPresidentText
 	call PrintText
-	ld bc, (MASTER_BALL << 8) | 1
+	lda b, [OWItemMasterBall]
+	ld c, 1
 	call GiveItem
 	jr nc, .BagFull
 	ld hl, ReceivedSilphCoMasterBallText

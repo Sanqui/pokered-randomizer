@@ -6,6 +6,8 @@ Route1TextPointers: ; 1cab2 (7:4ab2)
 	dw Route1Text2
 	dw Route1Text3
 
+OWItemRoute1Potion: db POTION
+
 Route1Text1: ; 1cab8 (7:4ab8)
 	db $08 ; asm
 	ld hl, wd7bf
@@ -14,7 +16,8 @@ Route1Text1: ; 1cab8 (7:4ab8)
 	jr nz, .asm_02840 ; 0x1cac0
 	ld hl, Route1ViridianMartSampleText
 	call PrintText
-	ld bc, (POTION << 8) | 1
+	lda b, [OWItemRoute1Potion] 
+	ld c, 1
 	call GiveItem
 	jr nc, .BagFull
 	ld hl, Route1Text_1cae8 ; $4ae8

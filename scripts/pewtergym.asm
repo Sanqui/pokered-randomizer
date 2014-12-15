@@ -42,13 +42,16 @@ PewterGymScript3: ; 5c3d2 (17:43d2)
 	ld a, $f0
 	ld [wJoyIgnore], a
 
+OWItemTM34: db TM_34
+
 PewterGymScript_5c3df: ; 5c3df (17:43df)
 	ld a, $4
 	ld [H_DOWNARROWBLINKCNT2], a ; $ff8c
 	call DisplayTextID
 	ld hl, wd755
 	set 7, [hl]
-	ld bc, (TM_34 << 8) | 1
+	lda b, [OWItemTM34]
+	ld c, 1
 	call GiveItem
 	jr nc, .BagFull
 	ld a, $5

@@ -136,6 +136,8 @@ ViridianGymScript4: ; 7496b (1d:496b)
 	ld hl, LoadSpinnerArrowTiles
 	jp Bankswitch
 
+OWItemTM27: db TM_27
+
 ViridianGymScript3: ; 74988 (1d:4988)
 	ld a, [W_ISINBATTLE] ; W_ISINBATTLE
 	cp $ff
@@ -148,7 +150,8 @@ ViridianGymScript3_74995: ; 74995 (1d:4995)
 	call DisplayTextID
 	ld hl, wd751
 	set 1, [hl]
-	ld bc, (TM_27 << 8) | 1
+	lda b, [OWItemTM27]
+	ld c, 1
 	call GiveItem
 	jr nc, .BagFull
 	ld a, $d

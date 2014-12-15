@@ -42,13 +42,16 @@ CeladonGymScript3: ; 48956 (12:4956)
 	ld a, $f0
 	ld [wJoyIgnore], a
 
+OWItemTM21: db TM_21
+
 CeladonGymText_48963: ; 48963 (12:4963)
 	ld a, $9
 	ld [H_DOWNARROWBLINKCNT2], a ; $ff8c
 	call DisplayTextID
 	ld hl, wd77c
 	set 1, [hl]
-	ld bc, (TM_21 << 8) | 1
+	lda b, [OWItemTM21]
+	ld c, 1
 	call GiveItem
 	jr nc, .BagFull
 	ld a, $a

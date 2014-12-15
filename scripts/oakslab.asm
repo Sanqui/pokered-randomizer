@@ -940,6 +940,8 @@ OaksLabLastMonText: ; 1d243 (7:5243)
 	TX_FAR _OaksLabLastMonText
 	db "@"
 
+OWItemOakPokeBalls: db POKE_BALL
+
 OaksLabText32: ; 1d248 (7:5248)
 OaksLabText5: ; 1d248 (7:5248)
 	db $08 ; asm
@@ -1007,7 +1009,8 @@ OaksLabText5: ; 1d248 (7:5248)
 	bit 4, [hl]
 	set 4, [hl]
 	jr nz, .asm_17c30 ; 0x1d2d7
-	ld bc, (POKE_BALL << 8) | 5
+	lda b, [OWItemOakPokeBalls]
+	ld b, 5
 	call GiveItem
 	ld hl, OaksLabGivePokeballsText
 	call PrintText

@@ -147,6 +147,8 @@ BillsHouseText_1e86f: ; 1e86f (7:686f)
 	TX_FAR _BillsHouseText_1e86f ; 0x8d391
 	db "@"
 
+OWItemSSTicket: db S_S__TICKET
+
 BillsHouseText2: ; 1e874 (7:6874)
 	db $08 ; asm
 	ld a, [wd7f2]
@@ -154,7 +156,8 @@ BillsHouseText2: ; 1e874 (7:6874)
 	jr nz, .asm_5491f ; 0x1e87a
 	ld hl, BillThankYouText
 	call PrintText
-	ld bc, (S_S__TICKET << 8) | 1
+	lda b, [OWItemSSTicket]
+    ld c, 1
 	call GiveItem
 	jr nc, .BagFull
 	ld hl, SSTicketReceivedText

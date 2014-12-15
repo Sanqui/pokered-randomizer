@@ -43,6 +43,8 @@ CeladonCityText4: ; 19999 (6:5999)
 	TX_FAR _CeladonCityText4
 	db "@"
 
+OWItemTM41: db TM_41
+
 CeladonCityText5: ; 1999e (6:599e)
 	db $08 ; asm
 	ld a, [wd777]
@@ -50,7 +52,8 @@ CeladonCityText5: ; 1999e (6:599e)
 	jr nz, .asm_7053f ; 0x199a4
 	ld hl, TM41PreText
 	call PrintText
-	ld bc, (TM_41 << 8) | 1
+	lda b, [OWItemTM41]
+	ld c, 1
 	call GiveItem
 	jr c, .Success
 	ld hl, TM41NoRoomText

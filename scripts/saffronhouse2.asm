@@ -4,6 +4,8 @@ SaffronHouse2Script: ; 1de3c (7:5e3c)
 SaffronHouse2TextPointers: ; 1de3f (7:5e3f)
 	dw SaffronHouse2Text1
 
+OWItemTM29: db TM_29
+
 SaffronHouse2Text1: ; 1de41 (7:5e41)
 	db $08 ; asm
 	ld a, [wd7bd]
@@ -11,7 +13,8 @@ SaffronHouse2Text1: ; 1de41 (7:5e41)
 	jr nz, .asm_9e72b ; 0x1de47
 	ld hl, TM29PreReceiveText
 	call PrintText
-	ld bc,(TM_29 << 8) | 1
+	lda b, [OWItemTM29]
+	ld c, 1
 	call GiveItem
 	jr nc, .BagFull
 	ld hl, ReceivedTM29Text

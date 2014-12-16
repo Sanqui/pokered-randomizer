@@ -35,14 +35,14 @@ CeruleanGymScriptPointers: ; 5c6f8 (17:46f8)
 	dw EndTrainerBattle
 	dw CeruleanGymScript3
 
+OWItemTM11: db TM_11
+
 CeruleanGymScript3: ; 5c700 (17:4700)
 	ld a, [W_ISINBATTLE] ; W_ISINBATTLE
 	cp $ff
 	jp z, CeruleanGymScript_5c6ed
 	ld a, $f0
 	ld [wJoyIgnore], a
-
-OWItemTM11: db TM_11
 
 CeruleanGymScript_5c70d: ; 5c70d (17:470d)
 	ld a, $5

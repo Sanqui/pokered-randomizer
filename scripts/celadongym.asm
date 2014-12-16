@@ -35,14 +35,14 @@ CeladonGymScriptPointers: ; 4894e (12:494e)
 	dw EndTrainerBattle
 	dw CeladonGymScript3
 
+OWItemTM21: db TM_21
+
 CeladonGymScript3: ; 48956 (12:4956)
 	ld a, [W_ISINBATTLE] ; W_ISINBATTLE
 	cp $ff
 	jp z, CeladonGymText_48943
 	ld a, $f0
 	ld [wJoyIgnore], a
-
-OWItemTM21: db TM_21
 
 CeladonGymText_48963: ; 48963 (12:4963)
 	ld a, $9

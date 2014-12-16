@@ -35,14 +35,14 @@ SaffronGymScriptPointers: ; 5d053 (17:5053)
 	dw EndTrainerBattle
 	dw SaffronGymScript3
 
+OWItemTM46: db TM_46
+
 SaffronGymScript3: ; 5d05b (17:505b)
 	ld a, [W_ISINBATTLE] ; W_ISINBATTLE
 	cp $ff
 	jp z, SaffronGymText_5d048
 	ld a, $f0
 	ld [wJoyIgnore], a
-
-OWItemTM46: db TM_46
 
 SaffronGymText_5d068: ; 5d068 (17:5068)
 	ld a, $a

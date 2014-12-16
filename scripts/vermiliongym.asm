@@ -55,14 +55,14 @@ VermilionGymScriptPointers: ; 5ca95 (17:4a95)
 	dw EndTrainerBattle
 	dw VermilionGymScript3
 
+OWItemTM24: db TM_24
+
 VermilionGymScript3: ; 5ca9d (17:4a9d)
 	ld a, [W_ISINBATTLE] ; W_ISINBATTLE
 	cp $ff
 	jp z, VermilionGymScript_5ca8a
 	ld a, $f0
 	ld [wJoyIgnore], a
-
-OWItemTM24: db TM_24
 
 VermilionGymScript_5caaa: ; 5caaa (17:4aaa)
 	ld a, $6

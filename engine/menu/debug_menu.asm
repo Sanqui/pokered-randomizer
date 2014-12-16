@@ -96,6 +96,9 @@ DebugMenuLoop
 	
 	cp a, 4
 	jp z, DebugMenuDex
+	
+	cp a, 5
+	jp z, DebugMenuL100
 
 CloseDebugMenu:: 
 	xor a
@@ -126,7 +129,7 @@ DebugMenuItem1: db "FLY@"
 DebugMenuItem2: db "Wild 251@"
 DebugMenuItem3: db "MasterB@"
 DebugMenuItem4: db "DEX@"
-DebugMenuItem5: db "-@"
+DebugMenuItem5: db "L100@"
 DebugMenuItem6: db "-@"
 
 DebugMenuWTW:
@@ -178,3 +181,7 @@ DebugMenuDex:
 	call UpdateSprites
 	
     ret
+
+DebugMenuL100:
+    ld bc,(3 << 8) | 100
+    jp GivePokemon

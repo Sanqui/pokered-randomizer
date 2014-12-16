@@ -35,14 +35,14 @@ PewterGymScriptPointers: ; 5c3ca (17:43ca)
 	dw EndTrainerBattle
 	dw PewterGymScript3
 
+OWItemTM34: db TM_34
+
 PewterGymScript3: ; 5c3d2 (17:43d2)
 	ld a, [W_ISINBATTLE] ; W_ISINBATTLE
 	cp $ff
 	jp z, PewterGymScript_5c3bf
 	ld a, $f0
 	ld [wJoyIgnore], a
-
-OWItemTM34: db TM_34
 
 PewterGymScript_5c3df: ; 5c3df (17:43df)
 	ld a, $4

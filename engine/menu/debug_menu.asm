@@ -157,14 +157,10 @@ DebugMenu251:
     ret
 
 DebugMenuMasterB:
-    ld hl, wNumBagItems
-    inc [hl]
-    inc hl
-    ld a, 1
-    ld [hli], a
-    ld a, 99
-    ld [hl], a
-    ret
+    ld b, b
+    ld b, MASTER_BALL
+    ld c, 99
+    jp GiveItem
 
 DebugMenuDex:
 	ld a,[wd74b]
@@ -183,5 +179,5 @@ DebugMenuDex:
     ret
 
 DebugMenuL100:
-    ld bc,(3 << 8) | 100
+    ld bc,(151 << 8) | 100
     jp GivePokemon

@@ -153,6 +153,7 @@ Evolution_PartyMonLoop: ; loop over party mons
 	call DelayFrames
 	call ClearScreen
 	call RenameEvolvedMon
+	
 	ld a, [wd11e]
 	push af
 	ld a, [wd0b5]
@@ -164,7 +165,8 @@ Evolution_PartyMonLoop: ; loop over party mons
 	ld bc, $1c
 	call AddNTimes
 	ld de, W_MONHEADER
-	call CopyData
+	ld a, BANK(BaseStats)
+	call FarCopyData
 	ld a, [wd0b5]
 	ld [W_MONHDEXNUM], a
 	pop af

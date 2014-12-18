@@ -5,7 +5,6 @@ Music_NewBarkTown: ; eb2d3
 ; eb2dc
 
 
-INCBIN "baserom.gbc", $eb2dc, $eb2dd - $eb2dc
 
 
 Music_NewBarkTown_Ch1: ; eb2dd

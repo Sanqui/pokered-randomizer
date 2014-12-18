@@ -4,7 +4,6 @@ Music_PostCredits: ; cfd9e
 ; cfda4
 
 
-INCBIN "baserom.gbc", $cfda4, $cfda5 - $cfda4
 
 
 Music_PostCredits_Ch1: ; cfda5

@@ -5,7 +5,6 @@ Music_LookKimonoGirl: ; f79b8
 ; f79c1
 
 
-INCBIN "baserom.gbc", $f79c1, $f79c2 - $f79c1
 
 
 Music_LookKimonoGirl_Ch1: ; f79c2

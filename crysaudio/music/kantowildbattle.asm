@@ -5,7 +5,6 @@ Music_KantoWildBattle: ; ed06d
 ; ed076
 
 
-INCBIN "baserom.gbc", $ed076, $ed077 - $ed076
 
 
 Music_KantoWildBattle_Ch1: ; ed077

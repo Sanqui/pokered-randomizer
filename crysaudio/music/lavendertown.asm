@@ -5,7 +5,6 @@ Music_LavenderTown: ; ef72f
 ; ef738
 
 
-INCBIN "baserom.gbc", $ef738, $ef739 - $ef738
 
 
 Music_LavenderTown_Ch1: ; ef739

@@ -265,7 +265,6 @@ Music_UnionCave_branch_f5da9: ; f5da9
 ; f5dc1
 
 
-INCBIN "baserom.gbc", $f5dc1, $f5dc5 - $f5dc1
 
 
 

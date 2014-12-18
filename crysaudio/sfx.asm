@@ -1089,7 +1089,6 @@ Sfx_RegisterPhoneNumber_Ch5: ; f0dd3
 ; f0def
 
 
-INCBIN "baserom.gbc", $f0def, $f0df0 - $f0def
 
 
 Sfx_RegisterPhoneNumber_Ch6: ; f0df0
@@ -1116,7 +1115,6 @@ Sfx_RegisterPhoneNumber_Ch6: ; f0df0
 ; f0e07
 
 
-INCBIN "baserom.gbc", $f0e07, $f0e08 - $f0e07
 
 
 Sfx_RegisterPhoneNumber_Ch7: ; f0e08
@@ -1140,7 +1138,6 @@ Sfx_RegisterPhoneNumber_Ch7: ; f0e08
 ; f0e1b
 
 
-INCBIN "baserom.gbc", $f0e1b, $f0e1c - $f0e1b
 
 
 Sfx_RegisterPhoneNumber_Ch8: ; f0e1c
@@ -1154,7 +1151,6 @@ Sfx_RegisterPhoneNumber_Ch8: ; f0e1c
 ; f0e25
 
 
-INCBIN "baserom.gbc", $f0e25, $f0e26 - $f0e25
 
 
 Sfx_3RdPlace: ; f0e26
@@ -1182,7 +1178,6 @@ Sfx_3RdPlace_Ch5: ; f0e2f
 ; f0e44
 
 
-INCBIN "baserom.gbc", $f0e44, $f0e45 - $f0e44
 
 
 Sfx_3RdPlace_Ch6: ; f0e45
@@ -1202,7 +1197,6 @@ Sfx_3RdPlace_Ch6: ; f0e45
 ; f0e55
 
 
-INCBIN "baserom.gbc", $f0e55, $f0e56 - $f0e55
 
 
 Sfx_3RdPlace_Ch7: ; f0e56
@@ -1222,7 +1216,6 @@ Sfx_3RdPlace_Ch7: ; f0e56
 ; f0e65
 
 
-INCBIN "baserom.gbc", $f0e65, $f0e66 - $f0e65
 
 
 Sfx_GetEggFromDaycareLady: ; f0e66
@@ -1266,7 +1259,6 @@ Sfx_GetEggFromDaycareMan_Ch5: ; f0e72
 ; f0e9a
 
 
-INCBIN "baserom.gbc", $f0e9a, $f0e9b - $f0e9a
 
 
 Sfx_GetEggFromDaycareLady_Ch6: ; f0e9b
@@ -1299,7 +1291,6 @@ Sfx_GetEggFromDaycareMan_Ch6: ; f0e9b
 ; f0ebd
 
 
-INCBIN "baserom.gbc", $f0ebd, $f0ebe - $f0ebd
 
 
 Sfx_GetEggFromDaycareLady_Ch7: ; f0ebe
@@ -1322,7 +1313,6 @@ Sfx_GetEggFromDaycareMan_Ch7: ; f0ebe
 ; f0ecf
 
 
-INCBIN "baserom.gbc", $f0ecf, $f0ed0 - $f0ecf
 
 
 Sfx_GetEggFromDaycareLady_Ch8: ; f0ed0
@@ -1338,7 +1328,6 @@ Sfx_GetEggFromDaycareMan_Ch8: ; f0ed0
 ; f0edb
 
 
-INCBIN "baserom.gbc", $f0edb, $f0edc - $f0edb
 
 
 Sfx_MoveDeleted: ; f0edc
@@ -1378,7 +1367,6 @@ Sfx_MoveDeleted_Ch5: ; f0ee8
 ; f0f0c
 
 
-INCBIN "baserom.gbc", $f0f0c, $f0f0d - $f0f0c
 
 
 Sfx_MoveDeleted_Ch6: ; f0f0d
@@ -1417,7 +1405,6 @@ Sfx_MoveDeleted_Ch6: ; f0f0d
 ; f0f36
 
 
-INCBIN "baserom.gbc", $f0f36, $f0f37 - $f0f36
 
 
 Sfx_MoveDeleted_Ch7: ; f0f37
@@ -1447,7 +1434,6 @@ Sfx_MoveDeleted_Ch7: ; f0f37
 ; f0f52
 
 
-INCBIN "baserom.gbc", $f0f52, $f0f53 - $f0f52
 
 
 Sfx_MoveDeleted_Ch8: ; f0f53
@@ -1462,7 +1448,6 @@ Sfx_MoveDeleted_Ch8: ; f0f53
 ; f0f5d
 
 
-INCBIN "baserom.gbc", $f0f5d, $f0f5e - $f0f5d
 
 
 Sfx_2ndPlace: ; f0f5e
@@ -1506,7 +1491,6 @@ Sfx_2ndPlace_Ch5: ; f0f6a
 ; f0f91
 
 
-INCBIN "baserom.gbc", $f0f91, $f0f92 - $f0f91
 
 
 Sfx_2ndPlace_Ch6: ; f0f92
@@ -1533,7 +1517,6 @@ Sfx_2ndPlace_Ch6: ; f0f92
 ; f0fac
 
 
-INCBIN "baserom.gbc", $f0fac, $f0fad - $f0fac
 
 
 Sfx_2ndPlace_Ch7: ; f0fad
@@ -1574,7 +1557,6 @@ Sfx_2ndPlace_Ch7: ; f0fad
 ; f0fd1
 
 
-INCBIN "baserom.gbc", $f0fd1, $f0fd2 - $f0fd1
 
 
 Sfx_2ndPlace_Ch8: ; f0fd2
@@ -1592,7 +1574,6 @@ Sfx_2ndPlace_branch_f0fd7: ; f0fd7
 ; f0fe1
 
 
-INCBIN "baserom.gbc", $f0fe1, $f0fe2 - $f0fe1
 
 
 Sfx_1stPlace: ; f0fe2
@@ -1643,7 +1624,6 @@ Sfx_1stPlace_Ch5: ; f0fee
 ; f101f
 
 
-INCBIN "baserom.gbc", $f101f, $f1020 - $f101f
 
 
 Sfx_1stPlace_Ch6: ; f1020
@@ -1670,7 +1650,6 @@ Sfx_1stPlace_Ch6: ; f1020
 ; f103c
 
 
-INCBIN "baserom.gbc", $f103c, $f103d - $f103c
 
 
 Sfx_1stPlace_Ch7: ; f103d
@@ -1697,7 +1676,6 @@ Sfx_1stPlace_Ch7: ; f103d
 ; f1053
 
 
-INCBIN "baserom.gbc", $f1053, $f1054 - $f1053
 
 
 Sfx_1stPlace_Ch8: ; f1054
@@ -1721,7 +1699,6 @@ Sfx_1stPlace_Ch8: ; f1054
 ; f1068
 
 
-INCBIN "baserom.gbc", $f1068, $f1069 - $f1068
 
 
 Sfx_ChooseACard: ; f1069
@@ -1777,7 +1754,6 @@ Sfx_ChooseACard_Ch5: ; f1075
 ; f10a8
 
 
-INCBIN "baserom.gbc", $f10a8, $f10a9 - $f10a8
 
 
 Sfx_ChooseACard_Ch6: ; f10a9
@@ -1812,7 +1788,6 @@ Sfx_ChooseACard_Ch6: ; f10a9
 ; f10c8
 
 
-INCBIN "baserom.gbc", $f10c8, $f10c9 - $f10c8
 
 
 Sfx_ChooseACard_Ch7: ; f10c9
@@ -1851,7 +1826,6 @@ Sfx_ChooseACard_Ch7: ; f10c9
 ; f10eb
 
 
-INCBIN "baserom.gbc", $f10eb, $f10ec - $f10eb
 
 
 Sfx_ChooseACard_Ch8: ; f10ec
@@ -1879,7 +1853,6 @@ Sfx_ChooseACard_Ch8: ; f10ec
 ; f1103
 
 
-INCBIN "baserom.gbc", $f1103, $f1104 - $f1103
 
 
 Sfx_GetTm: ; f1104
@@ -1915,7 +1888,6 @@ Sfx_GetTm_Ch5: ; f1110
 ; f1130
 
 
-INCBIN "baserom.gbc", $f1130, $f1131 - $f1130
 
 
 Sfx_GetTm_Ch6: ; f1131
@@ -1941,7 +1913,6 @@ Sfx_GetTm_Ch6: ; f1131
 ; f114b
 
 
-INCBIN "baserom.gbc", $f114b, $f114c - $f114b
 
 
 Sfx_GetTm_Ch7: ; f114c
@@ -1975,7 +1946,6 @@ Sfx_GetTm_Ch7: ; f114c
 ; f1169
 
 
-INCBIN "baserom.gbc", $f1169, $f116a - $f1169
 
 
 Sfx_GetTm_Ch8: ; f116a
@@ -1998,7 +1968,6 @@ Sfx_GetTm_Ch8: ; f116a
 ; f117c
 
 
-INCBIN "baserom.gbc", $f117c, $f117d - $f117c
 
 
 Sfx_GetBadge: ; f117d
@@ -2029,7 +1998,6 @@ Sfx_GetBadge_Ch5: ; f1189
 ; f11a9
 
 
-INCBIN "baserom.gbc", $f11a9, $f11aa - $f11a9
 
 
 Sfx_GetBadge_branch_f11aa: ; f11aa
@@ -2104,7 +2072,6 @@ Sfx_GetBadge_Ch6: ; f11be
 ; f11f4
 
 
-INCBIN "baserom.gbc", $f11f4, $f11f5 - $f11f4
 
 
 Sfx_GetBadge_Ch7: ; f11f5
@@ -2146,7 +2113,6 @@ Sfx_GetBadge_Ch7: ; f11f5
 ; f121a
 
 
-INCBIN "baserom.gbc", $f121a, $f121b - $f121a
 
 
 Sfx_GetBadge_Ch8: ; f121b
@@ -2175,7 +2141,6 @@ Sfx_GetBadge_branch_f1220: ; f1220
 ; f1235
 
 
-INCBIN "baserom.gbc", $f1235, $f1236 - $f1235
 
 
 Sfx_QuitSlots: ; f1236
@@ -2217,7 +2182,6 @@ Sfx_QuitSlots_Ch5: ; f1242
 ; f1265
 
 
-INCBIN "baserom.gbc", $f1265, $f1266 - $f1265
 
 
 Sfx_QuitSlots_Ch6: ; f1266
@@ -2247,7 +2211,6 @@ Sfx_QuitSlots_Ch6: ; f1266
 ; f1282
 
 
-INCBIN "baserom.gbc", $f1282, $f1283 - $f1282
 
 
 Sfx_QuitSlots_Ch7: ; f1283
@@ -2281,7 +2244,6 @@ Sfx_QuitSlots_Ch7: ; f1283
 ; f12a0
 
 
-INCBIN "baserom.gbc", $f12a0, $f12a1 - $f12a0
 
 
 Sfx_QuitSlots_Ch8: ; f12a1
@@ -2304,7 +2266,6 @@ Sfx_QuitSlots_Ch8: ; f12a1
 ; f12b3
 
 
-INCBIN "baserom.gbc", $f12b3, $f12b4 - $f12b3
 
 
 Sfx_Protect: ; f12b4
@@ -3260,7 +3221,6 @@ Sfx_DexFanfareLessThan20_Ch5: ; f1884
 ; f189a
 
 
-INCBIN "baserom.gbc", $f189a, $f189b - $f189a
 
 
 Sfx_DexFanfareLessThan20_Ch6: ; f189b
@@ -3282,7 +3242,6 @@ Sfx_DexFanfareLessThan20_Ch6: ; f189b
 ; f18ac
 
 
-INCBIN "baserom.gbc", $f18ac, $f18ad - $f18ac
 
 
 Sfx_DexFanfareLessThan20_Ch7: ; f18ad
@@ -3313,7 +3272,6 @@ Sfx_DexFanfareLessThan20_Ch7: ; f18ad
 ; f18c7
 
 
-INCBIN "baserom.gbc", $f18c7, $f18c8 - $f18c7
 
 
 Sfx_DexFanfareLessThan20_Ch8: ; f18c8
@@ -3327,7 +3285,6 @@ Sfx_DexFanfareLessThan20_Ch8: ; f18c8
 ; f18d1
 
 
-INCBIN "baserom.gbc", $f18d1, $f18d2 - $f18d1
 
 
 Sfx_DexFanfare140169: ; f18d2
@@ -3366,7 +3323,6 @@ Sfx_DexFanfare140169_Ch5: ; f18de
 ; f1900
 
 
-INCBIN "baserom.gbc", $f1900, $f1901 - $f1900
 
 
 Sfx_DexFanfare140169_Ch6: ; f1901
@@ -3395,7 +3351,6 @@ Sfx_DexFanfare140169_Ch6: ; f1901
 ; f191d
 
 
-INCBIN "baserom.gbc", $f191d, $f191e - $f191d
 
 
 Sfx_DexFanfare140169_Ch7: ; f191e
@@ -3432,7 +3387,6 @@ Sfx_DexFanfare140169_Ch7: ; f191e
 ; f193e
 
 
-INCBIN "baserom.gbc", $f193e, $f193f - $f193e
 
 
 Sfx_DexFanfare140169_Ch8: ; f193f
@@ -3452,7 +3406,6 @@ Sfx_DexFanfare140169_branch_f1945: ; f1945
 ; f1950
 
 
-INCBIN "baserom.gbc", $f1950, $f1951 - $f1950
 
 
 Sfx_DexFanfare170199: ; f1951
@@ -3491,7 +3444,6 @@ Sfx_DexFanfare170199_Ch5: ; f195d
 ; f1981
 
 
-INCBIN "baserom.gbc", $f1981, $f1982 - $f1981
 
 
 Sfx_DexFanfare170199_Ch6: ; f1982
@@ -3522,7 +3474,6 @@ Sfx_DexFanfare170199_Ch6: ; f1982
 ; f19a2
 
 
-INCBIN "baserom.gbc", $f19a2, $f19a3 - $f19a2
 
 
 Sfx_DexFanfare170199_Ch7: ; f19a3
@@ -3553,7 +3504,6 @@ Sfx_DexFanfare170199_Ch7: ; f19a3
 ; f19bf
 
 
-INCBIN "baserom.gbc", $f19bf, $f19c0 - $f19bf
 
 
 Sfx_DexFanfare170199_Ch8: ; f19c0
@@ -3578,7 +3528,6 @@ Sfx_DexFanfare170199_Ch8: ; f19c0
 ; f19d5
 
 
-INCBIN "baserom.gbc", $f19d5, $f19d6 - $f19d5
 
 
 Sfx_DexFanfare200229: ; f19d6
@@ -3615,7 +3564,6 @@ Sfx_DexFanfare200229_Ch5: ; f19e2
 ; f1a03
 
 
-INCBIN "baserom.gbc", $f1a03, $f1a04 - $f1a03
 
 
 Sfx_DexFanfare200229_Ch6: ; f1a04
@@ -3641,7 +3589,6 @@ Sfx_DexFanfare200229_Ch6: ; f1a04
 ; f1a1e
 
 
-INCBIN "baserom.gbc", $f1a1e, $f1a1f - $f1a1e
 
 
 Sfx_DexFanfare200229_Ch7: ; f1a1f
@@ -3688,7 +3635,6 @@ Sfx_DexFanfare200229_Ch7: ; f1a1f
 ; f1a49
 
 
-INCBIN "baserom.gbc", $f1a49, $f1a4a - $f1a49
 
 
 Sfx_DexFanfare200229_Ch8: ; f1a4a
@@ -3720,7 +3666,6 @@ Sfx_DexFanfare200229_Ch8: ; f1a4a
 ; f1a65
 
 
-INCBIN "baserom.gbc", $f1a65, $f1a66 - $f1a65
 
 
 Sfx_DexFanfare230Plus: ; f1a66
@@ -3778,7 +3723,6 @@ Sfx_DexFanfare230Plus_Ch5: ; f1a72
 ; f1ab1
 
 
-INCBIN "baserom.gbc", $f1ab1, $f1ab2 - $f1ab1
 
 
 Sfx_DexFanfare230Plus_Ch6: ; f1ab2
@@ -3816,7 +3760,6 @@ Sfx_DexFanfare230Plus_Ch6: ; f1ab2
 ; f1ad9
 
 
-INCBIN "baserom.gbc", $f1ad9, $f1ada - $f1ad9
 
 
 Sfx_DexFanfare230Plus_Ch7: ; f1ada
@@ -3868,7 +3811,6 @@ Sfx_DexFanfare230Plus_Ch7: ; f1ada
 ; f1b0b
 
 
-INCBIN "baserom.gbc", $f1b0b, $f1b0c - $f1b0b
 
 
 Sfx_DexFanfare230Plus_Ch8: ; f1b0c
@@ -3907,7 +3849,6 @@ Sfx_DexFanfare230Plus_branch_f1b2b: ; f1b2b
 ; f1b32
 
 
-INCBIN "baserom.gbc", $f1b32, $f1b33 - $f1b32
 
 
 Sfx_NotVeryEffective: ; f1b33

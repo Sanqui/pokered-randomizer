@@ -641,6 +641,8 @@ OaksLabScript_1d00a: ; 1d00a (7:500a)
 	inc c
 	jr .asm_1d010 ; 0x1d01a $f4
 .GotParcel
+    ld a, 2
+    ld [W_VIRIDIANMARKETCURSCRIPT], a
 	ld hl, wNumBagItems
 	ld a, c
 	ld [wWhichPokemon], a

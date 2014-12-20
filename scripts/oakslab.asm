@@ -965,6 +965,10 @@ OaksLabText5: ; 1d248 (7:5248)
 	predef DisplayDexRating
 	jp .asm_0f042
 .asm_b28b0 ; 0x1d279
+	ld b, OAKS_PARCEL
+	call IsItemInBag
+	jr nz, .asm_a8fcf ; 0x1d2ae
+	
 	ld b,POKE_BALL
 	call IsItemInBag
 	jr nz, .asm_17c30 ; 0x1d27e

@@ -1018,7 +1018,7 @@ OaksLabText5: ; 1d248 (7:5248)
 	set 4, [hl]
 	jr nz, .asm_17c30 ; 0x1d2d7
 	lda b, [OWItemOakPokeBalls]
-	ld b, 5
+	ld c, 5
 	call GiveItem
 	ld hl, OaksLabGivePokeballsText
 	call PrintText

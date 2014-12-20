@@ -394,6 +394,8 @@ OaksLabScript11: ; 1cdb9 (7:4db9)
 	ret
 
 OaksLabScript12: ; 1ce03 (7:4e03)
+    xor a
+    ld [wIsTrainerBattle], a
 	ld a, $f0
 	ld [wJoyIgnore], a
 	ld a, $8

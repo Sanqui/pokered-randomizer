@@ -64,6 +64,8 @@ PokemonTower2Script1: ; 60563 (18:4563)
 	ld a, [W_ISINBATTLE]
 	cp $ff
 	jp z, PokemonTower2Script_604fe
+    xor a
+    ld [wIsTrainerBattle], a
 	ld a, $f0
 	ld [wJoyIgnore], a
 	ld hl, wd764

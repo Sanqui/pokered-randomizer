@@ -203,6 +203,8 @@ SilphCo7Script4: ; 51cc8 (14:5cc8)
 	ld a, [W_ISINBATTLE] ; W_ISINBATTLE
 	cp $ff
 	jp z, SilphCo7Text_51c0c
+    xor a
+    ld [wIsTrainerBattle], a
 	ld a, $f0
 	ld [wJoyIgnore], a
 	ld hl, wd82f

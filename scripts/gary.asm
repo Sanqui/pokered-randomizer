@@ -95,6 +95,8 @@ GaryScript3: ; 75fbb (1d:5fbb)
 	ld a, [W_ISINBATTLE]
 	cp $ff
 	jp z, GaryScript_75f29
+    xor a
+    ld [wIsTrainerBattle], a
 	call UpdateSprites ; move sprites
 	ld hl, wd867
 	set 1, [hl]

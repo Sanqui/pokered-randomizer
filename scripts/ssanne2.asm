@@ -122,6 +122,8 @@ SSAnne2Script2: ; 6146d (18:546d)
 	ld a, [W_ISINBATTLE]
 	cp $ff
 	jp z, SSAnne2Script_613ab
+    xor a
+    ld [wIsTrainerBattle], a
 	call SSAnne2Script_61416
 	ld a, $f0
 	ld [wJoyIgnore], a

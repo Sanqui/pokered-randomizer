@@ -2382,6 +2382,7 @@ EndTrainerBattle:: ; 3275 (0:3275)
 	ld b, $1
 	call TrainerFlagAction   ; flag trainer as fought
 	ld a, [wIsTrainerBattle]
+	and a
 	jr nz, .skipRemoveSprite    ; test if trainer was fought (in that case skip removing the corresponding sprite)
     ld a, [W_CURMAP]
     cp POKEMONTOWER_7
@@ -2535,6 +2536,8 @@ EngageMapTrainer:: ; 336a (0:336a)
 .pokemon
 	and $7F
 	ld [wEnemyMonAttackMod], a ; wcd2e
+	xor a
+	ld [wIsTrainerBattle], a
 	jp PlayTrainerMusic
 
 PrintEndBattleText:: ; 3381 (0:3381)

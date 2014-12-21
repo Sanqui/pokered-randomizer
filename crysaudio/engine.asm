@@ -2506,6 +2506,9 @@ SetLRTracks: ; e8b1b
 	ret
 ; e8b30
 
+SongTranspositions:
+    ds 46
+
 _PlayMusic:: ; e8b30
     ld a, e
     cp 46
@@ -2516,6 +2519,12 @@ _PlayMusic:: ; e8b30
 	ld [hl], e ; song number
 	inc hl
 	ld [hl], d ; MusicIDHi (always $00)
+	
+	ld hl, SongTranspositions
+	add hl, de
+	ld a, [hl]
+	ld [wTranspositionInterval], a
+	
 	ld a, [GBPrinter]
 	bit 1, a
 	jr nz, .MTMusic
@@ -2563,7 +2572,7 @@ _PlayMusic:: ; e8b30
 	ld [NoiseSampleAddressHi], a
 	ld [Crysaudio+$1a2], a
 	ld [MusicNoiseSampleSet], a
-	call MusicOn
+	call MusicOn	
 	ret
 ; e8b79
 

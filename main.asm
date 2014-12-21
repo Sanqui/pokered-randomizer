@@ -2011,8 +2011,9 @@ Func_7c18: ; 7c18 (1:7c18)
 	ld [wDoNotWaitForButtonPressAfterDisplayingText], a
 	ret
 
-TitleScreenText:
+TitleScreenText::
     db "@"
+    ds 20*11
 
 SECTION "bank3",ROMX,BANK[$3]
 

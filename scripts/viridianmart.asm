@@ -37,7 +37,7 @@ ViridianMartScript0: ; 1d49b (7:549b)
 	ld [wSimulatedJoypadStatesIndex], a
 	call StartSimulatingJoypadStates
 	ld a, $1
-	ld [W_VIRIDIANMARKETCURSCRIPT], a
+	ld [gW_VIRIDIANMARKETCURSCRIPT], a
 	ret
 
 RLEMovement1d4bb: ; 1d4bb (7:54bb)

@@ -161,6 +161,8 @@ Func_13870: ; 13870 (4:7870)
 	ld a, [hl]
 	ld [wcf91], a
 	ld [wEnemyMonSpecies2], a
+	xor a
+	ld [wIsTrainerBattle], a
 	ld a, [wd0db]
 	and a
 	jr z, .asm_13916

@@ -15,7 +15,9 @@ SECTION "rst 28", ROM0 [$28]
 SECTION "rst 30", ROM0 [$30]
 	rst $38
 SECTION "rst 38", ROM0 [$38]
-	rst $38
+	di
+	stop
+	jr @
 
 ; Hardware interrupts
 SECTION "vblank", ROM0 [$40]

@@ -916,8 +916,14 @@ SECTION "DPPt Songs 1", ROMX
 	inc_section "crysaudio/music/DPPt/pokeradar.asm"
 	inc_section "crysaudio/music/DPPt/sinnohtrainer.asm"
 	inc_section "crysaudio/music/DPPt/sinnohwild.asm"
+	inc_section "crysaudio/music/DPPt/WinPokeSinnoh.asm"
+	inc_section "crysaudio/music/DPPt/WinTrainerSinnoh.asm"
+	inc_section "crysaudio/music/DPPt/route201.asm"
+	inc_section "crysaudio/music/DPPt/route203.asm"
+	inc_section "crysaudio/music/DPPt/route205.asm"
 	inc_section "crysaudio/music/DPPt/route206.asm"
 	inc_section "crysaudio/music/DPPt/jubilifecity.asm"
+	inc_section "crysaudio/music/DPPt/EternaForest.asm"
 	inc_section "crysaudio/music/DPPt/frontierbrain.asm"
 
 SECTION "TCG Songs 1", ROMX

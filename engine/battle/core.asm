@@ -989,8 +989,6 @@ ReplaceFaintedEnemyMon: ; 3c664 (f:4664)
 	ret
 
 TrainerBattleVictory: ; 3c696 (f:4696)
-    xor a
-    ld [wIsTrainerBattle], a
 	call Func_3c643
 	ld b, MUSIC_DEFEATED_GYM_LEADER
 	ld a, [W_GYMLEADERNO]
@@ -1023,6 +1021,8 @@ TrainerBattleVictory: ; 3c696 (f:4696)
 	ld de, wPlayerMoney + 2
 	ld hl, wd07b
 	ld c, $3
+    xor a
+    ld [wIsTrainerBattle], a
 	predef_jump AddBCDPredef
 
 MoneyForWinningText: ; 3c6e4 (f:46e4)

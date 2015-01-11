@@ -2411,7 +2411,7 @@ GetMaxPP: ; e677 (3:6677)
 	ld a,[hl]
 	dec a
 	push hl
-	ld hl,Moves
+	call LoadHLMoves
 	ld bc,6
 	call AddNTimes
 	ld de,wcd6d

@@ -84,6 +84,10 @@ HideSprites::
 
 INCLUDE "home/copy.asm"
 
+LoadHLMoves:
+    ld hl, Moves
+    ret
+
 
 SECTION "Entry", ROM0 [$100]
 

@@ -3770,7 +3770,7 @@ AddPartyMon_WriteMovePP: ; f476 (3:7476)
 	push hl
 	push de
 	push bc
-	ld hl, Moves
+	call LoadHLMoves
 	ld bc, $6
 	call AddNTimes
 	ld de, wcd6d
@@ -4135,7 +4135,7 @@ HealParty:
 	push de
 	push bc
 
-	ld hl, Moves
+	call LoadHLMoves
 	ld bc, $0006
 	call AddNTimes
 	ld de, wcd6d
@@ -5438,7 +5438,7 @@ INCLUDE "engine/game_corner_slots.asm"
 
 SECTION "bankE",ROMX,BANK[$E]
 
-INCLUDE "data/moves.asm"
+    inc_section "data/moves.asm"
 BaseStats: INCLUDE "data/base_stats.asm"
 CryData:
 ;INCLUDE "data/cries.asm"

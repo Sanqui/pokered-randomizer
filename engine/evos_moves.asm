@@ -468,7 +468,7 @@ WriteMonMoves: ; 3afb8 (e:6fb8)
 	add hl, de
 	push hl
 	dec a
-	ld hl, Moves
+	call LoadHLMoves
 	ld bc, $6
 	call AddNTimes
 	ld de, wHPBarMaxHP

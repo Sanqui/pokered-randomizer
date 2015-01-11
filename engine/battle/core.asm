@@ -5125,7 +5125,7 @@ MirrorMoveFailedText: ; 3e324 (f:6324)
 ReloadMoveData: ; 3e329 (f:6329)
 	ld [wd11e],a
 	dec a
-	ld hl,Moves
+	call LoadHLMoves
 	ld bc,$0006
 	call AddNTimes
 	ld a,BANK(Moves)
@@ -6092,7 +6092,7 @@ GetCurrentMove: ; 3eabe (f:6abe)
 .selected
 	ld [wd0b5], a
 	dec a
-	ld hl, Moves
+	call LoadHLMoves
 	ld bc, $6
 	call AddNTimes
 	ld a, BANK(Moves)

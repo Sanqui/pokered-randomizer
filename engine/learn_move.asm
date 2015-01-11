@@ -43,7 +43,7 @@ DontAbandonLearning: ; 6e5b (1:6e5b)
 	push hl
 	push de
 	dec a
-	ld hl, Moves ; $4000
+	call LoadHLMoves
 	ld bc, $6
 	call AddNTimes
 	ld de, wHPBarMaxHP

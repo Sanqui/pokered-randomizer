@@ -370,7 +370,7 @@ ReadMove: ; 39884 (e:5884)
 	push de
 	push bc
 	dec a
-	ld hl,Moves
+	call LoadHLMoves
 	ld bc,6
 	call AddNTimes
 	ld de,W_ENEMYMOVENUM

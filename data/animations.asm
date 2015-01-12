@@ -247,6 +247,7 @@ AttackAnimationPointers: ; 7a07d (1e:607d)
 	dw NuzzleAnim
 	dw ShockWaveAnim
 	dw ZapCannonAnim
+	dw OutrageAnim
 
 ; each animation is a list of subanimations and special effects
 ; if first byte < $56
@@ -1569,6 +1570,13 @@ ZapCannonAnim:
 	db $41,$54,$29
 	db $02,$22,$23
 	db $ff
+OutrageAnim:
+	db SE_LIGHT_SCREEN_PALETTE, $4A
+	db $46,$24,$04
+	db SE_DARK_SCREEN_FLASH, $FF
+	db $46,$24,$04
+	db SE_RESET_SCREEN_PALETTE, $FF
+	db $FF
 
 SubanimationPointers: ; 7a76d (1e:676d)
 	dw Subanimation00

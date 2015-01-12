@@ -254,3 +254,4 @@ NUM_ATTACKS EQU const_value + -1
 	const NUZZLE
 	const SHOCK_WAVE
 	const ZAP_CANNON
+	const OUTRAGE

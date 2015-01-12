@@ -393,6 +393,7 @@ endr
 	move NUZZLE,       PARALYZE_SIDE_EFFECT_100,            20, ELECTRIC,   100, 20
 	move SHOCK_WAVE,   SWIFT_EFFECT,                        60, ELECTRIC,   100, 20
 	move ZAP_CANNON,   PARALYZE_SIDE_EFFECT2,              120, ELECTRIC,    50, 5
+	move OUTRAGE,      THRASH_PETAL_DANCE_EFFECT,          120, DRAGON,     100, 10
 	
 	
 	

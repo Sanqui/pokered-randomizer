@@ -5,48 +5,33 @@ DrainHPEffect_: ; 783f (1:783f)
 	jr z, .goteffect
 	ld a, [W_ENEMYMOVEEFFECT] ; W_ENEMYMOVENUM
 .goteffect
-    cp DRAIN_HP_EFFECT_75
-    jr nz, .half
-	ld hl, W_DAMAGE ; W_DAMAGE
-; * 0.75
-    ld a, [hli]
-    ld b, a
-    ld c, [hl]
-    srl b
-    rr c
-    ld h, b
-    ld l, c
-    srl b
-    rr c
-    add hl, bc
-    
-	ld de, W_DAMAGE
-	ld a, h
-	ld [de], a
-	inc de
-	ld a, l
-	ld [de], a
+
+	cp DRAIN_HP_EFFECT_75
 	ld hl, W_DAMAGE
-	ld a, [hli]
+	ld a, [hl]
+	jr nz, .half
+
+.three_quarters
+	ld c, [hl]
+	inc hl
+	ld a, [hl]
+	srl c
+	rra
+	add [hl]
+	ld [hld], a
+	ld a, c
+	adc [hl]
+
+.half
+	srl a
+	ld [hli], a
+	rr [hl]
 
 	or [hl]
 	jr nz, .asm_784f
-	inc hl
-	inc [hl]
-	jr .asm_784f
-.half
-	ld hl, W_DAMAGE ; W_DAMAGE
-	ld a, [hl]
-	srl a ; divide damage by 2
-	ld [hli], a
-	ld a, [hl]
-	rr a
-	ld [hld], a
-	or [hl]
-	jr nz, .asm_784f
-	inc hl
 	inc [hl]
 .asm_784f
+
 	ld hl, wBattleMonHP ; wd015
 	ld de, wBattleMonMaxHP ; wd023
 	ld a, [H_WHOSETURN] ; $fff3

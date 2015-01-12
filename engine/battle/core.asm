@@ -59,6 +59,7 @@ EffectsArray3: ; 3c014 (f:4014)
 EffectsArray4: ; 3c030 (f:4030)
 ; Attacks that aren't finished after they faint the opponent.
 	db DRAIN_HP_EFFECT
+	db DRAIN_HP_EFFECT_75
 	db EXPLODE_EFFECT
 	db DREAM_EATER_EFFECT
 	db PAY_DAY_EFFECT
@@ -66,11 +67,13 @@ EffectsArray4: ; 3c030 (f:4030)
 	db $1E
 	db ATTACK_TWICE_EFFECT
 	db RECOIL_EFFECT
+	db HALF_RECOIL_EFFECT
 	db TWINEEDLE_EFFECT
 	db RAGE_EFFECT
 	db -1
 EffectsArray5: ; 3c03b (f:403b)
 	db DRAIN_HP_EFFECT
+	db DRAIN_HP_EFFECT_75
 	db EXPLODE_EFFECT
 	db DREAM_EATER_EFFECT
 	db PAY_DAY_EFFECT
@@ -84,6 +87,7 @@ EffectsArray5: ; 3c03b (f:403b)
 	db ATTACK_TWICE_EFFECT
 	db JUMP_KICK_EFFECT
 	db RECOIL_EFFECT
+	db HALF_RECOIL_EFFECT
 	; fallthrough to Next EffectsArray
 EffectsArray5B: ; 3c049 (f:4049)
 ; moves that prevent the player from switching moves?
@@ -366,6 +370,20 @@ EnemyRanText: ; 3c22e (f:422e)
 	TX_FAR _EnemyRanText
 	db "@"
 
+PRIORITY_MOVE_ASM: MACRO
+	ld a, [wPlayerSelectedMove]
+	cp \1
+	jr nz, .playerDidNotUse\@
+	ld a, [wEnemySelectedMove]
+	cp \1
+	jr z, .compareSpeed  ; if both used Quick Attack
+	jp .playerMovesFirst ; if player used Quick Attack and enemy didn't
+.playerDidNotUse\@
+	ld a, [wEnemySelectedMove]
+	cp \1
+	jr z, .enemyMovesFirst ; if enemy used Quick Attack and player didn't
+ENDM
+
 MainInBattleLoop: ; 3c233 (f:4233)
 	call ReadPlayerMonCurHPAndStatus
 	ld hl, wBattleMonHP
@@ -455,24 +473,12 @@ MainInBattleLoop: ; 3c233 (f:4233)
 .asm_3c2dd
 	callab SwitchEnemyMon
 .noLinkBattle
-	ld a, [wPlayerSelectedMove]
-	cp QUICK_ATTACK
-	jr nz, .playerDidNotUseQuickAttack
-	ld a, [wEnemySelectedMove]
-	cp QUICK_ATTACK
-	jr z, .compareSpeed  ; if both used Quick Attack
-	jp .playerMovesFirst ; if player used Quick Attack and enemy didn't
-.playerDidNotUseQuickAttack
-	ld a, [wEnemySelectedMove]
-	cp QUICK_ATTACK
-	jr z, .enemyMovesFirst ; if enemy used Quick Attack and player didn't
-	ld a, [wPlayerSelectedMove]
-	cp COUNTER
-	jr nz, .playerDidNotUseCounter
-	ld a, [wEnemySelectedMove]
-	cp COUNTER
-	jr z, .compareSpeed ; if both used Counter
-	jr .enemyMovesFirst ; if player used Counter and enemy didn't
+
+	PRIORITY_MOVE_ASM QUICK_ATTACK
+	PRIORITY_MOVE_ASM COUNTER
+	PRIORITY_MOVE_ASM MACH_PUNCH
+	PRIORITY_MOVE_ASM SHADOW_SNEAK
+	
 .playerDidNotUseCounter
 	ld a, [wEnemySelectedMove]
 	cp COUNTER
@@ -4691,6 +4697,8 @@ HighCriticalMoves: ; 3e08e (f:608e)
 	db RAZOR_LEAF
 	db CRABHAMMER
 	db SLASH
+	db NIGHT_SLASH
+	db SHADOW_CLAW
 	db $FF
 
 
@@ -7134,6 +7142,15 @@ MoveEffectPointerTable: ; 3f150 (f:7150)
 	 dw LeechSeedEffect           ; LEECH_SEED_EFFECT
 	 dw SplashEffect              ; SPLASH_EFFECT
 	 dw DisableEffect             ; DISABLE_EFFECT
+	 dw RecoilEffect              ; HALF_RECOIL_EFFECT
+	 dw FlichSideEffect           ; FLINCH_SIDE_EFFECT_20
+	 dw DrainHPEffect             ; DRAIN_HP_EFFECT_75
+	 dw PoisonEffect              ; POISON_SIDE_EFFECT_50
+	 dw StatModifierDownEffect100 ; ATTACK_DOWN_SIDE_EFFECT_100
+	 dw StatModifierDownEffect100 ; DEFENSE_DOWN_SIDE_EFFECT_100
+	 dw StatModifierDownEffect100 ; SPEED_DOWN_SIDE_EFFECT_100
+	 dw StatModifierDownEffect100 ; SPECIAL_DOWN_SIDE_EFFECT_100
+	 dw FreezeBurnParalyzeEffect  ; PARALYZE_SIDE_EFFECT_100
 
 SleepEffect: ; 3f1fc (f:71fc)
 	ld de, wEnemyMonStatus
@@ -7212,6 +7229,9 @@ PoisonEffect: ; 3f24f (f:724f)
 	jr z, .asm_3f290
 	cp POISON_SIDE_EFFECT2
 	ld b, $67 ; ~40% chance of poisoning
+	jr z, .asm_3f290
+	cp POISON_SIDE_EFFECT_50
+	ld b, $80 ; ~50% chance of poisoning
 	jr z, .asm_3f290
 	push hl
 	push de
@@ -7324,6 +7344,8 @@ FreezeBurnParalyzeEffect: ; 3f30c (f:730c)
 	cp b
 	ret z  ;return..
 	ld a, [W_PLAYERMOVEEFFECT]
+	cp PARALYZE_SIDE_EFFECT_100
+	jr z, .par
 	cp a, 7         ;10% status effects are 04, 05, 06 so 07 will set carry for those
 	ld b, $1a       ;[1A-1]/100 or [26-1]/256 = 9.8%~ chance
 	jr c, .next1  ;branch ahead if this is a 10% chance effect..
@@ -7341,6 +7363,7 @@ FreezeBurnParalyzeEffect: ; 3f30c (f:730c)
 	jr z, .burn
 	cp a, FREEZE_SIDE_EFFECT
 	jr z, .freeze
+.par
 	ld a, 1 << PAR
 	ld [wEnemyMonStatus], a
 	call QuarterSpeedDueToParalysis  ;quarter speed of affected monster
@@ -7636,6 +7659,21 @@ RoseText: ; 3f547 (f:7547)
 	TX_FAR _RoseText
 	db "@"
 
+StatModifierDownEffect100:
+	ld hl, wEnemyMonStatMods
+	ld de, W_PLAYERMOVEEFFECT
+	ld bc, W_ENEMYBATTSTATUS1
+	ld a, [H_WHOSETURN]
+	and a
+	jr z, .got
+	ld hl, wPlayerMonStatMods
+	ld de, W_ENEMYMOVEEFFECT
+	ld bc, W_PLAYERBATTSTATUS1
+.got
+	ld a, [de]
+	sub ATTACK_DOWN_SIDE_EFFECT_100
+	jr StatModifierDownEffectApply
+
 StatModifierDownEffect: ; 3f54c (f:754c)
 	ld hl, wEnemyMonStatMods
 	ld de, W_PLAYERMOVEEFFECT
@@ -7684,6 +7722,7 @@ StatModifierDownEffect: ; 3f54c (f:754c)
 	jr c, .asm_3f5a9
 	sub $28
 .asm_3f5a9
+StatModifierDownEffectApply:
 	ld c, a
 	ld b, $0
 	add hl, bc
@@ -8092,6 +8131,9 @@ FlichSideEffect: ; 3f85b (f:785b)
 	ld a, [de]
 	cp FLINCH_SIDE_EFFECT1
 	ld b, $1a ; ~10% chance of flinch
+	jr z, .asm_3f879
+	cp FLINCH_SIDE_EFFECT_20
+	ld b, $33 ; ~20% chance of flinch
 	jr z, .asm_3f879
 	ld b, $4d ; ~30% chance of flinch
 .asm_3f879

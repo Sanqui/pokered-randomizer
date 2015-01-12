@@ -6627,22 +6627,31 @@ SECTION "bank1E",ROMX,BANK[$1E]
 
 INCLUDE "engine/battle/animations.asm"
 
-INCLUDE "engine/overworld/cut2.asm"
-
-INCLUDE "engine/overworld/ssanne.asm"
-
-RedFishingTilesFront: INCBIN "gfx/red_fishing_tile_front.2bpp"
-RedFishingTilesBack:  INCBIN "gfx/red_fishing_tile_back.2bpp"
-RedFishingTilesSide:  INCBIN "gfx/red_fishing_tile_side.2bpp"
-RedFishingRodTiles:   INCBIN "gfx/red_fishingrod_tiles.2bpp"
 
 INCLUDE "data/animations.asm"
 
 INCLUDE "engine/evolution.asm"
 
-INCLUDE "engine/overworld/elevator.asm"
 
-INCLUDE "engine/items/tm_prices.asm"
+
+
+SECTION "Red Fishing Tiles", ROMX
+RedFishingTilesFront: INCBIN "gfx/red_fishing_tile_front.2bpp"
+RedFishingTilesBack:  INCBIN "gfx/red_fishing_tile_back.2bpp"
+RedFishingTilesSide:  INCBIN "gfx/red_fishing_tile_side.2bpp"
+RedFishingRodTiles:   INCBIN "gfx/red_fishingrod_tiles.2bpp"
+
+SECTION "S. S. Anne & Boulder Animations", ROMX
+    INCLUDE "engine/overworld/ssanne.asm"
+
+SECTION "TM Prices", ROMX
+    INCLUDE "engine/items/tm_prices.asm"
+
+SECTION "Elevator", ROMX
+    INCLUDE "engine/overworld/elevator.asm"
+
+SECTION "Cut 2", ROMX
+    INCLUDE "engine/overworld/cut2.asm"
 
 IF DEF(_OPTION_BEACH_HOUSE)
 SECTION "bank3C",ROMX[$4314],BANK[$3C]

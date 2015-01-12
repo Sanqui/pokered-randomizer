@@ -174,7 +174,7 @@ endm
 	move SUPER_FANG,   SUPER_FANG_EFFECT,            1, NORMAL,    90, 10
 	move SLASH,        NO_ADDITIONAL_EFFECT,        70, NORMAL,   100, 20
 	move SUBSTITUTE,   SUBSTITUTE_EFFECT,            0, NORMAL,   100, 10
-	move STRUGGLE,     RECOIL_EFFECT,               50, NORMAL,   100, 10
+	move STRUGGLE,     HALF_RECOIL_EFFECT,          50, NORMAL,   100, 10
 
 PERF EQU 100 ; perfect accuracy
 
@@ -343,5 +343,77 @@ Gen6Moves::
 	move SUPER_FANG,   SUPER_FANG_EFFECT,                    1, NORMAL,      90, 10
 	move SLASH,        NO_ADDITIONAL_EFFECT,                70, NORMAL,     100, 20
 	move SUBSTITUTE,   SUBSTITUTE_EFFECT,                    0, NORMAL,    PERF, 10
-	move STRUGGLE,     RECOIL_EFFECT,                       50, NORMAL,    PERF, 10
+	move STRUGGLE,     HALF_RECOIL_EFFECT,                  50, NORMAL,    PERF, 10
+
+rept DRAIN_PUNCH-SHOWPIC_ANIM
+    move 0,            0,                                    0, 0,            0, 0
+endr
+
+	move DRAIN_PUNCH,  DRAIN_HP_EFFECT,                     75, FIGHTING,   100, 10
+	move MACH_PUNCH,   NO_ADDITIONAL_EFFECT,                40, FIGHTING,   100, 30
+	move HEAD_SMASH,   HALF_RECOIL_EFFECT,                 150, ROCK,        80, 5
+	move ROCK_BLAST,   TWO_TO_FIVE_ATTACKS_EFFECT,          25, ROCK,        90, 10
+	move ROCK_TOMB,    SPEED_DOWN_SIDE_EFFECT_100,          60, ROCK,        95, 15
+	move DRAGON_CLAW,  NO_ADDITIONAL_EFFECT,                80, DRAGON,     100, 15
+	move DUAL_CHOP,    ATTACK_TWICE_EFFECT,                 40, DRAGON,      90, 15
+	move CRUNCH,       DEFENSE_DOWN_SIDE_EFFECT,            80, DARK,       100, 15
+	move DARK_PULSE,   FLINCH_SIDE_EFFECT_20,               80, DARK,       100, 15
+	move NIGHT_SLASH,  NO_ADDITIONAL_EFFECT,                70, DARK,       100, 15
+	move FAKE_TEARS,   SPECIAL_DOWN2_EFFECT,                 0, DARK,       100, 20
+	move BULLET_PUNCH, NO_ADDITIONAL_EFFECT,                40, STEEL,      100, 30
+	move FLASH_CANNON, SPECIAL_DOWN_SIDE_EFFECT,            80, STEEL,      100, 10
+	move IRON_HEAD,    FLINCH_SIDE_EFFECT2,                 80, STEEL,      100, 15
+	move STEEL_WING,   NO_ADDITIONAL_EFFECT,                70, STEEL,       90, 25
+	move METAL_CLAW,   NO_ADDITIONAL_EFFECT,                50, STEEL,       95, 35
+	move DAZZLINGLEAM, NO_ADDITIONAL_EFFECT,                80, FAIRY,      100, 10
+	move DRAININGKISS, DRAIN_HP_EFFECT_75,                  50, FAIRY,      100, 10
+	move PLAY_ROUGH,   ATTACK_DOWN_SIDE_EFFECT,             90, FAIRY,       90, 10
+	move MOONBLAST,    SPECIAL_DOWN_SIDE_EFFECT,            95, FAIRY,      100, 15
+	move GUNK_SHOT,    POISON_SIDE_EFFECT2,                120, POISON,      80, 5
+	move POISON_FANG,  POISON_SIDE_EFFECT_50,               50, POISON,     100, 15
+	move BONE_RUSH,    TWO_TO_FIVE_ATTACKS_EFFECT,          25, GROUND,      90, 10
+	move BULLDOZE,     SPEED_DOWN_SIDE_EFFECT_100,          60, GROUND,     100, 20
+	move BUG_BUZZ,     SPECIAL_DOWN_SIDE_EFFECT,            90, BUG,        100, 10
+	move MEGAHORN,     NO_ADDITIONAL_EFFECT,               120, BUG,         85, 10
+	move SIGNAL_BEAM,  CONFUSION_SIDE_EFFECT,               75, BUG,        100, 15
+	move X_SCISSOR,    NO_ADDITIONAL_EFFECT,                80, BUG,        100, 15
+	move SHADOW_BALL,  SPECIAL_DOWN_SIDE_EFFECT,            80, GHOST,      100, 15
+	move SHADOW_PUNCH, SWIFT_EFFECT,                        60, GHOST,      100, 20
+	move SHADOW_SNEAK, NO_ADDITIONAL_EFFECT,                40, GHOST,      100, 30
+	move SHADOW_CLAW,  NO_ADDITIONAL_EFFECT,                70, GHOST,      100, 15
+	move BULLET_SEED,  TWO_TO_FIVE_ATTACKS_EFFECT,          25, GRASS,      100, 30
+	move ENERGY_BALL,  SPECIAL_DOWN_SIDE_EFFECT,            90, GRASS,      100, 10
+	move HORN_LEECH,   DRAIN_HP_EFFECT,                     75, GRASS,      100, 10
+	move MAGICAL_LEAF, SWIFT_EFFECT,                        60, GRASS,      100, 20
+	move SEED_BOMB,    NO_ADDITIONAL_EFFECT,                80, GRASS,      100, 15
+	move WATER_PULSE,  CONFUSION_SIDE_EFFECT,               60, WATER,      100, 20
+	move AERIAL_ACE,   SWIFT_EFFECT,                        60, FLYING,     100, 20
+	move AIR_SLASH,    FLINCH_SIDE_EFFECT2,                 75, FLYING,      95, 15
+	move ROOST,        HEAL_EFFECT,                          0, FLYING,     100, 10
+	move NUZZLE,       PARALYZE_SIDE_EFFECT_100,            20, ELECTRIC,   100, 20
+	move SHOCK_WAVE,   SWIFT_EFFECT,                        60, ELECTRIC,   100, 20
+	move ZAP_CANNON,   PARALYZE_SIDE_EFFECT2,              120, ELECTRIC,    50, 5
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

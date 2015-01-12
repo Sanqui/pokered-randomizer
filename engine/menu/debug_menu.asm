@@ -32,6 +32,8 @@ DebugMenu:
 	call PrintDebugMenuItem
 	ld de,DebugMenuItem6
 	call PrintDebugMenuItem
+	ld de,DebugMenuItem7
+	call PrintDebugMenuItem
 	ld hl,wd730
 	res 6,[hl] ; turn pauses between printing letters back on
 	
@@ -53,7 +55,7 @@ DebugMenuLoop
 	jr nz,.loop
 ; if the player pressed tried to go past the top item, wrap around to the bottom
 	ld a,[wd74b]
-	ld a,6 
+	ld a,7
 	ld [wCurrentMenuItem],a
 	call EraseMenuCursor
 	jr .loop
@@ -62,7 +64,7 @@ DebugMenuLoop
 	jr z,.buttonPressed
 ; if the player pressed tried to go past the bottom item, wrap around to the top
 	ld a,[wCurrentMenuItem]
-	ld c,7
+	ld c,8
 .checkIfPastBottom
 	cp c
 	jr nz,.loop
@@ -101,7 +103,9 @@ DebugMenuLoop
 	jp z, DebugMenuL100
 	
 	cp a, 6
-	jp z, DebugMenuTestMove
+	jp z, DebugMenuTestMove1
+	cp a, 7
+	jp z, DebugMenuTestMove2
 
 CloseDebugMenu:: 
 	xor a
@@ -133,7 +137,8 @@ DebugMenuItem2: db "Wild 251@"
 DebugMenuItem3: db "MasterB@"
 DebugMenuItem4: db "DEX@"
 DebugMenuItem5: db "L100@"
-DebugMenuItem6: db "TESTMOVE@"
+DebugMenuItem6: db "TESTMOV1@"
+DebugMenuItem7: db "TESTMOV2@"
 
 DebugMenuWTW:
     ld a, 1
@@ -185,9 +190,13 @@ DebugMenuL100:
     ld bc,(151 << 8) | 100
     jp GivePokemon
 
-DebugMenuTestMove:
+DebugMenuTestMove1:
     ld d, DRAIN_PUNCH
+    jr DebugMenuTestMoveCommon
+
+DebugMenuTestMove2:
     ld d, BUG_BUZZ
+DebugMenuTestMoveCommon:
     ld hl, wPartyMon1Moves
     ld c, 0
 .monloop

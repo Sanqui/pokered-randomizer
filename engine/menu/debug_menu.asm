@@ -99,6 +99,9 @@ DebugMenuLoop
 	
 	cp a, 5
 	jp z, DebugMenuL100
+	
+	cp a, 6
+	jp z, DebugMenuTestMove
 
 CloseDebugMenu:: 
 	xor a
@@ -130,7 +133,7 @@ DebugMenuItem2: db "Wild 251@"
 DebugMenuItem3: db "MasterB@"
 DebugMenuItem4: db "DEX@"
 DebugMenuItem5: db "L100@"
-DebugMenuItem6: db "-@"
+DebugMenuItem6: db "TESTMOVE@"
 
 DebugMenuWTW:
     ld a, 1
@@ -181,3 +184,49 @@ DebugMenuDex:
 DebugMenuL100:
     ld bc,(151 << 8) | 100
     jp GivePokemon
+
+DebugMenuTestMove:
+    ld d, DRAIN_PUNCH
+    ld d, BUG_BUZZ
+    ld hl, wPartyMon1Moves
+    ld c, 0
+.monloop
+    ld b, 0
+.moveloop
+    ld a, d
+    ld [hli], a
+    inc d
+    inc b
+    ld a, b
+    cp 4
+    jr nz, .moveloop
+    
+    ld a, l
+    add wPartyMon1PP - (wPartyMon1Moves+4)
+    ld l, a
+    jr nc, .nc
+    inc h
+.nc
+    ld a, $ff
+    ld [hli], a
+    ld [hli], a
+    ld [hli], a
+    ld [hl], a
+    
+    ld a, l
+    add wPartyMon2Moves - (wPartyMon1PP+3)
+    ld l, a
+    jr nc, .nc2
+    inc h
+.nc2
+    
+    inc c
+    ld a, c
+    cp 6
+    jr nz, .monloop
+    
+    
+    ret
+    
+    
+    

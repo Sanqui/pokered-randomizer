@@ -205,10 +205,10 @@ WildMonEncounterSlotChances: ; 13918 (4:7918)
 RecoilEffect_: ; 1392c (4:792c)
 	ld a, [H_WHOSETURN] ; $fff3
 	and a
-	ld a, [W_PLAYERMOVENUM] ; wcfd2
+	ld a, [W_PLAYERMOVEEFFECT] ; wcfd2
 	ld hl, wBattleMonMaxHP ; wd023
 	jr z, .asm_1393d
-	ld a, [W_ENEMYMOVENUM] ; W_ENEMYMOVENUM
+	ld a, [W_ENEMYMOVEEFFECT] ; W_ENEMYMOVENUM
 	ld hl, wEnemyMonMaxHP ; wEnemyMonMaxHP
 .asm_1393d
 	ld d, a
@@ -219,7 +219,7 @@ RecoilEffect_: ; 1392c (4:792c)
 	srl b
 	rr c
 	ld a, d
-	cp STRUGGLE
+	cp HALF_RECOIL_EFFECT
 	jr z, .asm_13953
 	srl b
 	rr c

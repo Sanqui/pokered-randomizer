@@ -724,6 +724,21 @@ AnimationIdSpecialEffects: ; 78ef5 (1e:4ef5)
 	db ULTRATOSS_ANIM
 	dw DoBallTossSpecialEffects
 
+	db MAGICAL_LEAF
+	dw FlashScreenEveryEightFrameBlocks
+	
+	db WATER_PULSE
+	dw FlashScreenEveryEightFrameBlocks
+	
+	db AIR_SLASH
+	dw AnimationFlashScreen
+	
+	db SHOCK_WAVE
+	dw FlashScreenEveryEightFrameBlocks
+	
+	db ZAP_CANNON
+	dw FlashScreenEveryEightFrameBlocks
+	
 	db $FF ; terminator
 
 DoBallTossSpecialEffects: ; 78f3e (1e:4f3e)

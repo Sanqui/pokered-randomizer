@@ -1,4 +1,40 @@
 DrainHPEffect_: ; 783f (1:783f)
+	ld a, [H_WHOSETURN] ; $fff3
+	and a
+	ld a, [W_PLAYERMOVEEFFECT] ; wcfd2
+	jr z, .goteffect
+	ld a, [W_ENEMYMOVEEFFECT] ; W_ENEMYMOVENUM
+.goteffect
+    cp DRAIN_HP_EFFECT_75
+    jr nz, .half
+	ld hl, W_DAMAGE ; W_DAMAGE
+; * 0.75
+    ld a, [hli]
+    ld b, a
+    ld c, [hl]
+    srl b
+    rr c
+    ld h, b
+    ld l, c
+    srl b
+    rr c
+    add hl, bc
+    
+	ld de, W_DAMAGE
+	ld a, h
+	ld [de], a
+	inc de
+	ld a, l
+	ld [de], a
+	ld hl, W_DAMAGE
+	ld a, [hli]
+
+	or [hl]
+	jr nz, .asm_784f
+	inc hl
+	inc [hl]
+	jr .asm_784f
+.half
 	ld hl, W_DAMAGE ; W_DAMAGE
 	ld a, [hl]
 	srl a ; divide damage by 2

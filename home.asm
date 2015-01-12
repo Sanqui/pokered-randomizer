@@ -85,10 +85,13 @@ HideSprites::
 INCLUDE "home/copy.asm"
 
 LoadHLMoves:
-    ld hl, Moves
+    ld hl, Gen6Moves
     ret
 
 
+SECTION "DebugEnabled", ROM0 [$0ff]
+    db $ff
+    
 SECTION "Entry", ROM0 [$100]
 
 	nop

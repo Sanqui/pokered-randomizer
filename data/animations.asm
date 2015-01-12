@@ -202,6 +202,51 @@ AttackAnimationPointers: ; 7a07d (1e:607d)
 	dw ThrowRockAnim
 	dw ThrowBaitAnim
 	dw ZigZagScreenAnim
+	
+	dw DrainPunchAnim
+	dw MachPunchAnim
+	dw HeadSmashAnim
+	dw RockBlastAnim
+	dw RockTombAnim
+	dw DragonClawAnim
+	dw DualChopAnim
+	dw CrunchAnim
+	dw DarkPulseAnim
+	dw NightSlashAnim
+	dw FakeTearsAnim
+	dw BulletPunchAnim
+	dw FlashCannonAnim
+	dw IronHeadAnim
+	dw SteelWingAnim
+	dw MetalClawAnim
+	dw DazzlingleamAnim
+	dw DrainingkissAnim
+	dw PlayRoughAnim
+	dw MoonblastAnim
+	dw GunkShotAnim
+	dw PoisonFangAnim
+	dw BoneRushAnim
+	dw BulldozeAnim
+	dw BugBuzzAnim
+	dw MegahornAnim
+	dw SignalBeamAnim
+	dw XScissorAnim
+	dw ShadowBallAnim
+	dw ShadowPunchAnim
+	dw ShadowSneakAnim
+	dw ShadowClawAnim
+	dw BulletSeedAnim
+	dw EnergyBallAnim
+	dw HornLeechAnim
+	dw MagicalLeafAnim
+	dw SeedBombAnim
+	dw WaterPulseAnim
+	dw AerialAceAnim
+	dw AirSlashAnim
+	dw RoostAnim
+	dw NuzzleAnim
+	dw ShockWaveAnim
+	dw ZapCannonAnim
 
 ; each animation is a list of subanimations and special effects
 ; if first byte < $56
@@ -1259,6 +1304,271 @@ ThrowRockAnim: ; 7a765 (1e:6765)
 ThrowBaitAnim: ; 7a769 (1e:6769)
 	db $03,$8B,$54
 	db $FF
+
+DrainPunchAnim:
+	db $06,$07,$02
+	db $03,$FF,$21
+	db $03,$FF,$22
+	db SE_DARK_SCREEN_FLASH, $FF
+	db $ff
+	
+MachPunchAnim:
+	db SE_SLIDE_MON_OUT, $A3
+	db $06,$07,$02
+	db SE_SHOW_MON_PIC, $FF
+	db $ff
+HeadSmashAnim:
+	db SE_MOVE_MON_HORIZONTALLY, $48
+	db $06,$14,$02
+	db SE_RESET_MON_POSITION, $FF
+	db $ff
+RockBlastAnim:
+	db $01,$57,$30
+	db $ff
+RockTombAnim:
+	db $08,$57,$30
+	db SE_DARK_SCREEN_FLASH, $ff
+	db SE_DARK_SCREEN_FLASH, $ff
+	db SE_RESET_SCREEN_PALETTE, $FF
+	db $ff
+DragonClawAnim:
+	db SE_DARK_SCREEN_PALETTE, $ff
+	db SE_DARK_SCREEN_FLASH, $ff
+	db $06,$09,$0F
+	db SE_RESET_SCREEN_PALETTE, $FF
+	db $ff
+DualChopAnim:
+	db SE_DARK_SCREEN_PALETTE, $ff
+	db SE_DARK_SCREEN_PALETTE, $ff
+	db SE_RESET_SCREEN_PALETTE, $FF
+	db $08,$28,$01
+	db $ff
+CrunchAnim:
+	db SE_DARK_SCREEN_PALETTE, $ff
+	db $0a,$2B,$02
+	db SE_RESET_SCREEN_PALETTE, $FF
+	db $ff
+DarkPulseAnim:
+	db SE_DARK_SCREEN_PALETTE, $ff
+	db $0f,$3B,$2E
+	db SE_RESET_SCREEN_PALETTE, $FF
+	db $ff
+NightSlashAnim:
+	db SE_DARK_SCREEN_PALETTE, $ff
+	db $06,$A2,$0F
+	db SE_RESET_SCREEN_PALETTE, $FF
+	db $ff
+FakeTearsAnim:
+	db SE_LIGHT_SCREEN_PALETTE, $FF
+	db SE_SPIRAL_BALLS_INWARD, $38
+	db SE_RESET_SCREEN_PALETTE, $FF
+	db $ff
+BulletPunchAnim:
+	db $01,$28,$01
+	db $01,$28,$01
+	db $01,$28,$01
+	db $01,$28,$01
+	db $01,$28,$01
+	db $01,$28,$01
+	db $01,$28,$01
+	db $01,$28,$01
+	db $ff
+FlashCannonAnim:
+	db SE_LIGHT_SCREEN_PALETTE, $FF
+	db $0f,$3B,$2E
+	db SE_RESET_SCREEN_PALETTE, $FF
+	db $ff
+IronHeadAnim:
+	db SE_LIGHT_SCREEN_PALETTE, $FF
+	db SE_MOVE_MON_HORIZONTALLY, $48
+	db $02,$14,$02
+	db SE_RESET_MON_POSITION, $FF
+	db SE_RESET_SCREEN_PALETTE, $FF
+	db $ff
+SteelWingAnim:
+	db SE_LIGHT_SCREEN_PALETTE, $FF
+	db $46,$10,$04
+	db SE_RESET_SCREEN_PALETTE, $FF
+	db $ff
+MetalClawAnim:
+	db SE_LIGHT_SCREEN_PALETTE, $FF
+	db $06,$A2,$0F
+	db SE_RESET_SCREEN_PALETTE, $FF
+	db $ff
+DazzlingleamAnim:
+	db SE_LIGHT_SCREEN_PALETTE, $48
+	db SE_WAVY_SCREEN, $88
+	db SE_RESET_SCREEN_PALETTE, $FF
+	db $ff
+DrainingkissAnim:
+	db SE_LIGHT_SCREEN_PALETTE, $48
+	db $08,$00,$01
+	db $03,$FF,$21
+	db $03,$FF,$22
+	db SE_DARK_SCREEN_FLASH, $FF
+	db SE_RESET_SCREEN_PALETTE, $FF
+	db $ff
+PlayRoughAnim:
+	db SE_LIGHT_SCREEN_PALETTE, $ff
+	db $08,$00,$01
+	db SE_DARK_SCREEN_PALETTE, $ff
+	db $02,$14,$02
+	db SE_RESET_SCREEN_PALETTE, $FF
+	db $ff
+MoonblastAnim:
+	db SE_SHOOT_BALLS_UPWARD, $FF
+	db SE_LIGHT_SCREEN_PALETTE, $48
+	db SE_SHAKE_SCREEN, $88
+	db SE_SHAKE_SCREEN, $88
+	db SE_RESET_SCREEN_PALETTE, $FF
+	db $ff
+GunkShotAnim:
+	db SE_DARK_SCREEN_PALETTE, $ff
+	db SE_SPIRAL_BALLS_INWARD, $38
+	db SE_RESET_SCREEN_PALETTE, $FF
+	db $46,$90,$35
+	db $46,$32,$14
+	db $ff
+PoisonFangAnim:
+	db $08,$2B,$02
+	db $46,$32,$14
+	db $ff
+BoneRushAnim:
+	db $02,$9A,$02
+	db $ff
+BulldozeAnim:
+	db SE_SLIDE_MON_HALF_LEFT, $48
+	db SE_DARK_SCREEN_FLASH, $FF
+	db SE_SHAKE_SCREEN, $58
+	db SE_SHOW_MON_PIC, $FF
+	db $ff
+BugBuzzAnim:
+	db SE_DARK_SCREEN_FLASH, $FF
+	db SE_LIGHT_SCREEN_PALETTE, $60
+	db SE_SPIRAL_BALLS_INWARD, $12
+	db SE_RESET_SCREEN_PALETTE, $FF
+	db SE_DARK_SCREEN_FLASH, $FF
+	db $ff
+MegahornAnim:
+	db SE_MOVE_MON_HORIZONTALLY, $48
+	db $06,$1D,$45
+	db SE_DARK_SCREEN_FLASH, $FF
+	db $46,$FF,$05
+	db SE_RESET_MON_POSITION, $FF
+	db $ff
+SignalBeamAnim:
+	db SE_LIGHT_SCREEN_PALETTE, $48
+	db $07,$3E,$2E
+	db SE_DARK_SCREEN_FLASH, $FF
+	db SE_DARK_SCREEN_FLASH, $FF
+	db SE_RESET_SCREEN_PALETTE, $FF
+	db $ff
+XScissorAnim:
+	db SE_DARK_SCREEN_FLASH, $0E
+	db $02,$FF,$16
+	db $02,$FF,$16
+	db $ff
+ShadowBallAnim:
+	db $44,$78,$41
+	db SE_DARK_SCREEN_PALETTE, $ff
+	db $05,$FF,$55
+	db SE_RESET_SCREEN_PALETTE, $FF
+	db $ff
+ShadowPunchAnim:
+	db SE_DARK_SCREEN_PALETTE, $ff
+	db SE_MOVE_MON_HORIZONTALLY, $48
+	db $46,$04,$04
+	db $05,$FF,$55
+	db SE_RESET_MON_POSITION, $FF
+	db SE_RESET_SCREEN_PALETTE, $FF
+	db $ff
+ShadowSneakAnim:
+	db SE_DARK_SCREEN_PALETTE, $ff
+	;db $46,$5A,$04
+	db SE_HIDE_MON_PIC, $FF
+	db $08,$00,$01
+	db $02,$14,$02
+	db SE_SLIDE_MON_UP, $FF
+	db SE_RESET_SCREEN_PALETTE, $FF
+	db $ff
+ShadowClawAnim:
+	db SE_DARK_SCREEN_PALETTE, $ff
+	db SE_HIDE_MON_PIC, $FF
+	db $06,$A2,$0F
+	db SE_SLIDE_MON_UP, $FF
+	db SE_RESET_SCREEN_PALETTE, $FF
+	db $ff
+BulletSeedAnim:
+	db $42,$8B,$41
+	db $08,$00,$01
+	db $ff
+EnergyBallAnim:
+	db $4b,$8B,$41
+	db $48,$78,$42
+	db $ff
+HornLeechAnim:
+	db SE_MOVE_MON_HORIZONTALLY, $48
+	db $06,$1D,$45
+	db SE_DARK_SCREEN_FLASH, $FF
+	db $44,$FF,$05
+	db $03,$FF,$21
+	db $03,$FF,$22
+	db SE_DARK_SCREEN_FLASH, $FF
+	db SE_RESET_MON_POSITION, $FF
+	db $ff
+MagicalLeafAnim:
+	db SE_LIGHT_SCREEN_PALETTE, $4A
+	db $41,$80,$44
+	db $41,$80,$44
+	db $41,$80,$44
+	db SE_RESET_SCREEN_PALETTE, $FF
+	db $ff
+SeedBombAnim:
+	db $42,$8B,$41
+	db $42,$8B,$41
+	db $42,$78,$42
+	db $42,$8B,$41
+	db $42,$78,$42
+	db $42,$78,$42
+	db $ff
+WaterPulseAnim:
+	db SE_WAVY_SCREEN, $38
+	db $01,$37,$1A
+	db $ff
+AerialAceAnim:
+	db SE_SQUISH_MON_PIC, $8E
+	db SE_SHOOT_BALLS_UPWARD, $FF
+	db SE_DARK_SCREEN_FLASH, $0E
+	db $04,$FF,$16
+	db SE_SHOW_MON_PIC, $FF
+	db $ff
+AirSlashAnim:
+	db $06,$FF,$16
+	db $ff
+RoostAnim:
+	db SE_SLIDE_MON_DOWN, $FF
+	db SE_LIGHT_SCREEN_PALETTE, $6E
+	db SE_SPIRAL_BALLS_INWARD, $FF
+	db SE_RESET_SCREEN_PALETTE, $FF
+	db SE_SLIDE_MON_UP, $FF
+	db $ff
+NuzzleAnim:
+	db $08,$3F,$01
+	db $04,$FF,$23
+	db $04,$FF,$23
+	db $ff
+ShockWaveAnim:
+	db SE_WAVY_SCREEN, $2b
+	db $42,$55,$29
+	db $02,$22,$23
+	db $02,$22,$23
+	db $ff
+ZapCannonAnim:
+	db $02,$22,$23
+	db $41,$54,$29
+	db $41,$54,$29
+	db $02,$22,$23
+	db $ff
 
 SubanimationPointers: ; 7a76d (1e:676d)
 	dw Subanimation00

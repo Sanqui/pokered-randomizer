@@ -85,7 +85,7 @@ HideSprites::
 INCLUDE "home/copy.asm"
 
 LoadHLMoves:
-    ld hl, Gen6Moves
+    ld hl, Moves
     ret
 
 

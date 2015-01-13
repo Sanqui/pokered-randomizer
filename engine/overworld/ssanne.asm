@@ -54,19 +54,19 @@ GetMoveBoulderDustFunctionPointer: ; 79f92 (1e:5f92)
 MoveBoulderDustFunctionPointerTable: ; 79fb0 (1e:5fb0)
 ; facing down
 	db $FF,$00
-	dw AdjustOAMBlockYPos
+	dw BoulderAdjustOAMBlockYPos
 
 ; facing up
 	db $01,$00
-	dw AdjustOAMBlockYPos
+	dw BoulderAdjustOAMBlockYPos
 
 ; facing left
 	db $01,$01
-	dw AdjustOAMBlockXPos
+	dw BoulderAdjustOAMBlockYPos
 
 ; facing right
 	db $FF,$01
-	dw AdjustOAMBlockXPos
+	dw BoulderAdjustOAMBlockYPos
 
 LoadSmokeTileFourTimes: ; 79fc0 (1e:5fc0)
 	ld hl, vChars1 + $7c0
@@ -90,3 +90,24 @@ LoadSmokeTile: ; 79fd4 (1e:5fd4)
 
 SSAnneSmokePuffTile: ; 79fdd (1e:5fdd)
 	INCBIN "gfx/ss_anne_smoke_puff.2bpp"
+
+BoulderAdjustOAMBlockYPos: 
+	ld l, e
+	ld h, d
+	ld de, $4
+.loop
+	ld a, [wd08a]
+	ld b, a
+	ld a, [hl]
+	add b
+	cp $70
+	jr c, .skipSettingPreviousEntrysAttribute
+	dec hl
+	ld a, $a0 ; bug, sets previous OAM entry's attribute
+	ld [hli], a
+.skipSettingPreviousEntrysAttribute
+	ld [hl], a
+	add hl, de
+	dec c
+	jr nz, .loop
+	ret

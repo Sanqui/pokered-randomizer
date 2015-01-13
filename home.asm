@@ -1501,6 +1501,9 @@ DisplayListMenuIDLoop:: ; 2c53 (0:2c53)
 	ld [wd0b5],a
 	ld a,BANK(ItemNames)
 	ld [wPredefBank],a
+	ld a, 4
+	ld [W_LISTTYPE], a
+	call GetName
 	jr .storeChosenEntry
 .pokemonList
 	ld hl,wPartyCount

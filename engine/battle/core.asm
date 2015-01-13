@@ -376,12 +376,12 @@ PRIORITY_MOVE_ASM: MACRO
 	jr nz, .playerDidNotUse\@
 	ld a, [wEnemySelectedMove]
 	cp \1
-	jr z, .compareSpeed  ; if both used Quick Attack
+	jp z, .compareSpeed  ; if both used Quick Attack
 	jp .playerMovesFirst ; if player used Quick Attack and enemy didn't
 .playerDidNotUse\@
 	ld a, [wEnemySelectedMove]
 	cp \1
-	jr z, .enemyMovesFirst ; if enemy used Quick Attack and player didn't
+	jp z, .enemyMovesFirst ; if enemy used Quick Attack and player didn't
 ENDM
 
 MainInBattleLoop: ; 3c233 (f:4233)

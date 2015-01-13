@@ -6641,17 +6641,15 @@ RedFishingTilesBack:  INCBIN "gfx/red_fishing_tile_back.2bpp"
 RedFishingTilesSide:  INCBIN "gfx/red_fishing_tile_side.2bpp"
 RedFishingRodTiles:   INCBIN "gfx/red_fishingrod_tiles.2bpp"
 
-SECTION "S. S. Anne & Boulder Animations", ROMX
+SECTION "Cut 2", ROMX
+    INCLUDE "engine/overworld/cut2.asm"
+
+SECTION "S. S. Anne & Boulder & Cut & Elevator Animations", ROMX
     INCLUDE "engine/overworld/ssanne.asm"
+    INCLUDE "engine/overworld/elevator.asm"
 
 SECTION "TM Prices", ROMX
     INCLUDE "engine/items/tm_prices.asm"
-
-SECTION "Elevator", ROMX
-    INCLUDE "engine/overworld/elevator.asm"
-
-SECTION "Cut 2", ROMX
-    INCLUDE "engine/overworld/cut2.asm"
 
 IF DEF(_OPTION_BEACH_HOUSE)
 SECTION "bank3C",ROMX[$4314],BANK[$3C]

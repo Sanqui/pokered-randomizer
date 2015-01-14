@@ -19,6 +19,7 @@ TrainerDataPointers: ; 39d3b (e:5d3b)
 	; every next two bytes are a level and species
 	; null-terminated
 
+TrainerData::
 YoungsterData: ; 39d99 (e:5d99)
 	db 11,RATTATA,EKANS,0
 	db 14,SPEAROW,0
@@ -398,6 +399,7 @@ if DEF(_YELLOW)
 else
 	db $FF,25,ONIX,24,RHYHORN,29,KANGASKHAN,0
 	db $FF,37,NIDORINO,35,KANGASKHAN,37,RHYHORN,41,NIDOQUEEN,0
+Giovanni3Data::
 	db $FF,45,RHYHORN,42,DUGTRIO,44,NIDOQUEEN,45,NIDOKING,50,RHYDON,0
 endc
 RocketData: ; 3a29c (e:629c)
@@ -590,3 +592,5 @@ AgathaData: ; 3a516 (e:6516)
 	db $FF,56,GENGAR,56,GOLBAT,55,HAUNTER,58,ARBOK,60,GENGAR,0
 LanceData: ; 3a522 (e:6522)
 	db $FF,58,GYARADOS,56,DRAGONAIR,56,DRAGONAIR,60,AERODACTYL,62,DRAGONITE,0
+
+TrainerDataEnd::

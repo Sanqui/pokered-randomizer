@@ -1025,11 +1025,15 @@ TrainerBattleVictory: ; 3c696 (f:4696)
 	call PrintEndBattleText
 	ld hl, MoneyForWinningText
 	call PrintText
+	
+    xor a
+    ld [wIsTrainerBattle], a
+    ld a, 1
+    ld [wWasTrainerBattle], a
+    
 	ld de, wPlayerMoney + 2
 	ld hl, wd07b
 	ld c, $3
-    xor a
-    ld [wIsTrainerBattle], a
 	predef_jump AddBCDPredef
 
 MoneyForWinningText: ; 3c6e4 (f:46e4)

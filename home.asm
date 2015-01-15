@@ -2385,14 +2385,14 @@ EndTrainerBattle:: ; 3275 (0:3275)
 	res 0, [hl]                  ; player is no longer engaged by any trainer
 	ld a, [W_ISINBATTLE] ; W_ISINBATTLE
 	cp $ff
-	jp z, ResetButtonPressedAndMapScript
+	jr z, EndTrainerBattleWhiteout
 	ld a, $2
 	call ReadTrainerHeaderInfo
 	ld a, [wTrainerHeaderFlagBit]
 	ld c, a
 	ld b, $1
 	call TrainerFlagAction   ; flag trainer as fought
-	ld a, [wIsTrainerBattle]
+	ld a, [wWasTrainerBattle] ; set by TrainerBattleVictory
 	and a
 	jr nz, .skipRemoveSprite    ; test if trainer was fought (in that case skip removing the corresponding sprite)
     ld a, [W_CURMAP]
@@ -2410,6 +2410,7 @@ EndTrainerBattle:: ; 3275 (0:3275)
 .skipRemoveSprite
     xor a
     ld [wIsTrainerBattle], a
+    ld [wWasTrainerBattle], a
 	ld hl, wd730
 	bit 4, [hl]
 	res 4, [hl]
@@ -2423,6 +2424,13 @@ ResetButtonPressedAndMapScript:: ; 32c1 (0:32c1)
 	ld [hJoyReleased], a
 	ld [W_CURMAPSCRIPT], a               ; reset battle status
 	ret
+
+EndTrainerBattleWhiteout:
+    xor a
+    ld [wIsTrainerBattle], a
+    ld [wWasTrainerBattle], a
+    jp ResetButtonPressedAndMapScript
+    
 
 ; calls TrainerWalkUpToPlayer
 TrainerWalkUpToPlayer_Bank0:: ; 32cf (0:32cf)

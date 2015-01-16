@@ -384,6 +384,20 @@ PRIORITY_MOVE_ASM: MACRO
 	jp z, .enemyMovesFirst ; if enemy used Quick Attack and player didn't
 ENDM
 
+NEGATIVE_PRIORITY_MOVE_ASM: MACRO
+	ld a, [wPlayerSelectedMove]
+	cp \1
+	jr nz, .playerDidNotUse\@
+	ld a, [wEnemySelectedMove]
+	cp \1
+	jp z, .compareSpeed  ; if both used Quick Attack
+	jp .enemyMovesFirst ; if player used Quick Attack and enemy didn't
+.playerDidNotUse\@
+	ld a, [wEnemySelectedMove]
+	cp \1
+	jp z, .playerMovesFirst ; if enemy used Quick Attack and player didn't
+ENDM
+
 MainInBattleLoop: ; 3c233 (f:4233)
 	call ReadPlayerMonCurHPAndStatus
 	ld hl, wBattleMonHP
@@ -475,10 +489,10 @@ MainInBattleLoop: ; 3c233 (f:4233)
 .noLinkBattle
 
 	PRIORITY_MOVE_ASM QUICK_ATTACK
-	PRIORITY_MOVE_ASM COUNTER
 	PRIORITY_MOVE_ASM MACH_PUNCH
 	PRIORITY_MOVE_ASM SHADOW_SNEAK
 	PRIORITY_MOVE_ASM BULLET_PUNCH
+	NEGATIVE_PRIORITY_MOVE_ASM COUNTER
 	
 .playerDidNotUseCounter
 	ld a, [wEnemySelectedMove]

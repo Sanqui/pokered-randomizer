@@ -5181,6 +5181,9 @@ MetronomePickMove: ; 3e348 (f:6348)
 	ld de,W_ENEMYMOVENUM
 	ld hl,wEnemySelectedMove
 ; loop to pick a random number in the range [1, $a5) to be the move used by Metronome
+    ld a, [RandomizerFlags]
+    bit 2, a
+    jr z, .newMovesPickMoveLoop
 .pickMoveLoop
 	call BattleRandom
 	and a
@@ -5189,6 +5192,20 @@ MetronomePickMove: ; 3e348 (f:6348)
 	jr nc,.pickMoveLoop
 	cp a,METRONOME
 	jr z,.pickMoveLoop
+	jr .ok
+.newMovesPickMoveLoop
+	call BattleRandom
+	and a
+	jr z,.pickMoveLoop
+	cp LAST_NEW_MOVE + 1
+	jr nc, .pickMoveLoop
+	cp FIRST_NEW_MOVE
+	jr nc, .ok
+	cp a,NUM_ATTACKS + 1 ; max normal move number + 1 (this is Struggle's move number)
+	jr nc,.pickMoveLoop
+	cp a,METRONOME
+	jr z,.pickMoveLoop
+.ok
 	ld [hl],a
 	jr ReloadMoveData
 

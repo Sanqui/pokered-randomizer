@@ -209,6 +209,8 @@ NUM_ATTACKS EQU const_value + -1
 	const BAIT_ANIM ; throw bait
 	const ZIGZAG_ANIM
 	
+FIRST_NEW_MOVE EQU const_value
+
     ; new moves
 	const DRAIN_PUNCH
 	const MACH_PUNCH
@@ -255,3 +257,5 @@ NUM_ATTACKS EQU const_value + -1
 	const SHOCK_WAVE
 	const ZAP_CANNON
 	const OUTRAGE
+	
+LAST_NEW_MOVE EQU const_value + -1

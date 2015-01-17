@@ -17,7 +17,7 @@ RedisplayStartMenu:: ; 2adf (0:2adf)
     ld a, b
 	cp SELECT
 	jr nz, .notselect
-    ld a, [$00ff]
+    ld a, [RandomizerFlags]
     bit 1, a
     jr z, .loop ; debug menu disabled
 	jp StartMenu_Debug

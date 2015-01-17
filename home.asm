@@ -86,11 +86,23 @@ INCLUDE "home/copy.asm"
 
 LoadHLMoves:
     ld hl, Moves
+    push af
+    ld a, [RandomizerFlags]
+    bit 2, a
+    jr nz, .gen6
+    pop af
+    ret
+.gen6
+    pop af
+    ld hl, Gen6Moves
     ret
 
 
-SECTION "DebugEnabled", ROM0 [$0ff]
-    db $ff
+SECTION "Randomizer Flags", ROM0 [$0ff]
+RandomizerFlags::
+    db $00  ; bit 0: instant text
+            ; bit 1: debug
+            ; bit 2: gen 6 moves
     
 SECTION "Entry", ROM0 [$100]
 
@@ -3570,7 +3582,7 @@ Divide:: ; 38b9 (0:38b9)
 ; screen unless the player presses the A/B button or the delay is turned off
 ; through the [wd730] or [wd358] flags.
 PrintLetterDelay:: ; 38d3 (0:38d3)
-    ld a, [$00ff]
+    ld a, [RandomizerFlags]
     bit 0, a
     ret nz
     

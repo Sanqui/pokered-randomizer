@@ -3286,25 +3286,33 @@ WaitSFX:: ; 3c55
 
 WaitForSongToFinish::
 .loop
-	; ch5 on?
-	ld hl, Channel1 + Channel1Flags - Channel1
-	bit 0, [hl]
-	jr nz, .loop
-	; ch6 on?
-	ld hl, Channel2 + Channel1Flags - Channel1
-	bit 0, [hl]
-	jr nz, .loop
-	; ch7 on?
-	ld hl, Channel3 + Channel1Flags - Channel1
-	bit 0, [hl]
-	jr nz, .loop
-	; ch8 on?
-	ld hl, Channel4 + Channel1Flags - Channel1
-	bit 0, [hl]
-	jr nz, .loop
-
+	call IsSongPlaying
+	jr c, .loop
 	ret
 
+IsSongPlaying::
+	; ch1 on?
+	ld hl, Channel1 + Channel1Flags - Channel1
+	bit 0, [hl]
+	jr nz, .playing
+	; ch2 on?
+	ld hl, Channel2 + Channel1Flags - Channel1
+	bit 0, [hl]
+	jr nz, .playing
+	; ch3 on?
+	ld hl, Channel3 + Channel1Flags - Channel1
+	bit 0, [hl]
+	jr nz, .playing
+	; ch4 on?
+	ld hl, Channel4 + Channel1Flags - Channel1
+	bit 0, [hl]
+	jr z, .notPlaying
+.playing
+	scf
+	ret
+.notPlaying
+	xor a
+	ret
 
 NamePointers:: ; 375d (0:375d)
 	dw MonsterNames ; 1

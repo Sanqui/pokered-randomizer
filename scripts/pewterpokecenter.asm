@@ -40,7 +40,6 @@ PewterPokecenterText3: ; 5c59b (17:459b)
 	ld c, 0 ; BANK(Music_JigglypuffSong)
 	ld a, MUSIC_JIGGLYPUFF_SONG
 	call PlayMusic
-	call WaitForSongToFinish
 	pop hl
 .asm_5c5d1
 	ld a, [hl]
@@ -55,11 +54,10 @@ PewterPokecenterText3: ; 5c59b (17:459b)
 	pop hl
 	ld c, $18
 	call DelayFrames
-	ld a, [wc026]
-	ld b, a
-	ld a, [wc027]
-	or b
-	jr nz, .asm_5c5d1 ; 0x5c5f6 $d9
+	push hl
+	call IsSongPlaying
+	pop hl
+	jr c, .asm_5c5d1 ; 0x5c5f6 $d9
 	ld c, $30
 	call DelayFrames
 	call PlayDefaultMusic

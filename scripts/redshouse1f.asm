@@ -31,10 +31,7 @@ MomHealPokemon: ; 4818a (12:418a)
 	ld a, MUSIC_PKMN_HEALED
 	ld [wc0ee], a
 	call PlayMusic ; play sound?
-.next
-	ld a, [wc026]
-	cp MUSIC_PKMN_HEALED
-	jr z, .next
+	call WaitForSongToFinish
 	ld a, [wd35b]
 	ld [wc0ee], a
 	call PlayMusic

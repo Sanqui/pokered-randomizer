@@ -40,6 +40,7 @@ PewterPokecenterText3: ; 5c59b (17:459b)
 	ld c, 0 ; BANK(Music_JigglypuffSong)
 	ld a, MUSIC_JIGGLYPUFF_SONG
 	call PlayMusic
+	call WaitForSongToFinish
 	pop hl
 .asm_5c5d1
 	ld a, [hl]

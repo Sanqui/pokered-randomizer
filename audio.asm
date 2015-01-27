@@ -661,7 +661,8 @@ Func_7d13b:: ; 7d13b (1f:513b)
 	add hl, bc
 	ld a, [hli]
 	ld c, [hl]
-	call PlayMusic
+	call PlaySound
+	call WaitForSoundToFinish
 	jp PlayDefaultMusic
 
 PokedexRatingSfxPointers: ; 7d162 (1f:5162)

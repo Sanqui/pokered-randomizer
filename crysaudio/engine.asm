@@ -84,7 +84,8 @@ MusicOff: ; e8057
 	ret
 ; e805c
 
-_UpdateSound:: ; e805c
+_UpdateSound:: ; e805
+    call OpenSRAMForSound
 ; called once per frame
 	; no use updating audio if it's not playing
 	ld a, [MusicPlaying]
@@ -2510,9 +2511,10 @@ SongTranspositions:
     ds 46
 
 _PlayMusic:: ; e8b30
+    call OpenSRAMForSound
     ld a, e
-    cp 46
-    ret nc ; sfx
+    and a
+    jp z, _SoundRestart
 ; load music
 	call MusicOff
 	ld hl, MusicID

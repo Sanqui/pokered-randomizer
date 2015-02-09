@@ -200,7 +200,7 @@ PlayAnimation: ; 780f1 (1e:40f1)
 	push hl
 	push de
 	call Func_7986f
-	call nc, PlayAnimSoundShim
+	call nc, AnimPlaySFX
 	pop de
 	pop hl
 .skipPlayingSound
@@ -256,6 +256,14 @@ PlayAnimation: ; 780f1 (1e:40f1)
 .AnimationOver ; 417B
 	ret
 
+AnimPlaySFX:
+    push de
+	ld e, a
+    xor a
+    ld d, a
+    call PlaySFX
+    pop de
+    
 LoadSubanimation: ; 7817c (1e:417c)
 	ld a,[W_SUBANIMADDRPTR + 1]
 	ld h,a
@@ -552,7 +560,7 @@ PlaySubanimation: ; 78e53 (1e:4e53)
 	cp a,$FF
 	jr z,.skipPlayingSound
 	call Func_7986f
-	call nc, PlayAnimSoundShim ; play sound effect
+	call nc, AnimPlaySFX ; play sound effect
 .skipPlayingSound
 	ld hl,wOAMBuffer ; base address of OAM buffer
 	ld a,l

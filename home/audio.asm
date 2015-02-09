@@ -129,7 +129,6 @@ UpdateSound:: ; 3b6a
     and a
     ret nz
 	
-    call OpenSRAMForSound
     
 	ld a, [hROMBank]
 	push af
@@ -160,8 +159,6 @@ PlayMusic:: ; 3b97
 	push de
 	push bc
 	push af
-	
-    call OpenSRAMForSound
     
 	ld a, [hROMBank]
 	push af
@@ -169,17 +166,8 @@ PlayMusic:: ; 3b97
 	ld [hROMBank], a
 	ld [$2000], a
 
-	ld a, e
-	and a
-	jr z, .nomusic
-
 	call _PlayMusic
-	jr .end
 
-.nomusic
-	call _SoundRestart
-
-.end
 	pop af
 	ld [hROMBank], a
 	ld [$2000], a
@@ -196,8 +184,6 @@ PlayCry:: ; 13d0 (0:13d0)
 	push bc
 	push af
 	ld [wd11e], a
-	predef IndexToPokedex
-	ld a, [wd11e]
 	dec a
 	ld e, a
 	ld d, 0
@@ -290,17 +276,6 @@ PopAllRet:
 	pop hl
 	ret
 ; 3c4e
-
-PlayAnimSoundShim:
-	push hl
-	push de
-	push bc
-	push af
-
-	ld e, a
-	ld d, 00
-	jp PlaySFX_play
-
 
 _LoadMusicByte:: ; 3b86
 ; CurMusicByte = [a:de]

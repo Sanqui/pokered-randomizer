@@ -162,8 +162,16 @@ RedrawPartyMenu_: ; 12ce3 (4:6ce3)
 	inc hl
 	inc hl
 	cp a,EV_ITEM
-	jr nz,.checkEvolutionsLoop
+	jr z,.stoneEvoEntry
+	ld a,[hl]
+	cp EV_SYLVEON
+	jr c,.checkEvolutionsLoop
+	inc hl
+	inc hl
+	jr .checkEvolutionsLoop
 ; if it's a stone evolution entry
+.stoneEvoEntry
+	dec hl
 	dec hl
 	dec hl
 	ld b,[hl]
@@ -172,17 +180,28 @@ RedrawPartyMenu_: ; 12ce3 (4:6ce3)
 	inc hl
 	inc hl
 	cp b ; does the player's stone match this evolution entry's stone?
-	jr nz,.checkEvolutionsLoop
+	jr z,.match
+	ld a,[hl]
+	cp EV_SYLVEON
+	jr c,.checkEvolutionsLoop
+	inc hl
+	inc hl
+	jr .checkEvolutionsLoop
 ; if it does match
 	ld de,.ableToEvolveText
 .placeEvolutionStoneString
 	ld bc,20 + 9 ; down 1 row and right 9 columns
 	pop hl
+	ld a,[wd07d]
+	cp $6
 	push hl
 	add hl,bc
+	jr z,.pophlthenprintlevel
 	call PlaceString
+.pophlthenprintlevel
 	pop hl
 	jr .printLevel
+
 .ableToEvolveText
 	db "ABLE@"
 .notAbleToEvolveText

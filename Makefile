@@ -79,17 +79,17 @@ $(all_obj): $$*.asm $$($$*_dep)
 	@$(gfx) 2bpp $(2bppq);    $(eval 2bppq :=)
 	@$(gfx) 1bpp $(1bppq);    $(eval 1bppq :=)
 	@$(pic) compress $(picq); $(eval picq  :=)
-	rgbasm -h -o $@ $*.asm
+	rgbasm-0.2.5 -h -o $@ $*.asm
 
 
 # Link objects together to build a rom.
 
 # Make a symfile for debugging. rgblink will segfault if a mapfile isn't made too.
-link = rgblink -n poke$*.sym -m poke$*.map
+link = rgblink-0.2.5 -n poke$*.sym -m poke$*.map
 
 poke%.gbc: $$(%_obj)
 	$(link) -o $@ $^
-	rgbfix $($*_opt) $@
+	rgbfix-0.2.5 $($*_opt) $@
 
 
 clean:

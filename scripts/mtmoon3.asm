@@ -145,10 +145,10 @@ MtMoon3Script5: ; 49dfb (12:5dfb)
 	ld a, [wd7f6]
 	bit 6, a
 	jr z, .asm_49e1d
-	ld a, $6e
+	ld a, HS_MT_MOON_3_FOSSIL_2
 	jr .asm_49e1f
 .asm_49e1d
-	ld a, $6d
+	ld a, HS_MT_MOON_3_FOSSIL_1
 .asm_49e1f
 	ld [wcc4d], a
 	predef HideObject
@@ -267,6 +267,8 @@ MtMoon3Text5: ; 49edf (12:5edf)
 	call TalkToTrainer
 	jp TextScriptEnd
 
+OWItemDomeFossil: db DOME_FOSSIL
+
 MtMoon3Text6: ; 49ee9 (12:5ee9)
 	db $08 ; asm
 	ld a, $1
@@ -277,11 +279,12 @@ MtMoon3Text6: ; 49ee9 (12:5ee9)
 	ld a, [wCurrentMenuItem]
 	and a
 	jr nz, .asm_1fa5e ; 0x49efc
-	ld bc,(DOME_FOSSIL << 8) | 1
+	lda b, [OWItemDomeFossil]
+	ld c, 1
 	call GiveItem
 	jp nc, MtMoon3Script_49f76
 	call MtMoon3Script_49f69
-	ld a, $6d
+	ld a, HS_MT_MOON_3_FOSSIL_1
 	ld [wcc4d], a
 	predef HideObject
 	ld hl, wd7f6
@@ -296,6 +299,8 @@ MtMoon3Text_49f24: ; 49f24 (12:5f24)
 	TX_FAR _MtMoon3Text_49f24
 	db "@"
 
+OWItemHelixFossil: db HELIX_FOSSIL
+
 MtMoon3Text7: ; 49f29 (12:5f29)
 	db $08 ; asm
 	ld a, $1
@@ -306,11 +311,12 @@ MtMoon3Text7: ; 49f29 (12:5f29)
 	ld a, [wCurrentMenuItem]
 	and a
 	jr nz, .asm_8e988 ; 0x49f3c
-	ld bc, (HELIX_FOSSIL << 8) | 1
+	lda b, [OWItemHelixFossil]
+	ld c, 1
 	call GiveItem
 	jp nc, MtMoon3Script_49f76
 	call MtMoon3Script_49f69
-	ld a, $6e
+	ld a, HS_MT_MOON_3_FOSSIL_2
 	ld [wcc4d], a
 	predef HideObject
 	ld hl, wd7f6

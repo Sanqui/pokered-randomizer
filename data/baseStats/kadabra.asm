@@ -14,13 +14,12 @@ dw KadabraPicFront
 dw KadabraPicBack
 ; attacks known at lvl 0
 db TELEPORT
-IF !_YELLOW
-	db CONFUSION
-	db DISABLE
-ENDC
-IF _YELLOW
+IF DEF(_YELLOW)
 	DB KINESIS
 	db 0
+ELSE
+	db CONFUSION
+	db DISABLE
 ENDC
 db 0
 db 3 ; growth rate
@@ -32,4 +31,4 @@ db %11111000
 db %10000111
 db %00111000
 db %01000011
-db 0 ; padding
+db BANK(KadabraPicFront)

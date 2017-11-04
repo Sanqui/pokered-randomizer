@@ -66,17 +66,17 @@ LoadSAVCheckSum: ; 73623 (1c:7623)
 	call CopyData
 	ld hl, $a5a3
 	ld de, wPokedexOwned
-	ld bc, $789
+	ld bc, W_NUMINBOX-wPokedexOwned
 	call CopyData
 	ld hl, W_CURMAPTILESET
 	set 7, [hl]
-	ld hl, $ad2c
+	ld hl, $ad2c+26
 	ld de, wSpriteStateData1
 	ld bc, $200
 	call CopyData
 	ld a, [$b522]
 	ld [hTilesetType], a
-	ld hl, $b0c0
+	ld hl, $b0c0+26
 	ld de, W_NUMINBOX
 	ld bc, wBoxMonNicksEnd - W_NUMINBOX
 	call CopyData
@@ -214,11 +214,11 @@ SaveSAVtoSRAM0: ; 7378c (1c:778c)
 	ld bc, W_NUMINBOX - wPokedexOwned
 	call CopyData
 	ld hl, wSpriteStateData1
-	ld de, $ad2c
+	ld de, $ad2c+26
 	ld bc, $200
 	call CopyData
 	ld hl, W_NUMINBOX
-	ld de, $b0c0
+	ld de, $b0c0+26
 	ld bc, wBoxMonNicksEnd - W_NUMINBOX
 	call CopyData
 	ld a, [hTilesetType]
@@ -401,6 +401,9 @@ WhenYouChangeBoxText: ; 73909 (1c:7909)
 	db "@"
 
 Func_7390e: ; 7390e (1c:790e)
+	ld a, 1
+	ld [wHaltAudio], a
+	
 	push hl
 	ld a, SRAM_ENABLE
 	ld [MBC1SRamEnable], a
@@ -423,6 +426,9 @@ Func_7390e: ; 7390e (1c:790e)
 	xor a
 	ld [MBC1SRamBankingMode], a
 	ld [MBC1SRamEnable], a
+	
+	xor a
+	ld [wHaltAudio], a
 	ret
 
 Func_7393f: ; 7393f (1c:793f)
@@ -518,6 +524,9 @@ BoxNoText: ; 73a21 (1c:7a21)
 	db "BOX No.@"
 
 Func_73a29: ; 73a29 (1c:7a29)
+	ld a, 1
+	ld [wHaltAudio], a
+	
 	ld a, SRAM_ENABLE
 	ld [MBC1SRamEnable], a
 	ld a, $1
@@ -531,6 +540,9 @@ Func_73a29: ; 73a29 (1c:7a29)
 	xor a
 	ld [MBC1SRamBankingMode], a
 	ld [MBC1SRamEnable], a
+	
+	xor a
+	ld [wHaltAudio], a
 	ret
 
 Func_73a4b: ; 73a4b (1c:7a4b)
@@ -561,6 +573,9 @@ Func_73a7f: ; 73a7f (1c:7a7f)
 	ret
 
 Func_73a84: ; 73a84 (1c:7a84)
+	ld a, 1
+	ld [wHaltAudio], a
+	
 	ld hl, wWhichTrade ; wWhichTrade
 	push hl
 	ld a, SRAM_ENABLE
@@ -584,6 +599,9 @@ Func_73a84: ; 73a84 (1c:7a84)
 	add hl, bc
 	ld a, [W_NUMINBOX] ; wda80
 	ld [hl], a
+	
+	xor a
+	ld [wHaltAudio], a
 	ret
 
 Func_73ab8: ; 73ab8 (1c:7ab8)
@@ -605,6 +623,9 @@ SAVCheckRandomID: ;$7ad1
 ;checks if Sav file is the same by checking player's name 1st letter ($a598)
 ; and the two random numbers generated at game beginning
 ;(which are stored at wPlayerID)
+	ld a, 1
+	ld [wHaltAudio], a
+	
 	ld a,$0a
 	ld [$0000],a
 	ld a,$01
@@ -633,6 +654,9 @@ SAVCheckRandomID: ;$7ad1
 	ld a,$00
 	ld [MBC1SRamBankingMode],a
 	ld [$0000],a
+	
+	xor a
+	ld [wHaltAudio], a
 	ret
 
 SaveHallOfFameTeams: ; 73b0d (1c:7b0d)
@@ -669,6 +693,9 @@ LoadHallOfFameTeams: ; 73b3f (1c:7b3f)
 	; fallthrough
 
 HallOfFame_Copy: ; 73b51 (1c:7b51)
+	ld a, 1
+	ld [wHaltAudio], a
+	
 	ld a, SRAM_ENABLE
 	ld [MBC1SRamEnable], a
 	ld a, $1
@@ -679,9 +706,15 @@ HallOfFame_Copy: ; 73b51 (1c:7b51)
 	xor a
 	ld [MBC1SRamBankingMode], a
 	ld [MBC1SRamEnable], a
+	
+	xor a
+	ld [wHaltAudio], a
 	ret
 
 Func_73b6a: ; 73b6a (1c:7b6a)
+	ld a, 1
+	ld [wHaltAudio], a
+	
 	ld a, SRAM_ENABLE
 	ld [MBC1SRamEnable], a
 	ld a, $1
@@ -697,6 +730,9 @@ Func_73b6a: ; 73b6a (1c:7b6a)
 	xor a
 	ld [MBC1SRamBankingMode], a
 	ld [MBC1SRamEnable], a
+	
+	xor a
+	ld [wHaltAudio], a
 	ret
 
 PadSRAM_FF: ; 73b8f (1c:7b8f)

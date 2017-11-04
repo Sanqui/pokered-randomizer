@@ -32,7 +32,7 @@ SSAnne2Script0: ; 613be (18:53be)
 	call PlayMusic
 	ld a, [wWhichTrade]
 	ld [$ffdb], a
-	ld a, $71
+	ld a, HS_SS_ANNE_2_RIVAL
 	ld [wcc4d], a
 	predef ShowObject
 	call Delay3
@@ -110,6 +110,8 @@ SSAnne2Script1: ; 61430 (18:5430)
 	ld a, $3
 .done
 	ld [W_TRAINERNO], a
+	ld a, 1
+	ld [wIsTrainerBattle], a
 
 	call SSAnne2Script_61416
 	ld a, $2
@@ -120,6 +122,8 @@ SSAnne2Script2: ; 6146d (18:546d)
 	ld a, [W_ISINBATTLE]
 	cp $ff
 	jp z, SSAnne2Script_613ab
+    xor a
+    ld [wIsTrainerBattle], a
 	call SSAnne2Script_61416
 	ld a, $f0
 	ld [wJoyIgnore], a
@@ -160,7 +164,7 @@ SSAnne2Script3: ; 614be (18:54be)
 	ret nz
 	xor a
 	ld [wJoyIgnore], a
-	ld a, $71
+	ld a, HS_SS_ANNE_2_RIVAL
 	ld [wcc4d], a
 	predef HideObject
 	call PlayDefaultMusic

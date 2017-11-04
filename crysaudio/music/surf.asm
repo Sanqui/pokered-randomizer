@@ -5,7 +5,6 @@ Music_Surf: ; f518a
 ; f5193
 
 
-INCBIN "baserom.gbc", $f5193, $f5194 - $f5193
 
 
 Music_Surf_Ch1: ; f5194

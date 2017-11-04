@@ -68,6 +68,8 @@ LavenderHouse1Text4: ; 1d90b (7:590b)
 	call PlayCry
 	jp TextScriptEnd
 
+OWItemPokeFlute: db POKE_FLUTE
+
 LavenderHouse1Text5: ; 1d918 (7:5918)
 	db $08 ; asm
 	ld a, [wd76c]
@@ -75,7 +77,8 @@ LavenderHouse1Text5: ; 1d918 (7:5918)
 	jr nz, .asm_15ac2 ; 0x1d91e
 	ld hl, LavenderHouse1Text_1d94c
 	call PrintText
-	ld bc, (POKE_FLUTE << 8) | 1
+	lda b, [OWItemPokeFlute]
+	ld c, 1
 	call GiveItem
 	jr nc, .BagFull
 	ld hl, ReceivedFluteText

@@ -5,7 +5,6 @@ Music_DancingHall: ; ef9bc
 ; ef9c5
 
 
-INCBIN "baserom.gbc", $ef9c5, $ef9c6 - $ef9c5
 
 
 Music_DancingHall_Ch1: ; ef9c6

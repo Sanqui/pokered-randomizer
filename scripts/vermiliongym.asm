@@ -55,6 +55,8 @@ VermilionGymScriptPointers: ; 5ca95 (17:4a95)
 	dw EndTrainerBattle
 	dw VermilionGymScript3
 
+OWItemTM24: db TM_24
+
 VermilionGymScript3: ; 5ca9d (17:4a9d)
 	ld a, [W_ISINBATTLE] ; W_ISINBATTLE
 	cp $ff
@@ -68,7 +70,8 @@ VermilionGymScript_5caaa: ; 5caaa (17:4aaa)
 	call DisplayTextID
 	ld hl, wd773
 	set 7, [hl]
-	ld bc, (TM_24 << 8) | 1
+	lda b, [OWItemTM24]
+	ld c, 1
 	call GiveItem
 	jr nc, .BagFull
 	ld a, $7

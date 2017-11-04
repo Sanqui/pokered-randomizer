@@ -84,7 +84,8 @@ MusicOff: ; e8057
 	ret
 ; e805c
 
-_UpdateSound:: ; e805c
+_UpdateSound:: ; e805
+    call OpenSRAMForSound
 ; called once per frame
 	; no use updating audio if it's not playing
 	ld a, [MusicPlaying]
@@ -2297,6 +2298,35 @@ GetFrequency: ; e8a5d
 ; 	de: frequency
 
 ; get octave
+    ld a, [CurChannel]
+    cp 3
+    jr nc, .added
+	ld a, [wTranspositionInterval]
+	bit 7, a
+	jr nz, .negative
+.positive
+	add e
+	ld e, a
+	cp 13
+	jr c, .added
+    sub 12
+    ld e, a
+    dec d
+    jr .added
+.negative
+    dec e
+    add e
+    jr c, .c
+    inc a
+    add 12
+    ld e, a
+    inc d
+    jr .added
+.c
+    inc a
+    ld e, a
+.added
+
 	; get starting octave
 	ld hl, Channel1StartingOctave - Channel1
 	add hl, bc
@@ -2477,16 +2507,26 @@ SetLRTracks: ; e8b1b
 	ret
 ; e8b30
 
+SongTranspositions:
+    ds 46
+
 _PlayMusic:: ; e8b30
+    call OpenSRAMForSound
     ld a, e
-    cp 45
-    ret nc ; sfx
+    and a
+    jp z, _SoundRestart
 ; load music
 	call MusicOff
 	ld hl, MusicID
 	ld [hl], e ; song number
 	inc hl
 	ld [hl], d ; MusicIDHi (always $00)
+	
+	ld hl, SongTranspositions
+	add hl, de
+	ld a, [hl]
+	ld [wTranspositionInterval], a
+	
 	ld a, [GBPrinter]
 	bit 1, a
 	jr nz, .MTMusic
@@ -2534,7 +2574,7 @@ _PlayMusic:: ; e8b30
 	ld [NoiseSampleAddressHi], a
 	ld [Crysaudio+$1a2], a
 	ld [MusicNoiseSampleSet], a
-	call MusicOn
+	call MusicOn	
 	ret
 ; e8b79
 

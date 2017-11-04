@@ -5,7 +5,6 @@ Music_ProfOaksPokemonTalk: ; f4c9f
 ; f4ca8
 
 
-INCBIN "baserom.gbc", $f4ca8, $f4ca9 - $f4ca8
 
 
 Music_ProfOaksPokemonTalk_Ch1: ; f4ca9

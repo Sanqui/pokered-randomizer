@@ -25,6 +25,8 @@ CeladonDinerText4: ; 4916e (12:516e)
 	TX_FAR _CeladonDinerText4
 	db "@"
 
+OWItemCoinCase: db COIN_CASE
+
 CeladonDinerText5: ; 49173 (12:5173)
 	db $08 ; asm
 	ld a, [wd783]
@@ -32,7 +34,8 @@ CeladonDinerText5: ; 49173 (12:5173)
 	jr nz, .asm_eb14d ; 0x49179
 	ld hl, CeladonDinerText_491a7
 	call PrintText
-	ld bc, (COIN_CASE << 8) | 1
+	lda b, [OWItemCoinCase]
+	ld c, 1
 	call GiveItem
 	jr nc, .BagFull
 	ld hl, wd783

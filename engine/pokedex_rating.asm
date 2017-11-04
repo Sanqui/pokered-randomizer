@@ -61,35 +61,35 @@ PokedexRatingText_441cc: ; 441cc (11:41cc)
 DexRatingsTable: ; 441d1 (11:41d1)
 	db 10
 	dw PokedexRatingText_44201
-	db 20
+	db 25
 	dw PokedexRatingText_44206
-	db 30
-	dw PokedexRatingText_4420b
 	db 40
+	dw PokedexRatingText_4420b
+	db 55
 	dw PokedexRatingText_44210
-	db 50
-	dw PokedexRatingText_44215
-	db 60
-	dw PokedexRatingText_4421a
 	db 70
-	dw PokedexRatingText_4421f
-	db 80
-	dw PokedexRatingText_44224
-	db 90
-	dw PokedexRatingText_44229
+	dw PokedexRatingText_44215
+	db 85
+	dw PokedexRatingText_4421a
 	db 100
-	dw PokedexRatingText_4422e
-	db 110
-	dw PokedexRatingText_44233
-	db 120
-	dw PokedexRatingText_44238
+	dw PokedexRatingText_4421f
+	db 115
+	dw PokedexRatingText_44224
 	db 130
+	dw PokedexRatingText_44229
+	db 145
+	dw PokedexRatingText_4422e
+	db 160
+	dw PokedexRatingText_44233
+	db 175
+	dw PokedexRatingText_44238
+	db 190
 	dw PokedexRatingText_4423d
-	db 140
+	db 205
 	dw PokedexRatingText_44242
-	db 150
+	db 250
 	dw PokedexRatingText_44247
-	db 152
+	db 255
 	dw PokedexRatingText_4424c
 
 PokedexRatingText_44201: ; 44201 (11:4201)

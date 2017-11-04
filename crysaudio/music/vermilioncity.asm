@@ -5,7 +5,6 @@ Music_VermilionCity: ; eb676
 ; eb67f
 
 
-INCBIN "baserom.gbc", $eb67f, $eb680 - $eb67f
 
 
 Music_VermilionCity_Ch1: ; eb680

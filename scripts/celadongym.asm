@@ -35,6 +35,8 @@ CeladonGymScriptPointers: ; 4894e (12:494e)
 	dw EndTrainerBattle
 	dw CeladonGymScript3
 
+OWItemTM21: db TM_21
+
 CeladonGymScript3: ; 48956 (12:4956)
 	ld a, [W_ISINBATTLE] ; W_ISINBATTLE
 	cp $ff
@@ -48,7 +50,8 @@ CeladonGymText_48963: ; 48963 (12:4963)
 	call DisplayTextID
 	ld hl, wd77c
 	set 1, [hl]
-	ld bc, (TM_21 << 8) | 1
+	lda b, [OWItemTM21]
+	ld c, 1
 	call GiveItem
 	jr nc, .BagFull
 	ld a, $a

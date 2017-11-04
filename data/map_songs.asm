@@ -247,4 +247,6 @@ MapSongBanks: ; c04d (3:404d)
 	db MUSIC_GYM, 0 ; Lorelei
 	db MUSIC_DUNGEON1, 0 ; Bruno
 	db MUSIC_POKEMON_TOWER, 0 ; Agatha
-
+IF DEF(_OPTION_BEACH_HOUSE)
+	db MUSIC_ROUTES3, 0 ; BeachHouse
+ENDC

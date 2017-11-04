@@ -14,12 +14,12 @@ dw PrimeapePicFront
 dw PrimeapePicBack
 ; attacks known at lvl 0
 db SCRATCH
-IF !_YELLOW
+IF !DEF(_YELLOW)
 	db LEER
 ENDC
 db KARATE_CHOP
 db FURY_SWIPES
-IF _YELLOW
+IF DEF(_YELLOW)
 	db LOW_KICK
 ENDC
 db 0 ; growth rate
@@ -31,4 +31,4 @@ db %11001001
 db %11000110
 db %10001000
 db %00100010
-db 0 ; padding
+db BANK(PrimeapePicFront)

@@ -45,6 +45,8 @@ RLEMovement1d4bb: ; 1d4bb (7:54bb)
 	db $40, $02
 	db $ff
 
+OWItemOaksParcel: db OAKS_PARCEL
+
 ViridianMartScript1: ; 1d4c0 (7:54c0)
 	ld a, [wSimulatedJoypadStatesIndex]
 	and a
@@ -53,7 +55,8 @@ ViridianMartScript1: ; 1d4c0 (7:54c0)
 	ld a, $5
 	ld [$ff8c], a
 	call DisplayTextID
-	ld bc, (OAKS_PARCEL << 8) + 1
+	lda b, [OWItemOaksParcel]
+	ld c, 1
 	call GiveItem
 	ld hl, wd74e
 	set 1, [hl]

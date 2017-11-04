@@ -36,6 +36,8 @@ FuchsiaGymScriptPointers: ; 75482 (1d:5482)
 	dw EndTrainerBattle
 	dw FuchsiaGymScript3
 
+OWItemTM06: db TM_06
+
 FuchsiaGymScript3: ; 7548a (1d:548a)
 	ld a, [W_ISINBATTLE] ; W_ISINBATTLE
 	cp $ff
@@ -48,7 +50,8 @@ FuchsiaGymScript3_75497: ; 75497 (1d:5497)
 	call DisplayTextID
 	ld hl, wd792
 	set 1, [hl]
-	ld bc, (TM_06 << 8) | 1
+	lda b, [OWItemTM06]
+	ld c, 1
 	call GiveItem
 	jr nc, .BagFull
 	ld a, $a

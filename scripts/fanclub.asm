@@ -104,6 +104,8 @@ FanClubText4:
 	TX_FAR FanClubSeelText
 	db "@"
 
+OWItemBikeVoucher: db BIKE_VOUCHER
+
 FanClubText5:
 ; chair
 	db $08 ; asm
@@ -120,7 +122,8 @@ FanClubText5:
 	; tell the story
 	ld hl, .storytext
 	call PrintText
-	ld bc, (BIKE_VOUCHER << 8) | 1
+	lda b, [OWItemBikeVoucher]
+	ld c, 1
 	call GiveItem
 	jr nc, .BagFull
 	ld hl, .receivedvouchertext

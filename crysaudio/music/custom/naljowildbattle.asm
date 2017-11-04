@@ -314,7 +314,7 @@ Music_NaljoWildBattle_branch_19f26b:
 	dutycycle 3
 	octave 2
 	loopchannel 0, Music_NaljoWildBattle_branch_19f26b
-;INCBIN "baserom.gbc", $19f332, $19f340 - $19f332
+
 
 Music_NaljoWildBattle_Ch2: 
 	dutycycle $3
@@ -538,7 +538,7 @@ Music_NaljoWildBattle_branch_19f167:
 	note D#, 8
 	loopchannel 0, Music_NaljoWildBattle_branch_19f167
 
-;INCBIN "baserom.gbc", $19f1e5, $19f200 - $19f1e5
+
 
 Music_NaljoWildBattle_Ch3: 
 	notetype $c, $14

@@ -6,6 +6,8 @@ Route12GateUpstairsTextPointers: ; 49563 (12:5563)
 	dw Route12GateUpstairsText2
 	dw Route12GateUpstairsText3
 
+OWItemTM39: db TM_39
+
 Route12GateUpstairsText1: ; 49569 (12:5569)
 	db $08 ; asm
 	ld a, [wd7d7]
@@ -13,7 +15,8 @@ Route12GateUpstairsText1: ; 49569 (12:5569)
 	jr c, .asm_0ad3c ; 0x4956e
 	ld hl, TM39PreReceiveText
 	call PrintText
-	ld bc, (TM_39 << 8) | 1
+	lda b, [OWItemTM39]
+	ld c, 1
 	call GiveItem
 	jr nc, .BagFull
 	ld hl, ReceivedTM39Text

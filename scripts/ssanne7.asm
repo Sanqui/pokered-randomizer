@@ -15,6 +15,8 @@ SSAnne7TextPointers: ; 618a7 (18:58a7)
 	dw SSAnne7Text2
 	dw SSAnne7Text3
 
+OWItemHM01: db HM_01
+
 SSAnne7Text1: ; 618ad (18:58ad)
 	db $08 ; asm
 	ld a, [wd803]
@@ -24,7 +26,8 @@ SSAnne7Text1: ; 618ad (18:58ad)
 	call PrintText
 	ld hl, ReceivingHM01Text
 	call PrintText
-	ld bc, (HM_01 << 8) | 1
+	lda b, [OWItemHM01]
+	ld c, 1
 	call GiveItem
 	jr nc, .BagFull
 	ld hl, ReceivedHM01Text
@@ -60,10 +63,7 @@ SSAnne7RubText: ; 618ec (18:58ec)
 	ld a, MUSIC_PKMN_HEALED
 	ld [wc0ee], a
 	call PlayMusic
-.asm_61910
-	ld a, [wc026]
-	cp MUSIC_PKMN_HEALED
-	jr z, .asm_61910 ; 0x61915 $f9
+	call WaitForSongToFinish
 	call PlayDefaultMusic
 	ld hl, wd803
 	set 1, [hl]

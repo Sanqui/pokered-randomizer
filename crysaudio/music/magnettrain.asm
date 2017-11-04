@@ -251,7 +251,6 @@ Music_MagnetTrain_Ch4: ; ef6f4
 ; ef711
 
 
-INCBIN "baserom.gbc", $ef711, $ef71e - $ef711
 
 
 Music_MagnetTrain_branch_ef71e: ; ef71e

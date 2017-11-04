@@ -4,6 +4,8 @@ SafariZoneSecretHouseScript: ; 4a317 (12:6317)
 SafariZoneSecretHouseTextPointers: ; 4a31a (12:631a)
 	dw SafariZoneSecretHouseText1
 
+OWItemHM03: db HM_03
+
 SafariZoneSecretHouseText1: ; 4a31c (12:631c)
 	db $08 ; asm
 	ld a, [wd857]
@@ -11,7 +13,8 @@ SafariZoneSecretHouseText1: ; 4a31c (12:631c)
 	jr nz, .asm_20a9b ; 0x4a322
 	ld hl, SafariZoneSecretHouseText_4a350
 	call PrintText
-	ld bc, (HM_03 << 8) | 1
+	lda b, [OWItemHM03]
+	ld c, 1
 	call GiveItem
 	jr nc, .BagFull
 	ld hl, ReceivedHM03Text

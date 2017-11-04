@@ -4,6 +4,8 @@ VermilionHouse2Script: ; 56070 (15:6070)
 VermilionHouse2TextPointers: ; 56073 (15:6073)
 	dw VermilionHouse2Text1
 
+OWItemOldRod: db OLD_ROD
+
 VermilionHouse2Text1: ; 56075 (15:6075)
 	db $08 ; asm
 	ld a, [wd728]
@@ -15,7 +17,8 @@ VermilionHouse2Text1: ; 56075 (15:6075)
 	ld a, [wCurrentMenuItem]
 	and a
 	jr nz, .asm_eb1b7
-	ld bc, (OLD_ROD << 8) | 1
+	lda b, [OWItemOldRod]
+	ld c, 1
 	call GiveItem
 	jr nc, .BagFull
 	ld hl, wd728

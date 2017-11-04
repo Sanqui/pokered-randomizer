@@ -649,7 +649,7 @@ Music_Pinballmewtwostage_branch_49043: ; 49043
 ; 49052
 
 
-INCBIN "baserom.gbc", $49052, $49062 - $49052
+
 
 
 Music_Pinballmewtwostage_branch_49062: ; 49062

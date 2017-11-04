@@ -14,7 +14,16 @@ RedisplayStartMenu:: ; 2adf (0:2adf)
 .loop
 	call HandleMenuInput
 	ld b,a
+    ld a, b
+	cp SELECT
+	jr nz, .notselect
+    ld a, [RandomizerFlags]
+    bit 1, a
+    jr z, .loop ; debug menu disabled
+	jp StartMenu_Debug
+.notselect
 .checkIfUpPressed
+    ld a, b
 	bit 6,a ; was Up pressed?
 	jr z,.checkIfDownPressed
 	ld a,[wCurrentMenuItem] ; menu selection
@@ -86,3 +95,7 @@ CloseStartMenu:: ; 2b70 (0:2b70)
 	jr nz,CloseStartMenu
 	call LoadTextBoxTilePatterns
 	jp CloseTextDisplay
+
+StartMenu_Debug:
+    callab DebugMenu
+    jp CloseStartMenu

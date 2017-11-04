@@ -14,11 +14,10 @@ dw FlareonPicFront
 dw FlareonPicBack
 ; attacks known at lvl 0
 db TACKLE
-IF !_YELLOW
-	db SAND_ATTACK
-ENDC
-IF _YELLOW
+IF DEF(_YELLOW)
 	db TAIL_WHIP
+ELSE
+	db SAND_ATTACK
 ENDC
 db QUICK_ATTACK
 db EMBER
@@ -31,4 +30,4 @@ db %11000000
 db %11100011
 db %00001000
 db %00000010
-db 0 ; padding
+db BANK(FlareonPicFront)

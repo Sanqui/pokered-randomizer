@@ -15,7 +15,9 @@ SECTION "rst 28", ROM0 [$28]
 SECTION "rst 30", ROM0 [$30]
 	rst $38
 SECTION "rst 38", ROM0 [$38]
-	rst $38
+	di
+	stop
+	jr @
 
 ; Hardware interrupts
 SECTION "vblank", ROM0 [$40]
@@ -82,6 +84,26 @@ HideSprites::
 
 INCLUDE "home/copy.asm"
 
+LoadHLMoves:
+    ld hl, Moves
+    push af
+    ld a, [RandomizerFlags]
+    bit 2, a
+    jr nz, .gen6
+    pop af
+    ret
+.gen6
+    pop af
+    ld hl, Gen6Moves
+    ret
+
+
+SECTION "Randomizer Flags", ROM0 [$0ff]
+RandomizerFlags::
+    db $00  ; bit 0: instant text
+            ; bit 1: debug
+            ; bit 2: gen 6 moves
+    
 SECTION "Entry", ROM0 [$100]
 
 	nop
@@ -573,8 +595,6 @@ GetMonHeader:: ; 1537 (0:1537)
 	ld b,$77 ; size of Aerodactyl fossil sprite
 	cp a,FOSSIL_AERODACTYL ; Aerodactyl fossil
 	jr z,.specialID
-	cp a,MEW
-	jr z,.mew
 	predef IndexToPokedex   ; convert pokemon ID in [wd11e] to pokedex number
 	ld a,[wd11e]
 	dec a
@@ -593,12 +613,6 @@ GetMonHeader:: ; 1537 (0:1537)
 	inc hl
 	ld [hl],d
 	jr .done
-.mew
-	ld hl,MewBaseStats
-	ld de,W_MONHEADER
-	ld bc,28
-	ld a,BANK(MewBaseStats)
-	call FarCopyData
 .done
 	ld a,[wd0b5]
 	ld [W_MONHDEXNUM],a
@@ -727,32 +741,26 @@ UncompressMonSprite:: ; 1627 (0:1627)
 ; $4A ≤ index < $74, bank $B
 ; $74 ≤ index < $99, bank $C
 ; $99 ≤ index,       bank $D
-	ld a,[wcf91] ; XXX name for this ram location
-	ld b,a
-	cp MEW
-	ld a,BANK(MewPicFront)
-	jr z,.GotBank
-	ld a,b
+	;ld a,[wcf91] ; XXX name for this ram location
+	ld a,[wcf91]
+	ld b, a
 	cp FOSSIL_KABUTOPS
-	ld a,BANK(FossilKabutopsPic)
-	jr z,.GotBank
-	ld a,b
-	cp TANGELA + 1
-	ld a,BANK(TangelaPicFront)
-	jr c,.GotBank
-	ld a,b
-	cp MOLTRES + 1
-	ld a,BANK(MoltresPicFront)
-	jr c,.GotBank
-	ld a,b
-	cp BEEDRILL + 2
-	ld a,BANK(BeedrillPicFront)
-	jr c,.GotBank
-	ld a,b
-	cp STARMIE + 1
-	ld a,BANK(StarmiePicFront)
-	jr c,.GotBank
-	ld a,BANK(VictreebelPicFront)
+	jr nz, .next0
+	ld a, BANK(FossilKabutopsPic)
+	jr .GotBank
+.next0
+    ld a, b
+	cp FOSSIL_AERODACTYL
+	jr nz, .next1
+	ld a, BANK(FossilAerodactylPic)
+	jr .GotBank
+.next1
+	cp MON_GHOST
+	jr nz, .next2
+	ld a, BANK(GhostPic)
+	jr .GotBank
+.next2
+	ld a, [W_MONSPRITEBANK]
 .GotBank
 	jp UncompressSpriteData
 
@@ -765,6 +773,8 @@ LoadMonFrontSprite:: ; 1665 (0:1665)
 	ld a, [hli]
 	ld c, a
 	pop de
+	and a
+	ret z ; no sprite
 	; fall through
 
 ; postprocesses uncompressed sprite chunks to a 2bpp sprite and loads it into video ram
@@ -1505,6 +1515,8 @@ DisplayListMenuIDLoop:: ; 2c53 (0:2c53)
 	ld [wd0b5],a
 	ld a,BANK(ItemNames)
 	ld [wPredefBank],a
+	ld a, 4
+	ld [W_LISTTYPE], a
 	call GetName
 	jr .storeChosenEntry
 .pokemonList
@@ -2387,16 +2399,20 @@ EndTrainerBattle:: ; 3275 (0:3275)
 	res 0, [hl]                  ; player is no longer engaged by any trainer
 	ld a, [W_ISINBATTLE] ; W_ISINBATTLE
 	cp $ff
-	jp z, ResetButtonPressedAndMapScript
+	jr z, EndTrainerBattleWhiteout
 	ld a, $2
 	call ReadTrainerHeaderInfo
 	ld a, [wTrainerHeaderFlagBit]
 	ld c, a
 	ld b, $1
 	call TrainerFlagAction   ; flag trainer as fought
-	ld a, [W_ENEMYMONORTRAINERCLASS]
-	cp $c8
-	jr nc, .skipRemoveSprite    ; test if trainer was fought (in that case skip removing the corresponding sprite)
+	ld a, [wWasTrainerBattle] ; set by TrainerBattleVictory
+	and a
+	jr nz, .skipRemoveSprite    ; test if trainer was fought (in that case skip removing the corresponding sprite)
+    ld a, [W_CURMAP]
+    cp POKEMONTOWER_7
+	jr z, .skipRemoveSprite ; the tower 7f scripts call EndTrainerBattle manually after
+	; wIsTrainerBattle has been unset.
 	ld hl, W_MISSABLEOBJECTLIST
 	ld de, $2
 	ld a, [wSpriteIndex]
@@ -2406,6 +2422,9 @@ EndTrainerBattle:: ; 3275 (0:3275)
 	ld [wcc4d], a               ; load corresponding missable object index and remove it
 	predef HideObject
 .skipRemoveSprite
+    xor a
+    ld [wIsTrainerBattle], a
+    ld [wWasTrainerBattle], a
 	ld hl, wd730
 	bit 4, [hl]
 	res 4, [hl]
@@ -2420,6 +2439,13 @@ ResetButtonPressedAndMapScript:: ; 32c1 (0:32c1)
 	ld [W_CURMAPSCRIPT], a               ; reset battle status
 	ret
 
+EndTrainerBattleWhiteout:
+    xor a
+    ld [wIsTrainerBattle], a
+    ld [wWasTrainerBattle], a
+    jp ResetButtonPressedAndMapScript
+    
+
 ; calls TrainerWalkUpToPlayer
 TrainerWalkUpToPlayer_Bank0:: ; 32cf (0:32cf)
 	ld b, BANK(TrainerWalkUpToPlayer)
@@ -2431,12 +2457,14 @@ InitBattleEnemyParameters:: ; 32d7 (0:32d7)
 	ld a, [wEngagedTrainerClass]
 	ld [W_CUROPPONENT], a ; wd059
 	ld [W_ENEMYMONORTRAINERCLASS], a
-	cp $c8
+	ld a, [wIsTrainerBattle]
+	and a
+	jr z, .noTrainer
 	ld a, [wEngagedTrainerSet] ; wcd2e
-	jr c, .noTrainer
 	ld [W_TRAINERNO], a ; wd05d
 	ret
 .noTrainer
+	ld a, [wEngagedTrainerSet] ; wcd2e
 	ld [W_CURENEMYLVL], a ; W_CURENEMYLVL
 	ret
 
@@ -2532,7 +2560,17 @@ EngageMapTrainer:: ; 336a (0:336a)
 	ld a, [hli]    ; load trainer class
 	ld [wEngagedTrainerClass], a
 	ld a, [hl]     ; load trainer mon set
+	bit 7, a
+	jr nz, .pokemon
 	ld [wEnemyMonAttackMod], a ; wcd2e
+	ld a, 1
+	ld [wIsTrainerBattle], a
+	jp PlayTrainerMusic
+.pokemon
+	and $7F
+	ld [wEnemyMonAttackMod], a ; wcd2e
+	xor a
+	ld [wIsTrainerBattle], a
 	jp PlayTrainerMusic
 
 PrintEndBattleText:: ; 3381 (0:3381)
@@ -3221,6 +3259,9 @@ WaitSFX:: ; 3c55
     ld a, [Danger]
     and a
     ret nz
+    ld a, [wSFXDontWait]
+    and a
+    ret nz
         push hl
 
 .loop
@@ -3245,15 +3286,44 @@ WaitSFX:: ; 3c55
         ret
 ; 3c74
 
+WaitForSongToFinish::
+.loop
+	call IsSongPlaying
+	jr c, .loop
+	ret
+
+IsSongPlaying::
+	; ch1 on?
+	ld hl, Channel1 + Channel1Flags - Channel1
+	bit 0, [hl]
+	jr nz, .playing
+	; ch2 on?
+	ld hl, Channel2 + Channel1Flags - Channel1
+	bit 0, [hl]
+	jr nz, .playing
+	; ch3 on?
+	ld hl, Channel3 + Channel1Flags - Channel1
+	bit 0, [hl]
+	jr nz, .playing
+	; ch4 on?
+	ld hl, Channel4 + Channel1Flags - Channel1
+	bit 0, [hl]
+	jr z, .notPlaying
+.playing
+	scf
+	ret
+.notPlaying
+	xor a
+	ret
 
 NamePointers:: ; 375d (0:375d)
-	dw MonsterNames
-	dw MoveNames
-	dw UnusedNames
-	dw ItemNames
-	dw wPartyMonOT ; player's OT names list
-	dw wEnemyMonOT ; enemy's OT names list
-	dw TrainerNames
+	dw MonsterNames ; 1
+	dw MoveNames ; 2
+	dw UnusedNames ; 3
+	dw ItemNames ; 4
+	dw wPartyMonOT ; 5 - player's OT names list
+	dw wEnemyMonOT ; 6 - enemy's OT names list
+	dw TrainerNames ; 7
 
 GetName:: ; 376b (0:376b)
 ; arguments:
@@ -3265,11 +3335,15 @@ GetName:: ; 376b (0:376b)
 	ld a,[wd0b5]
 	ld [wd11e],a
 
+    ld a, [W_LISTTYPE]
+    cp 4 ; item names
+    jr nz, .notitem
+	ld a, [wd11e]
 	; TM names are separate from item names.
-	; BUG: This applies to all names instead of just items.
 	cp HM_01
 	jp nc, GetMachineName
-
+.notitem
+    
 	ld a,[H_LOADEDROMBANK]
 	push af
 	push hl
@@ -3539,12 +3613,17 @@ Divide:: ; 38b9 (0:38b9)
 ; screen unless the player presses the A/B button or the delay is turned off
 ; through the [wd730] or [wd358] flags.
 PrintLetterDelay:: ; 38d3 (0:38d3)
+    ld a, [RandomizerFlags]
+    bit 0, a
+    ret nz
+    
 	ld a,[wd730]
 	bit 6,a
 	ret nz
 	ld a,[wd358]
 	bit 1,a
 	ret z
+		
 	push hl
 	push de
 	push bc
@@ -3568,7 +3647,7 @@ PrintLetterDelay:: ; 38d3 (0:38d3)
 .checkBButton
 	bit 1,a ; is the B button pressed?
 	jr z,.buttonsNotPressed
-.endWait
+.endWait	
 	call DelayFrame
 	jr .done
 .buttonsNotPressed ; if neither A nor B is pressed
@@ -3576,6 +3655,9 @@ PrintLetterDelay:: ; 38d3 (0:38d3)
 	and a
 	jr nz,.checkButtons
 .done
+	ld a, TRANSFERBOTTOM
+	ld [H_AUTOBGTRANSFERPORTION], a
+	
 	pop bc
 	pop de
 	pop hl

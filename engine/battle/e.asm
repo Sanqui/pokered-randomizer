@@ -370,7 +370,7 @@ ReadMove: ; 39884 (e:5884)
 	push de
 	push bc
 	dec a
-	ld hl,Moves
+	call LoadHLMoves
 	ld bc,6
 	call AddNTimes
 	ld de,W_ENEMYMOVENUM
@@ -1084,7 +1084,7 @@ DecrementAICount: ; 3a695 (e:6695)
 	ret
 
 Func_3a69b: ; 3a69b (e:669b)
-	ld a,RBSFX_08_3e
+	ld a,RBSFX_02_3e
 	jp PlaySoundWaitForCurrent
 
 AIUseFullRestore: ; 3a6a0 (e:66a0)

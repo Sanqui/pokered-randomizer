@@ -14,15 +14,14 @@ dw MarowakPicFront
 dw MarowakPicBack
 ; attacks known at lvl 0
 db BONE_CLUB
-IF !_YELLOW
-	db GROWL
-	db LEER
-	db FOCUS_ENERGY
-ENDC
-IF _YELLOW
+IF DEF(_YELLOW)
 	db TAIL_WHIP
 	db 0
 	db 0
+ELSE
+	db GROWL
+	db LEER
+	db FOCUS_ENERGY
 ENDC
 db 0 ; growth rate
 ; learnset
@@ -33,4 +32,4 @@ db %11001110
 db %10100010
 db %00001000
 db %00100010
-db 0 ; padding
+db BANK(MarowakPicFront)

@@ -53,7 +53,7 @@ asm_2324:: ; 2324 (0:2324)
 	ld [wc0ee], a
 	
 	ld [MusicFadeID], a
-	ld a, 1
+	ld a, 8
 	ld [MusicFade], a
 	;call FadeMusic ; called in updatemusic
 	ret
@@ -67,15 +67,20 @@ Func_2385:
 
 ; plays <s>music</s>SFX specified by a. If value is $ff, music is stopped
 PlaySound:: ; 23b1 (0:23b1)
+    push de
     cp $ff
     jr nz, .notff
     xor a
-    jp PlayMusic
+    call PlayMusic
+    pop de
+    ret
 .notff
     ld e, a
     xor a
     ld d, a
-    jp PlaySFX
+    call PlaySFX
+    pop de
+    ret
 
 OpenSRAMForSound::
 	ld a, SRAM_ENABLE
@@ -124,7 +129,6 @@ UpdateSound:: ; 3b6a
     and a
     ret nz
 	
-    call OpenSRAMForSound
     
 	ld a, [hROMBank]
 	push af
@@ -155,8 +159,6 @@ PlayMusic:: ; 3b97
 	push de
 	push bc
 	push af
-	
-    call OpenSRAMForSound
     
 	ld a, [hROMBank]
 	push af
@@ -164,25 +166,12 @@ PlayMusic:: ; 3b97
 	ld [hROMBank], a
 	ld [$2000], a
 
-	ld a, e
-	and a
-	jr z, .nomusic
-
 	call _PlayMusic
-	jr .end
 
-.nomusic
-	call _SoundRestart
-
-.end
 	pop af
 	ld [hROMBank], a
 	ld [$2000], a
-	pop af
-	pop bc
-	pop de
-	pop hl
-	ret
+	jr PopAllRet
 ; 3bbc
 
 
@@ -195,8 +184,6 @@ PlayCry:: ; 13d0 (0:13d0)
 	push bc
 	push af
 	ld [wd11e], a
-	predef IndexToPokedex
-	ld a, [wd11e]
 	dec a
 	ld e, a
 	ld d, 0
@@ -245,11 +232,7 @@ PlayCry:: ; 13d0 (0:13d0)
 	
 	call WaitForSoundToFinish
 	
-	pop af
-	pop bc
-	pop de
-	pop hl
-	ret
+	jr PopAllRet
 ; 3c23
 
 
@@ -286,25 +269,13 @@ PlaySFX_play
 	ld [hROMBank], a
 	ld [$2000], a ; bankswitch
 .quit
+PopAllRet:
 	pop af
 	pop bc
 	pop de
 	pop hl
 	ret
 ; 3c4e
-
-PlayAnimSoundShim:
-	push hl
-	push de
-	push bc
-	push af
-	
-	ld d, a
-	callab _PlayAnimSoundShim
-	ld e, d
-	ld d, 00
-	jp PlaySFX_play
-
 
 _LoadMusicByte:: ; 3b86
 ; CurMusicByte = [a:de]

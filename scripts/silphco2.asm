@@ -136,6 +136,8 @@ SilphCo2TrainerHeader3: ; 59db4 (16:5db4)
 
 	db $ff
 
+OWItemTM36: db TM_36
+
 SilphCo2Text1: ; 59dc1 (16:5dc1)
 	db $08 ; asm
 	ld a, [wd826]
@@ -143,7 +145,8 @@ SilphCo2Text1: ; 59dc1 (16:5dc1)
 	jr nz, asm_b8a0d ; 0x59dc7
 	ld hl, SilphCo2Text_59ded
 	call PrintText
-	ld bc, (TM_36 << 8) | 1
+	lda b, [OWItemTM36]
+	ld c, 1
 	call GiveItem
 	ld hl, TM36NoRoomText
 	jr nc, asm_2c1e0 ; 0x59dd8

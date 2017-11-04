@@ -14,11 +14,10 @@ dw ChanseyPicFront
 dw ChanseyPicBack
 ; attacks known at lvl 0
 db POUND
-IF !_YELLOW
-	db DOUBLESLAP
-ENDC
-IF _YELLOW
+IF DEF(_YELLOW)
 	db TAIL_WHIP
+ELSE
+	db DOUBLESLAP
 ENDC
 db 0
 db 0
@@ -31,4 +30,4 @@ db %11110001
 db %10110111
 db %00111001
 db %01100011
-db 0 ; padding
+db BANK(ChanseyPicFront)

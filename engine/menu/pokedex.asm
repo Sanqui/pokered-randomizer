@@ -139,8 +139,10 @@ HandlePokedexSideMenu: ; 4006d (10:406d)
 ; play pokemon cry
 .choseCry
 	ld a,[wd11e]
-	call GetCryData ; get cry data
-	call PlaySound ; play sound
+	push af
+	call PlayCry
+	pop af
+	ld [wd11e], a
 	jr .handleMenuInput
 .choseArea
 	predef LoadTownMap_Nest ; display pokemon areas
@@ -194,7 +196,7 @@ HandlePokedexListMenu: ; 40111 (10:4111)
 	call PlaceString
 ; find the highest pokedex number among the pokemon the player has seen
 	ld hl,wPokedexSeenEnd - 1
-	ld b,153
+	ld b,254
 .maxSeenPokemonLoop
 	ld a,[hld]
 	ld c,8
@@ -366,6 +368,9 @@ PokedexMenuItemsText: ; 402af (10:42af)
 	db   "DATA"
 	next "CRY"
 	next "AREA"
+IF DEF(_YELLOW)
+	next "PRNT"
+ENDC
 	next "QUIT@"
 
 ; tests if a pokemon's bit is set in the seen or owned pokemon bit fields
@@ -602,40 +607,8 @@ DrawTileLine: ; 40474 (10:4474)
 INCLUDE "data/pokedex_entries.asm"
 
 PokedexToIndex: ; 40ff9 (10:4ff9)
-	; converts the Pokédex number at wd11e to an index
-	push bc
-	push hl
-	ld a,[wd11e]
-	ld b,a
-	ld c,0
-	ld hl,PokedexOrder
-
-.loop ; go through the list until we find an entry with a matching dex number
-	inc c
-	ld a,[hli]
-	cp b
-	jr nz,.loop
-
-	ld a,c
-	ld [wd11e],a
-	pop hl
-	pop bc
-	ret
-
 IndexToPokedex: ; 41010 (10:5010)
-	; converts the indexédex number at wd11e to a Pokédex number
-	push bc
-	push hl
-	ld a,[wd11e]
-	dec a
-	ld hl,PokedexOrder
-	ld b,0
-	ld c,a
-	add hl,bc
-	ld a,[hl]
-	ld [wd11e],a
-	pop hl
-	pop bc
+    ld a, [wd11e]
 	ret
 
 INCLUDE "data/pokedex_order.asm"

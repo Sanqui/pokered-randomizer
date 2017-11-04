@@ -9,12 +9,12 @@ Func_79e96: ; 79e96 (1e:5e96)
 	ld a, $1
 	ld [wd08a], a
 	ld c, $2
-	call AdjustOAMBlockXPos2
+	call CutAdjustOAMBlockXPos2
 	ld hl, wOAMBuffer + $99
 	ld a, $ff
 	ld [wd08a], a
 	ld c, $2
-	call AdjustOAMBlockXPos2
+	call CutAdjustOAMBlockXPos2
 	ld a, [rOBP1] ; $ff49
 	xor $64
 	ld [rOBP1], a ; $ff49
@@ -37,7 +37,7 @@ Func_79e96: ; 79e96 (1e:5e96)
 	ld a, $2
 	ld [wd08a], a
 	ld c, $4
-	call AdjustOAMBlockYPos2
+	call CutAdjustOAMBlockYPos2
 	pop bc
 	dec c
 	jr nz, .asm_79eca
@@ -49,22 +49,22 @@ Func_79eed: ; 79eed (1e:5eed)
 	ld a, $1
 	ld [wd08a], a
 	ld c, $1
-	call AdjustOAMBlockXPos2
+	call CutAdjustOAMBlockXPos2
 	ld hl, wOAMBuffer + $95
 	ld a, $2
 	ld [wd08a], a
 	ld c, $1
-	call AdjustOAMBlockXPos2
+	call CutAdjustOAMBlockXPos2
 	ld hl, wOAMBuffer + $99
 	ld a, $fe
 	ld [wd08a], a
 	ld c, $1
-	call AdjustOAMBlockXPos2
+	call CutAdjustOAMBlockXPos2
 	ld hl, wOAMBuffer + $9d
 	ld a, $ff
 	ld [wd08a], a
 	ld c, $1
-	call AdjustOAMBlockXPos2
+	call CutAdjustOAMBlockXPos2
 	ld a, [rOBP1] ; $ff49
 	xor $64
 	ld [rOBP1], a ; $ff49
@@ -87,3 +87,42 @@ Func_79f30: ; 79f30 (1e:5f30)
 	ld de, wOAMBuffer + $98
 	ld bc, $8
 	jp CopyData
+
+
+CutAdjustOAMBlockXPos2: ; dupe for cut
+	ld de, $4
+.loop
+	ld a, [wd08a]
+	ld b, a
+	ld a, [hl]
+	add b
+	cp $a8
+	jr c, .skipPuttingEntryOffScreen
+	dec hl
+	ld a, $a0
+	ld [hli], a
+.skipPuttingEntryOffScreen
+	ld [hl], a
+	add hl, de
+	dec c
+	jr nz, .loop
+	ret
+
+CutAdjustOAMBlockYPos2: ; dupe for cut
+	ld de, $4
+.loop
+	ld a, [wd08a]
+	ld b, a
+	ld a, [hl]
+	add b
+	cp $70
+	jr c, .skipSettingPreviousEntrysAttribute
+	dec hl
+	ld a, $a0 ; bug, sets previous OAM entry's attribute
+	ld [hli], a
+.skipSettingPreviousEntrysAttribute
+	ld [hl], a
+	add hl, de
+	dec c
+	jr nz, .loop
+	ret

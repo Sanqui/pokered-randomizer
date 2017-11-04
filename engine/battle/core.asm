@@ -59,6 +59,7 @@ EffectsArray3: ; 3c014 (f:4014)
 EffectsArray4: ; 3c030 (f:4030)
 ; Attacks that aren't finished after they faint the opponent.
 	db DRAIN_HP_EFFECT
+	db DRAIN_HP_EFFECT_75
 	db EXPLODE_EFFECT
 	db DREAM_EATER_EFFECT
 	db PAY_DAY_EFFECT
@@ -66,11 +67,13 @@ EffectsArray4: ; 3c030 (f:4030)
 	db $1E
 	db ATTACK_TWICE_EFFECT
 	db RECOIL_EFFECT
+	db HALF_RECOIL_EFFECT
 	db TWINEEDLE_EFFECT
 	db RAGE_EFFECT
 	db -1
 EffectsArray5: ; 3c03b (f:403b)
 	db DRAIN_HP_EFFECT
+	db DRAIN_HP_EFFECT_75
 	db EXPLODE_EFFECT
 	db DREAM_EATER_EFFECT
 	db PAY_DAY_EFFECT
@@ -84,6 +87,7 @@ EffectsArray5: ; 3c03b (f:403b)
 	db ATTACK_TWICE_EFFECT
 	db JUMP_KICK_EFFECT
 	db RECOIL_EFFECT
+	db HALF_RECOIL_EFFECT
 	; fallthrough to Next EffectsArray
 EffectsArray5B: ; 3c049 (f:4049)
 ; moves that prevent the player from switching moves?
@@ -366,6 +370,34 @@ EnemyRanText: ; 3c22e (f:422e)
 	TX_FAR _EnemyRanText
 	db "@"
 
+PRIORITY_MOVE_ASM: MACRO
+	ld a, [wPlayerSelectedMove]
+	cp \1
+	jr nz, .playerDidNotUse\@
+	ld a, [wEnemySelectedMove]
+	cp \1
+	jp z, .compareSpeed  ; if both used Quick Attack
+	jp .playerMovesFirst ; if player used Quick Attack and enemy didn't
+.playerDidNotUse\@
+	ld a, [wEnemySelectedMove]
+	cp \1
+	jp z, .enemyMovesFirst ; if enemy used Quick Attack and player didn't
+ENDM
+
+NEGATIVE_PRIORITY_MOVE_ASM: MACRO
+	ld a, [wPlayerSelectedMove]
+	cp \1
+	jr nz, .playerDidNotUse\@
+	ld a, [wEnemySelectedMove]
+	cp \1
+	jp z, .compareSpeed  ; if both used Quick Attack
+	jp .enemyMovesFirst ; if player used Quick Attack and enemy didn't
+.playerDidNotUse\@
+	ld a, [wEnemySelectedMove]
+	cp \1
+	jp z, .playerMovesFirst ; if enemy used Quick Attack and player didn't
+ENDM
+
 MainInBattleLoop: ; 3c233 (f:4233)
 	call ReadPlayerMonCurHPAndStatus
 	ld hl, wBattleMonHP
@@ -455,24 +487,13 @@ MainInBattleLoop: ; 3c233 (f:4233)
 .asm_3c2dd
 	callab SwitchEnemyMon
 .noLinkBattle
-	ld a, [wPlayerSelectedMove]
-	cp QUICK_ATTACK
-	jr nz, .playerDidNotUseQuickAttack
-	ld a, [wEnemySelectedMove]
-	cp QUICK_ATTACK
-	jr z, .compareSpeed  ; if both used Quick Attack
-	jp .playerMovesFirst ; if player used Quick Attack and enemy didn't
-.playerDidNotUseQuickAttack
-	ld a, [wEnemySelectedMove]
-	cp QUICK_ATTACK
-	jr z, .enemyMovesFirst ; if enemy used Quick Attack and player didn't
-	ld a, [wPlayerSelectedMove]
-	cp COUNTER
-	jr nz, .playerDidNotUseCounter
-	ld a, [wEnemySelectedMove]
-	cp COUNTER
-	jr z, .compareSpeed ; if both used Counter
-	jr .enemyMovesFirst ; if player used Counter and enemy didn't
+
+	PRIORITY_MOVE_ASM QUICK_ATTACK
+	PRIORITY_MOVE_ASM MACH_PUNCH
+	PRIORITY_MOVE_ASM SHADOW_SNEAK
+	PRIORITY_MOVE_ASM BULLET_PUNCH
+	NEGATIVE_PRIORITY_MOVE_ASM COUNTER
+	
 .playerDidNotUseCounter
 	ld a, [wEnemySelectedMove]
 	cp COUNTER
@@ -1018,6 +1039,12 @@ TrainerBattleVictory: ; 3c696 (f:4696)
 	call PrintEndBattleText
 	ld hl, MoneyForWinningText
 	call PrintText
+	
+    xor a
+    ld [wIsTrainerBattle], a
+    ld a, 1
+    ld [wWasTrainerBattle], a
+    
 	ld de, wPlayerMoney + 2
 	ld hl, wd07b
 	ld c, $3
@@ -1198,6 +1225,8 @@ ChooseNextMon: ; 3c7d8 (f:47d8)
 ; called when player is out of usable mons.
 ; prints approriate lose message, sets carry flag if player blacked out (special case for initial rival fight)
 HandlePlayerBlackOut: ; 3c837 (f:4837)
+	xor a
+	ld [wIsTrainerBattle], a
 	ld a, [W_ISLINKBATTLE]
 	cp $4
 	jr z, .notSony1Battle
@@ -2954,7 +2983,11 @@ Func_3d4b6: ; 3d4b6 (f:54b6)
 	jp Delay3
 
 DisabledText: ; 3d555 (f:5555)
+IF DEF(_YELLOW)
+	db "Disabled!@"
+ELSE
 	db "disabled!@"
+ENDC
 
 TypeText: ; 3d55f (f:555f)
 	db "TYPE@"
@@ -3006,6 +3039,9 @@ SelectEnemyMove: ; 3d564 (f:5564)
 	ld a, [hld]
 	and a
 	jr nz, .atLeastTwoMovesAvailable
+	ld a, [hl]
+	and a
+	jr z, .asm_3d601 ; no move available
 	ld a, [W_ENEMYDISABLEDMOVE]
 	and a
 	ld a, STRUGGLE ; struggle if the only move is disabled
@@ -4683,6 +4719,8 @@ HighCriticalMoves: ; 3e08e (f:608e)
 	db RAZOR_LEAF
 	db CRABHAMMER
 	db SLASH
+	db NIGHT_SLASH
+	db SHADOW_CLAW
 	db $FF
 
 
@@ -5117,7 +5155,7 @@ MirrorMoveFailedText: ; 3e324 (f:6324)
 ReloadMoveData: ; 3e329 (f:6329)
 	ld [wd11e],a
 	dec a
-	ld hl,Moves
+	call LoadHLMoves
 	ld bc,$0006
 	call AddNTimes
 	ld a,BANK(Moves)
@@ -5146,6 +5184,9 @@ MetronomePickMove: ; 3e348 (f:6348)
 	ld de,W_ENEMYMOVENUM
 	ld hl,wEnemySelectedMove
 ; loop to pick a random number in the range [1, $a5) to be the move used by Metronome
+    ld a, [RandomizerFlags]
+    bit 2, a
+    jr z, .newMovesPickMoveLoop
 .pickMoveLoop
 	call BattleRandom
 	and a
@@ -5154,6 +5195,20 @@ MetronomePickMove: ; 3e348 (f:6348)
 	jr nc,.pickMoveLoop
 	cp a,METRONOME
 	jr z,.pickMoveLoop
+	jr .ok
+.newMovesPickMoveLoop
+	call BattleRandom
+	and a
+	jr z,.pickMoveLoop
+	cp LAST_NEW_MOVE + 1
+	jr nc, .pickMoveLoop
+	cp FIRST_NEW_MOVE
+	jr nc, .ok
+	cp a,NUM_ATTACKS + 1 ; max normal move number + 1 (this is Struggle's move number)
+	jr nc,.pickMoveLoop
+	cp a,METRONOME
+	jr z,.pickMoveLoop
+.ok
 	ld [hl],a
 	jr ReloadMoveData
 
@@ -5341,8 +5396,6 @@ AIGetTypeEffectiveness: ; 3e449 (f:6449)
 	ld a,[hl]
 	ld [wd11e],a           ; store damage multiplier
 	ret
-
-INCLUDE "data/type_effects.asm"
 
 ; some tests that need to pass for a move to hit
 MoveHitTest: ; 3e56b (f:656b)
@@ -6086,7 +6139,7 @@ GetCurrentMove: ; 3eabe (f:6abe)
 .selected
 	ld [wd0b5], a
 	dec a
-	ld hl, Moves
+	call LoadHLMoves
 	ld bc, $6
 	call AddNTimes
 	ld a, BANK(Moves)
@@ -6767,9 +6820,11 @@ asm_3ef3d: ; 3ef3d (f:6f3d)
 	push af
 	res 1, [hl]
 	callab Func_525af
-	ld a, [wEnemyMonSpecies2]
-	sub $c8
-	jp c, InitWildBattle
+	ld a, [wIsTrainerBattle]
+	and a
+	jp z, InitWildBattle
+    ld a, [wEnemyMonSpecies2]
+    sub $c8
 	ld [W_TRAINERCLASS], a
 	call GetTrainerInformation
 	callab ReadTrainer
@@ -7126,6 +7181,15 @@ MoveEffectPointerTable: ; 3f150 (f:7150)
 	 dw LeechSeedEffect           ; LEECH_SEED_EFFECT
 	 dw SplashEffect              ; SPLASH_EFFECT
 	 dw DisableEffect             ; DISABLE_EFFECT
+	 dw RecoilEffect              ; HALF_RECOIL_EFFECT
+	 dw FlichSideEffect           ; FLINCH_SIDE_EFFECT_20
+	 dw DrainHPEffect             ; DRAIN_HP_EFFECT_75
+	 dw PoisonEffect              ; POISON_SIDE_EFFECT_50
+	 dw StatModifierDownEffect100 ; ATTACK_DOWN_SIDE_EFFECT_100
+	 dw StatModifierDownEffect100 ; DEFENSE_DOWN_SIDE_EFFECT_100
+	 dw StatModifierDownEffect100 ; SPEED_DOWN_SIDE_EFFECT_100
+	 dw StatModifierDownEffect100 ; SPECIAL_DOWN_SIDE_EFFECT_100
+	 dw FreezeBurnParalyzeEffect  ; PARALYZE_SIDE_EFFECT_100
 
 SleepEffect: ; 3f1fc (f:71fc)
 	ld de, wEnemyMonStatus
@@ -7204,6 +7268,9 @@ PoisonEffect: ; 3f24f (f:724f)
 	jr z, .asm_3f290
 	cp POISON_SIDE_EFFECT2
 	ld b, $67 ; ~40% chance of poisoning
+	jr z, .asm_3f290
+	cp POISON_SIDE_EFFECT_50
+	ld b, $80 ; ~50% chance of poisoning
 	jr z, .asm_3f290
 	push hl
 	push de
@@ -7316,6 +7383,8 @@ FreezeBurnParalyzeEffect: ; 3f30c (f:730c)
 	cp b
 	ret z  ;return..
 	ld a, [W_PLAYERMOVEEFFECT]
+	cp PARALYZE_SIDE_EFFECT_100
+	jr z, .par
 	cp a, 7         ;10% status effects are 04, 05, 06 so 07 will set carry for those
 	ld b, $1a       ;[1A-1]/100 or [26-1]/256 = 9.8%~ chance
 	jr c, .next1  ;branch ahead if this is a 10% chance effect..
@@ -7333,6 +7402,7 @@ FreezeBurnParalyzeEffect: ; 3f30c (f:730c)
 	jr z, .burn
 	cp a, FREEZE_SIDE_EFFECT
 	jr z, .freeze
+.par
 	ld a, 1 << PAR
 	ld [wEnemyMonStatus], a
 	call QuarterSpeedDueToParalysis  ;quarter speed of affected monster
@@ -7628,6 +7698,21 @@ RoseText: ; 3f547 (f:7547)
 	TX_FAR _RoseText
 	db "@"
 
+StatModifierDownEffect100:
+	ld hl, wEnemyMonStatMods
+	ld de, W_PLAYERMOVEEFFECT
+	ld bc, W_ENEMYBATTSTATUS1
+	ld a, [H_WHOSETURN]
+	and a
+	jr z, .got
+	ld hl, wPlayerMonStatMods
+	ld de, W_ENEMYMOVEEFFECT
+	ld bc, W_PLAYERBATTSTATUS1
+.got
+	ld a, [de]
+	sub ATTACK_DOWN_SIDE_EFFECT_100
+	jr StatModifierDownEffectApply
+
 StatModifierDownEffect: ; 3f54c (f:754c)
 	ld hl, wEnemyMonStatMods
 	ld de, W_PLAYERMOVEEFFECT
@@ -7676,6 +7761,7 @@ StatModifierDownEffect: ; 3f54c (f:754c)
 	jr c, .asm_3f5a9
 	sub $28
 .asm_3f5a9
+StatModifierDownEffectApply:
 	ld c, a
 	ld b, $0
 	add hl, bc
@@ -8084,6 +8170,9 @@ FlichSideEffect: ; 3f85b (f:785b)
 	ld a, [de]
 	cp FLINCH_SIDE_EFFECT1
 	ld b, $1a ; ~10% chance of flinch
+	jr z, .asm_3f879
+	cp FLINCH_SIDE_EFFECT_20
+	ld b, $33 ; ~20% chance of flinch
 	jr z, .asm_3f879
 	ld b, $4d ; ~30% chance of flinch
 .asm_3f879
@@ -8614,3 +8703,5 @@ Func_3fbbc: ; 3fbbc (f:7bbc)
 	pop de
 	pop hl
 	ret
+
+INCLUDE "data/type_effects.asm"

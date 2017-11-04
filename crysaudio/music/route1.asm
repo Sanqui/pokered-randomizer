@@ -5,7 +5,6 @@ Music_Route1: ; ec000
 ; ec009
 
 
-INCBIN "baserom.gbc", $ec009, $ec00a - $ec009
 
 
 Music_Route1_Ch1: ; ec00a

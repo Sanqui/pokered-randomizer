@@ -25,6 +25,8 @@ BluesHouseTextPointers: ; 19b57 (6:5b57)
 	dw BluesHouseText2
 	dw BluesHouseText3
 
+OWItemTownMap: db TOWN_MAP
+
 BluesHouseText1: ; 19b5d (6:5b5d)
 	db 8
 	ld a,[wd74a]
@@ -39,10 +41,11 @@ BluesHouseText1: ; 19b5d (6:5b5d)
 .GiveMap
 	ld hl,DaisyOfferMapText
 	call PrintText
-	ld bc,(TOWN_MAP << 8) | 1
+	lda b, [OWItemTownMap]
+	ld c, 1
 	call GiveItem
 	jr nc, .BagFull
-	ld a,$29
+	ld a,HS_TOWN_MAP
 	ld [wcc4d],a
 	predef HideObject ; hide table map object
 	ld hl,GotMapText

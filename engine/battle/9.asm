@@ -41,8 +41,6 @@ asm_27d9f: ; 27d9f (9:7d9f)
 	pop hl
 	jp PlaceString
 
-INCLUDE "text/type_names.asm"
-
 SaveTrainerName: ; 27e4a (9:7e4a)
 	ld hl,TrainerNamePointers
 	ld a,[W_TRAINERCLASS]
@@ -180,3 +178,6 @@ GettingPumpedText: ; 27fb3 (9:7fb3)
 	db $0a
 	TX_FAR _GettingPumpedText
 	db "@"
+	
+
+INCLUDE "text/type_names.asm"

@@ -5,6 +5,8 @@ Route16HouseTextPointers: ; 1e5fb (7:65fb)
 	dw Route16HouseText1
 	dw Route16HouseText2
 
+OWItemHM02: db HM_02
+
 Route16HouseText1: ; 1e5ff (7:65ff)
 	db $08 ; asm
 	ld a, [wd7e0]
@@ -13,7 +15,8 @@ Route16HouseText1: ; 1e5ff (7:65ff)
 	jr nz, .asm_13616 ; 0x1e608
 	ld hl, Route16HouseText3
 	call PrintText
-	ld bc, (HM_02 << 8) | 1
+	lda b, [OWItemHM02]
+	ld c, 1
 	call GiveItem
 	jr nc, .BagFull
 	ld hl, wd7e0

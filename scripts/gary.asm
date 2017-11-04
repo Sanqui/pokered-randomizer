@@ -82,6 +82,8 @@ GaryScript2: ; 75f6a (1d:5f6a)
 	ld a, $3
 .done
 	ld [W_TRAINERNO], a
+	ld a, 1
+	ld [wIsTrainerBattle], a
 
 	xor a
 	ld [hJoyHeld], a
@@ -93,6 +95,8 @@ GaryScript3: ; 75fbb (1d:5fbb)
 	ld a, [W_ISINBATTLE]
 	cp $ff
 	jp z, GaryScript_75f29
+    xor a
+    ld [wIsTrainerBattle], a
 	call UpdateSprites ; move sprites
 	ld hl, wd867
 	set 1, [hl]
@@ -120,7 +124,7 @@ GaryScript4: ; 75fe4 (1d:5fe4)
 	ld a, $2
 	ld [$ff8c], a
 	call MoveSprite
-	ld a, $d6
+	ld a, HS_CHAMPIONS_ROOM_OAK
 	ld [wcc4d], a
 	predef ShowObject
 	ld a, $5
@@ -190,7 +194,7 @@ GaryScript8: ; 76083 (1d:6083)
 	ld a, [wd730]
 	bit 0, a
 	ret nz
-	ld a, $d6
+	ld a, HS_CHAMPIONS_ROOM_OAK
 	ld [wcc4d], a
 	predef HideObject
 	ld a, $9

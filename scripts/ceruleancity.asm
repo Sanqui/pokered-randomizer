@@ -8,7 +8,7 @@ CeruleanCityScript_1948c: ; 1948c (6:548c)
 	xor a
 	ld [wJoyIgnore], a
 	ld [W_CERULEANCITYCURSCRIPT], a
-	ld a, $5
+	ld a, HS_CERULEAN_RIVAL
 	ld [wcc4d], a
 	predef_jump HideObject
 
@@ -88,7 +88,7 @@ CeruleanCityScript0: ; 194c8 (6:54c8)
 	call GetPointerWithinSpriteStateData2
 	ld [hl], $19
 .asm_19535
-	ld a, $5
+	ld a, HS_CERULEAN_RIVAL
 	ld [wcc4d], a
 	predef ShowObject
 	ld de, CeruleanCityMovement1
@@ -152,6 +152,8 @@ CeruleanCityScript1: ; 19567 (6:5567)
 	ld a, $9
 .done
 	ld [W_TRAINERNO], a
+	ld a, 1
+	ld [wIsTrainerBattle], a
 
 	xor a
 	ld [hJoyHeld], a
@@ -164,6 +166,8 @@ CeruleanCityScript2: ; 195b1 (6:55b1)
 	ld a, [W_ISINBATTLE]
 	cp $ff
 	jp z, CeruleanCityScript_1948c
+    xor a
+    ld [wIsTrainerBattle], a
 	call CeruleanCityScript_1955d
 	ld a, $f0
 	ld [wJoyIgnore], a
@@ -204,7 +208,7 @@ CeruleanCityScript3: ; 19610 (6:5610)
 	ld a, [wd730]
 	bit 0, a
 	ret nz
-	ld a, $5
+	ld a, HS_CERULEAN_RIVAL
 	ld [wcc4d], a
 	predef HideObject
 	xor a
@@ -265,6 +269,8 @@ CeruleanCityText_19677: ; 19677 (6:5677)
 	TX_FAR _CeruleanCityText_19677
 	db "@"
 
+OWItemTM28: db TM_28
+
 CeruleanCityText2: ; 1967c (6:567c)
 	db $8
 	ld a, [wd75b]
@@ -288,7 +294,8 @@ CeruleanCityText2: ; 1967c (6:567c)
 .asm_4ca20 ; 0x196ad
 	ld hl, CeruleanCityText_196f3
 	call PrintText
-	ld bc, (TM_28 << 8) + 1
+	lda b, [OWItemTM28]
+	ld c, 1
 	call GiveItem
 	jr c, .Success
 	ld hl, TM28NoRoomText

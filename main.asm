@@ -69,7 +69,6 @@ ResetStatusAndHalveMoneyOnBlackout::
 
 MewPicFront:: INCBIN "pic/bmon/mew.pic"
 MewPicBack::  INCBIN "pic/monback/mewb.pic"
-INCLUDE "data/baseStats/mew.asm"
 
 INCLUDE "engine/battle/safari_zone.asm"
 
@@ -1084,7 +1083,7 @@ DrawStartMenu: ; 710b (1:710b)
 	ld c,$08
 .drawTextBoxBorder
 	call TextBoxBorder
-	ld a,%11001011 ; bit mask for down, up, start, B, and A buttons
+	ld a,%11001111 ; bit mask for down, up, start, B, and A buttons
 	ld [wMenuWatchedKeys],a
 	ld a,$02
 	ld [wTopMenuItemY],a ; Y position of first menu choice
@@ -2012,6 +2011,9 @@ Func_7c18: ; 7c18 (1:7c18)
 	ld [wDoNotWaitForButtonPressAfterDisplayingText], a
 	ret
 
+TitleScreenText::
+    db "@"
+    ds 20*11
 
 SECTION "bank3",ROMX,BANK[$3]
 
@@ -3768,7 +3770,7 @@ AddPartyMon_WriteMovePP: ; f476 (3:7476)
 	push hl
 	push de
 	push bc
-	ld hl, Moves
+	call LoadHLMoves
 	ld bc, $6
 	call AddNTimes
 	ld de, wcd6d
@@ -4133,7 +4135,7 @@ HealParty:
 	push de
 	push bc
 
-	ld hl, Moves
+	call LoadHLMoves
 	ld bc, $0006
 	call AddNTimes
 	ld de, wcd6d
@@ -5059,6 +5061,12 @@ INCLUDE "data/mapHeaders/billshouse.asm"
 INCLUDE "scripts/billshouse.asm"
 INCLUDE "data/mapObjects/billshouse.asm"
 BillsHouseBlocks: INCBIN "maps/billshouse.blk"
+IF DEF(_OPTION_BEACH_HOUSE)
+INCLUDE "data/mapHeaders/beach_house.asm"
+INCLUDE "scripts/beach_house.asm"
+BeachHouseBlockdata: INCBIN "maps/beach_house.blk"
+INCLUDE "data/mapObjects/beach_house.asm"
+ENDC
 
 INCLUDE "engine/menu/oaks_pc.asm"
 
@@ -5430,9 +5438,10 @@ INCLUDE "engine/game_corner_slots.asm"
 
 SECTION "bankE",ROMX,BANK[$E]
 
-INCLUDE "data/moves.asm"
+    inc_section "data/moves.asm"
 BaseStats: INCLUDE "data/base_stats.asm"
-INCLUDE "data/cries.asm"
+CryData:
+;INCLUDE "data/cries.asm"
 INCLUDE "engine/battle/e.asm"
 
 TradingAnimationGraphics:
@@ -5443,9 +5452,11 @@ TradingAnimationGraphics2:
 ; Pokeball traveling through the link cable.
 	INCBIN "gfx/trade2.2bpp"
 
-INCLUDE "engine/evos_moves.asm"
 INCLUDE "engine/battle/e_2.asm"
 
+SECTION "Evos Moves",ROMX
+INCLUDE "engine/evos_moves.asm"
+ds $400
 
 SECTION "bankF",ROMX,BANK[$F]
 
@@ -5962,7 +5973,11 @@ Route17Blocks: INCBIN "maps/route17.blk"
 
 INCLUDE "data/mapHeaders/route19.asm"
 INCLUDE "data/mapObjects/route19.asm"
+IF DEF(_OPTION_BEACH_HOUSE)
+Route19Blocks: INCBIN "maps/route19-yellow.blk"
+ELSE
 Route19Blocks: INCBIN "maps/route19.blk"
+ENDC
 
 INCLUDE "data/mapHeaders/route21.asm"
 INCLUDE "data/mapObjects/route21.asm"
@@ -6016,7 +6031,6 @@ SilphCo8Blocks: INCBIN "maps/silphco8.blk"
 INCLUDE "engine/menu/diploma.asm"
 
 INCLUDE "engine/overworld/trainers.asm"
-
 
 SECTION "bank16",ROMX,BANK[$16]
 
@@ -6414,10 +6428,10 @@ SECTION "bank1A",ROMX,BANK[$1A]
 INCLUDE "engine/battle/1a.asm"
 
 Version_GFX:
-IF _RED
+IF DEF(_RED)
 	INCBIN "gfx/red/redgreenversion.1bpp" ; 10 tiles
 ENDC
-IF _BLUE
+IF DEF(_BLUE)
 	INCBIN "gfx/blue/blueversion.1bpp" ; 8 tiles
 ENDC
 
@@ -6612,38 +6626,69 @@ SECTION "bank1E",ROMX,BANK[$1E]
 
 INCLUDE "engine/battle/animations.asm"
 
-INCLUDE "engine/overworld/cut2.asm"
-
-INCLUDE "engine/overworld/ssanne.asm"
-
-RedFishingTilesFront: INCBIN "gfx/red_fishing_tile_front.2bpp"
-RedFishingTilesBack:  INCBIN "gfx/red_fishing_tile_back.2bpp"
-RedFishingTilesSide:  INCBIN "gfx/red_fishing_tile_side.2bpp"
-RedFishingRodTiles:   INCBIN "gfx/red_fishingrod_tiles.2bpp"
 
 INCLUDE "data/animations.asm"
 
 INCLUDE "engine/evolution.asm"
 
-INCLUDE "engine/overworld/elevator.asm"
 
-INCLUDE "engine/items/tm_prices.asm"
 
+
+SECTION "Red Fishing Tiles", ROMX
+RedFishingTilesFront: INCBIN "gfx/red_fishing_tile_front.2bpp"
+RedFishingTilesBack:  INCBIN "gfx/red_fishing_tile_back.2bpp"
+RedFishingTilesSide:  INCBIN "gfx/red_fishing_tile_side.2bpp"
+RedFishingRodTiles:   INCBIN "gfx/red_fishingrod_tiles.2bpp"
+
+SECTION "Cut 2", ROMX
+    INCLUDE "engine/overworld/cut2.asm"
+
+SECTION "S. S. Anne & Boulder & Cut & Elevator Animations", ROMX
+    INCLUDE "engine/overworld/ssanne.asm"
+    INCLUDE "engine/overworld/elevator.asm"
+
+SECTION "TM Prices", ROMX
+    INCLUDE "engine/items/tm_prices.asm"
+
+IF DEF(_OPTION_BEACH_HOUSE)
+SECTION "bank3C",ROMX[$4314],BANK[$3C]
+
+BeachHouse_GFX:
+	INCBIN "gfx/tilesets/beachhouse.2bpp"
+
+BeachHouse_Block:
+	INCBIN "gfx/blocksets/beachhouse.bst"
+ENDC
+
+SECTION "bank34",ROMX,BANK[$34]
+SpriteBank1::
+    ds $4000
+SECTION "bank35",ROMX,BANK[$35]
+SpriteBank2::
+    ds $4000
+SECTION "bank36",ROMX,BANK[$36]
+SpriteBank3::
+    ds $4000
+SECTION "bank37",ROMX,BANK[$37]
+SpriteBank4::
+    ds $4000
 SECTION "bank38",ROMX,BANK[$38]
-SpriteBank1:
+SpriteBank5::
     ds $4000
 SECTION "bank39",ROMX,BANK[$39]
-SpriteBank2:
+SpriteBank6::
     ds $4000
 SECTION "bank3a",ROMX,BANK[$3A]
-SpriteBank3:
+SpriteBank7::
     ds $4000
 SECTION "bank3b",ROMX,BANK[$3b]
-SpriteBank4:
+SpriteBank8::
     ds $4000
 SECTION "bank3e",ROMX,BANK[$3e]
-SpriteBank5:
+SpriteBank9::
     ds $4000
 SECTION "bank3f",ROMX,BANK[$3f]
-SpriteBank6:
+SpriteBank10::
     ds $4000
+
+    inc_section "engine/menu/debug_menu.asm"

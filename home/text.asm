@@ -627,13 +627,15 @@ TextCommand0B:: ; 1c31 (0:1c31)
 ; format: text command ID, sound ID or cry ID
 TextCommandSounds:: ; 1c64 (0:1c64)
 	db $0B,RBSFX_02_3a
-	db $12,RBSFX_02_46
+	db $12,RBSFX_08_46
 	db $0E,RBSFX_02_41
 	db $0F,RBSFX_02_3a
 	db $10,RBSFX_02_3b
 	db $11,RBSFX_02_42
-	db $13,RBSFX_02_44
-	db $14,NIDORINA ; used in OakSpeech
+	db $13,RBSFX_08_44
+	db $14
+TextCommandSoundsIntroMon::
+	db NIDORINA ; used in OakSpeech
 	db $15,PIDGEOT  ; used in SaffronCityText12
 	db $16,DEWGONG  ; unused?
 

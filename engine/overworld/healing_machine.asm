@@ -51,9 +51,6 @@ AnimateHealingMachine: ; 70433 (1c:4433)
 	and a
 	jr nz, .loop
 	
-	ld a, MUSIC_POKECENTER
-	call PlayMusic
-	
 	ld c, $20
 	call DelayFrames
 	pop af

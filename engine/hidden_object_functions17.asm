@@ -464,3 +464,10 @@ VermilionGymTrashFailText: ; 5df02 (17:5f02)
 	call PlaySound
 	call WaitForSoundToFinish
 	jp TextScriptEnd
+
+; Trash cans are broken and can read the 255th entry sometimes for
+; the second can.
+; rgblink was placing stuff here, so the behavior was different from
+; original Red.  This is the simplest non-code fix: allocate zeroes as
+; far as the broken code could reach.
+    ds 255

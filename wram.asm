@@ -120,9 +120,12 @@ wc0ee:: ds 1
 wc0ef:: ds 1
 wc0f0:: ds 1
 wc0f1:: ds 1
-wc0f2:: ds 13 ;14
+wc0f2:: ds 10 ;14
 
 wHaltAudio:: ds 1
+wSFXDontWait:: ds 1
+wIsTrainerBattle:: ds 1
+wWasTrainerBattle:: ds 1
 
 SECTION "Sprite State Data", WRAM0[$c100]
 
@@ -510,6 +513,9 @@ wPlayerSpinInPlaceAnimFrameDelay:: ; cd3d
 wPlayerSpinWhileMovingUpOrDownAnimDeltaY:: ; cd3d
 
 wHiddenObjectFunctionArgument:: ; cd3d
+
+wSubtrahend:: ; cd3d
+; subtract (BCD) wSubtrahend, wSubtrahend+1, wSubtrahend+2
 
 wWhichTrade:: ; cd3d
 ; which entry from TradeMons to select
@@ -1163,6 +1169,7 @@ W_MONHGROWTHRATE:: ; d0cb
 W_MONHLEARNSET:: ; d0cc
 ; bit field
 	flag_array 50 + 5
+W_MONSPRITEBANK::
 	ds 1
 
 wd0d4:: ds 3
@@ -2026,6 +2033,16 @@ W_GRASSRATE:: ; d887
 W_GRASSMONS:: ; d888
 	ds 20
 
+; Overload W_GRASSMONS
+wd893:: ds 3
+wd896:: ds 3
+
+; Overload enemy party data
+W_WATERRATE:: ds 1
+W_WATERMONS:: ds 20
+
+; Overload enemy stat modifiers
+wTradeMonNick:: ds 11
 
 wEnemyPartyCount:: ds 1     ; d89c
 wEnemyPartyMons::  ds PARTY_LENGTH + 1 ; d89d
@@ -2093,6 +2110,8 @@ wBoxMon2:: ds box_struct_length * (MONS_PER_BOX + -1) ; dab7
 wBoxMonOT::    ds 11 * MONS_PER_BOX ; dd2a
 wBoxMonNicks:: ds 11 * MONS_PER_BOX ; de06
 wBoxMonNicksEnd:: ; dee2
+
+SECTION "Empty", WRAMX, BANK[1]
 
 
 SECTION "Stack", WRAMX[$dfff], BANK[1]
@@ -2399,6 +2418,8 @@ CurSFX:: ; c2bf
 CurMusic:: ; c2c0
 ; id of music currently playing
 	ds 1
+
+wTranspositionInterval:: ds 1
 
 ; misc crys labels
 Options:: ds 1

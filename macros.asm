@@ -145,6 +145,16 @@ dbw: MACRO
 	dw \2
 	ENDM
 
+bigdw: MACRO ; big-endian word
+        dw ((\1)/$100) + (((\1)&$ff)*$100)
+        ENDM
+
+dt: MACRO ; three-byte (big-endian)
+        db (\1 >> 16) & $ff
+        db (\1 >> 8) & $ff
+        db \1 & $ff
+        ENDM
+
 ; data format macros
 RGB: MACRO
 	dw (\3 << 10 | \2 << 5 | \1)
@@ -439,4 +449,14 @@ WEST_MAP_CONNECTION: MACRO
 	db (\3 - \4) * -2 ; y alignment
 	db (\2 * 2) - 1 ; x alignment
 	dw wOverworldMap + 6 + (2 * \2) ; window (position of the upper left block after entring the map)
+ENDM
+
+inc_section: MACRO
+    SECTION \1, ROMX
+    include \1
+ENDM
+
+lda: MACRO
+    ld a, \2
+    ld \1, a
 ENDM

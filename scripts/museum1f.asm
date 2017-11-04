@@ -188,6 +188,8 @@ Museum1FText_5c251: ; 5c251 (17:4251)
 	TX_FAR _Museum1FText_5c251
 	db "@"
 
+OWItemOldAmber: db OLD_AMBER
+
 Museum1FText3: ; 5c256 (17:4256)
 	db $08 ; asm
 	ld a, [wd754]
@@ -195,12 +197,13 @@ Museum1FText3: ; 5c256 (17:4256)
 	jr nz, .asm_16599 ; 0x5c25c
 	ld hl, Museum1FText_5c28e
 	call PrintText
-	ld bc, (OLD_AMBER << 8) | 1
+	lda b, [OWItemOldAmber]
+	ld c, 1
 	call GiveItem
 	jr nc, .BagFull
 	ld hl, wd754
 	set 1, [hl]
-	ld a, $34
+	ld a, HS_OLD_AMBER
 	ld [wcc4d], a
 	predef HideObject
 	ld hl, ReceivedOldAmberText

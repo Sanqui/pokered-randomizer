@@ -28,6 +28,11 @@ MainMenu: ; 5af2 (1:5af2)
 	call GoPAL_SET_CF1C
 	call LoadTextBoxTilePatterns
 	call LoadFontTilePatterns
+	
+	hlCoord 0, 8
+	ld de, TitleScreenText
+	call PlaceString ; show randomizer options
+	
 	ld hl,wd730
 	set 6,[hl]
 	ld a,[wd088]
@@ -419,6 +424,7 @@ SaveScreenInfoText: ; 5e6a (1:5e6a)
 	next "TIME@"
 
 DisplayOptionMenu: ; 5e8a (1:5e8a)
+    call ClearScreen ; to clean title screen text
 	hlCoord 0, 0
 	ld b,3
 	ld c,18

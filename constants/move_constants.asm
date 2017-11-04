@@ -168,7 +168,6 @@ const_value = 1
 NUM_ATTACKS EQU const_value + -1
 
 	const STRUGGLE
-
 	; Moves do double duty as animation identifiers.
 
 	const SHOWPIC_ANIM
@@ -208,3 +207,55 @@ NUM_ATTACKS EQU const_value + -1
 	const HIDEPIC_ANIM ; monster disappears
 	const ROCK_ANIM ; throw rock
 	const BAIT_ANIM ; throw bait
+	const ZIGZAG_ANIM
+	
+FIRST_NEW_MOVE EQU const_value
+
+    ; new moves
+	const DRAIN_PUNCH
+	const MACH_PUNCH
+	const HEAD_SMASH
+	const ROCK_BLAST
+	const ROCK_TOMB
+	const DRAGON_CLAW
+	const DUAL_CHOP
+	const CRUNCH
+	const DARK_PULSE
+	const NIGHT_SLASH
+	const FAKE_TEARS
+	const BULLET_PUNCH
+	const FLASH_CANNON
+	const IRON_HEAD
+	const STEEL_WING
+	const METAL_CLAW
+	const DAZZLINGLEAM
+	const DRAININGKISS
+	const PLAY_ROUGH
+	const MOONBLAST
+	const GUNK_SHOT
+	const POISON_FANG
+	const BONE_RUSH
+	const BULLDOZE
+	const BUG_BUZZ
+	const MEGAHORN
+	const SIGNAL_BEAM
+	const X_SCISSOR
+	const SHADOW_BALL
+	const SHADOW_PUNCH
+	const SHADOW_SNEAK
+	const SHADOW_CLAW
+	const BULLET_SEED
+	const ENERGY_BALL
+	const HORN_LEECH
+	const MAGICAL_LEAF
+	const SEED_BOMB
+	const WATER_PULSE
+	const AERIAL_ACE
+	const AIR_SLASH
+	const ROOST
+	const NUZZLE
+	const SHOCK_WAVE
+	const ZAP_CANNON
+	const OUTRAGE
+	
+LAST_NEW_MOVE EQU const_value + -1

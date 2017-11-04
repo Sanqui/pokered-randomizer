@@ -564,7 +564,7 @@ SlotReward15Func: ; 376e5 (d:76e5)
 	ret
 
 SlotReward100Func: ; 376f3 (d:76f3)
-	ld a, RBSFX_1f_42
+	ld a, RBSFX_02_42
 	call PlaySound
 	xor a
 	ld [wcd4c], a
@@ -575,7 +575,7 @@ SlotReward100Func: ; 376f3 (d:76f3)
 SlotReward300Func: ; 37702 (d:7702)
 	ld hl, YeahText
 	call PrintText
-	ld a, RBSFX_1f_3b
+	ld a, RBSFX_02_3b
 	call PlaySound
 	call Random
 	cp $80
@@ -862,9 +862,12 @@ SLOTSMOUSE	EQU $1614
 INCLUDE "data/slot_machine_wheels.asm"
 
 SlotMachineTiles1: ; 37a51 (d:7a51)
-IF _RED
+IF DEF(_RED)
 	INCBIN "gfx/red/slotmachine1.2bpp"
 ENDC
-IF _BLUE
+IF DEF(_BLUE)
 	INCBIN "gfx/blue/slotmachine1.2bpp"
+ENDC
+IF DEF(_YELLOW)
+	INCBIN "gfx/yellow/slotmachine1.2bpp"
 ENDC

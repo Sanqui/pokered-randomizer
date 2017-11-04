@@ -64,6 +64,8 @@ PokemonTower2Script1: ; 60563 (18:4563)
 	ld a, [W_ISINBATTLE]
 	cp $ff
 	jp z, PokemonTower2Script_604fe
+    xor a
+    ld [wIsTrainerBattle], a
 	ld a, $f0
 	ld [wJoyIgnore], a
 	ld hl, wd764
@@ -99,7 +101,7 @@ PokemonTower2Script2: ; 605bb (18:45bb)
 	ld a, [wd730]
 	bit 0, a
 	ret nz
-	ld a, $38
+	ld a, HS_POKEMONTOWER_2_RIVAL
 	ld [wcc4d], a
 	predef HideObject
 	xor a
@@ -149,6 +151,8 @@ PokemonTower2Text1: ; 605df (18:45df)
 	ld a, $6
 .done
 	ld [W_TRAINERNO], a
+	ld a, 1
+	ld [wIsTrainerBattle], a
 
 	ld a, $1
 	ld [W_POKEMONTOWER2CURSCRIPT], a

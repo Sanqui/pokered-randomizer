@@ -6,7 +6,7 @@ Music_PalletBattle: ; 1ec454
 	dbw $02, Music_PalletBattle_Ch3
 ; 1ec45d
 
-;INCBIN "baserom.gbc", $1ec45d, $1edb00 - $1ec45d
+
 
 Music_PalletBattle_Ch1: ; 1edb00
 	ftempo 96
@@ -292,7 +292,7 @@ Music_PalletBattle_branch_1edc47: ; 1edc47
 	intensity $b2
 	octave 3
 	loopchannel 0, Music_PalletBattle_branch_1edc47
-;INCBIN "baserom.gbc", $1edd3d, $1ede10 - $1edd3d
+
 
 Music_PalletBattle_Ch2: ; 1edc10
 	dutycycle $3
@@ -539,7 +539,7 @@ Music_PalletBattle_branch_1edbef: ; 1edbef
 	intensity $c2
 	octave 3
 	loopchannel 0, Music_PalletBattle_branch_1edb37
-;INCBIN "baserom.gbc", $1edc02, $1edc10 - $1edc02
+
 
 Music_PalletBattle_Ch3: ; 1ede10
 	notetype $c, $19

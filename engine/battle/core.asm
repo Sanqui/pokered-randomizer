@@ -3039,6 +3039,9 @@ SelectEnemyMove: ; 3d564 (f:5564)
 	ld a, [hld]
 	and a
 	jr nz, .atLeastTwoMovesAvailable
+	ld a, [hl]
+	and a
+	jr z, .asm_3d601 ; no move available
 	ld a, [W_ENEMYDISABLEDMOVE]
 	and a
 	ld a, STRUGGLE ; struggle if the only move is disabled

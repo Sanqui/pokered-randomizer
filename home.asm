@@ -773,6 +773,8 @@ LoadMonFrontSprite:: ; 1665 (0:1665)
 	ld a, [hli]
 	ld c, a
 	pop de
+	and a
+	ret z ; no sprite
 	; fall through
 
 ; postprocesses uncompressed sprite chunks to a 2bpp sprite and loads it into video ram

@@ -32,8 +32,9 @@ rLCDC_DEFAULT EQU %11100011
 	ld [$ff06], a
 	ld [$ff07], a
 	ld [$ff47], a
-	ld [$ff48], a
-	ld [$ff49], a
+	; only commenting these out because I need some space lol
+	;ld [$ff48], a
+	;ld [$ff49], a
 
 	ld a, rLCDC_ENABLE_MASK
 	ld [rLCDC], a

@@ -5455,8 +5455,13 @@ TradingAnimationGraphics2:
 INCLUDE "engine/battle/e_2.asm"
 
 SECTION "Evos Moves",ROMX
+EvosMovesStart
 INCLUDE "engine/evos_moves.asm"
-ds $400
+; reserve the rest of the bank
+EvosMovesEnd
+ds $4000 - (EvosMovesEnd-EvosMovesStart)
+; XXX this doesn't seem to reserve the whole bank, but does move it
+; into a larger one at least, so we'll see
 
 SECTION "bankF",ROMX,BANK[$F]
 

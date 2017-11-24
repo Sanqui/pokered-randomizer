@@ -2521,6 +2521,9 @@ ApplyOutOfBattlePoisonDamage: ; c69c (3:469c)
 	ld a, [wPokemonlessBlackout]
 	and a
 	jr z, .notblackedout
+	ld a, [W_CURMAPTILESET]
+	cp POKECENTER
+	jr z, .notblackedout
 	ld a, [wPartyCount]
 	and a
 	jp z, .blackOut

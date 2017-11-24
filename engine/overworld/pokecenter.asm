@@ -1,5 +1,12 @@
 DisplayPokemonCenterDialogue_: ; 6fe6 (1:6fe6)
 	call SaveScreenTilesToBuffer1 ; save screen
+	ld a, [wPartyCount]
+	and a
+	jr nz, .hasparty
+	ld hl, PokemonCenterWelcomeOnlyText
+	call PrintText
+	jp UpdateSprites ; move sprites
+.hasparty
 	ld hl, PokemonCenterWelcomeText
 	call PrintText
 	ld hl, wd72e
@@ -44,6 +51,10 @@ DisplayPokemonCenterDialogue_: ; 6fe6 (1:6fe6)
 	ld hl, PokemonCenterFarewellText
 	call PrintText
 	jp UpdateSprites ; move sprites
+
+PokemonCenterWelcomeOnlyText: ; 705d (1:705d)
+	TX_FAR _PokemonCenterWelcomeOnlyText
+	db "@"
 
 PokemonCenterWelcomeText: ; 705d (1:705d)
 	TX_FAR _PokemonCenterWelcomeText

@@ -1,6 +1,9 @@
 CableClubNPC: ; 71c5 (1:71c5)
 	ld hl, CableClubNPCText1
 	call PrintText
+	ld a, [wPartyCount]
+	and a
+	jp z, Func_7298
 	ld a, [wd74b]
 	bit 5, a
 	jp nz, Func_71e1

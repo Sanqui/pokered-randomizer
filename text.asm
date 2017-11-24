@@ -2771,6 +2771,11 @@ _HMCantDeleteText:: ; a284d (28:684d)
 	line "can't be deleted!"
 	prompt
 
+_PokemonCenterWelcomeOnlyText:: ; a286d (28:686d)
+	text "Welcome to our"
+	line "#MON CENTER!"
+	done
+
 _PokemonCenterWelcomeText:: ; a286d (28:686d)
 	text "Welcome to our"
 	line "#MON CENTER!"

@@ -1264,6 +1264,7 @@ HandlePlayerBlackOut: ; 3c837 (f:4837)
 	ld a, [RandomizerFlags]
 	bit FLAG_NUZLOCKE, a
 	jr z, .nonuzlocke
+	; see also DisplayPlayerBlackedOutText_
 	ld a, 1
 	ld [wPokemonlessBlackout], a
 	ld a, [W_NUMINBOX]

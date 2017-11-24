@@ -2532,6 +2532,7 @@ ApplyOutOfBattlePoisonDamage: ; c69c (3:469c)
 	and a
 	jp z, .noBlackOut
     
+    xor a 
 	ld [wWhichPokemon], a
 	ld hl, wPartyMon1Status
 	ld de, wPartySpecies
@@ -2616,6 +2617,7 @@ ApplyOutOfBattlePoisonDamage: ; c69c (3:469c)
 	ld a, RBSFX_02_43
 	call PlaySound
 .skipPoisonEffectAndSound
+    call RemoveAllDeadPokemon
 	predef AnyPartyAlive
 	ld a, d
 	and a
@@ -2633,6 +2635,40 @@ ApplyOutOfBattlePoisonDamage: ; c69c (3:469c)
 	xor a
 .done
 	ld [wd12d], a
+	ret
+
+RemoveAllDeadPokemon:
+	ld a, [RandomizerFlags]
+	bit FLAG_NUZLOCKE, a
+	ret z
+	
+	ld a, [wPartyCount]
+	and a
+	ret z
+	ld e, a
+	
+	xor a
+	ld [wWhichPokemon], a
+	
+	ld hl, wPartyMon1HP
+	ld bc, wPartyMon2 - wPartyMon1 - 1
+.partyMonsLoop
+	ld a, [hli]
+	or [hl]
+	and a
+	jr nz, .alive
+	
+    xor a
+    ld [wcf95], a
+    call RemovePokemon
+    jp RemoveAllDeadPokemon ; just start over
+.alive
+	add hl, bc
+	ld a, [wWhichPokemon]
+	inc a
+	ld [wWhichPokemon], a
+	dec e
+	jr nz, .partyMonsLoop
 	ret
 
 LoadTilesetHeader: ; c754 (3:4754)
@@ -6671,6 +6707,63 @@ SECTION "S. S. Anne & Boulder & Cut & Elevator Animations", ROMX
 
 SECTION "TM Prices", ROMX
     INCLUDE "engine/items/tm_prices.asm"
+
+SECTION "DisplayPokemonFaintedText_", ROMX
+DisplayPokemonFaintedText_:: ; 2a9b (0:2a9b)
+	ld hl, PokemonFaintedText
+    ld a, [RandomizerFlags]
+    bit FLAG_NUZLOCKE, a
+    jr z, .notnuzlocke
+    ld hl, PokemonDiedText
+.notnuzlocke
+	call PrintText
+	ret
+
+PokemonFaintedText::
+	TX_FAR _PokemonFaintedText
+	db "@"
+	
+PokemonDiedText::
+	TX_FAR _PokemonDiedText
+	db "@"
+
+DisplayPlayerBlackedOutText_::
+    ld a, [RandomizerFlags]
+    bit FLAG_NUZLOCKE, a
+    jr z, .notnuzlocke
+    ; see also HandlePlayerBlackOut
+	ld a, 1
+	ld [wPokemonlessBlackout], a
+	ld a, [W_NUMINBOX]
+	and a
+	jr z, .gameover
+	; if last blackout map is pallet town, just game over
+	; since the player can't reach a pc
+	ld a, [wLastBlackoutMap]
+	and a
+	jr z, .gameover
+    
+.notnuzlocke
+	ld hl,PlayerBlackedOutText
+	call PrintText
+	ld a,[wd732]
+	res 5,a ; reset forced to use bike bit
+	ld [wd732],a
+	ret
+
+.gameover
+	ld hl,PlayerBlackedOutTextGameOverOW
+	call PrintText
+	jr @
+	
+
+PlayerBlackedOutText:: ; 2aba (0:2aba)
+	TX_FAR _PlayerBlackedOutText
+	db "@"
+
+PlayerBlackedOutTextGameOverOW::
+    TX_FAR _PlayerBlackedOutTextGameOver
+    db "@"
 
 IF DEF(_OPTION_BEACH_HOUSE)
 SECTION "bank3C",ROMX[$4314],BANK[$3C]

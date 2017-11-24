@@ -2627,6 +2627,12 @@ _PokemonFaintedText:: ; a25b7 (28:65b7)
 	line "fainted!"
 	done
 
+_PokemonDiedText:: ; a25b7 (28:65b7)
+	TX_RAM wcd6d
+	db $0
+	line "died..."
+	done
+
 _PlayerBlackedOutText:: ; a25c5 (28:65c5)
 	text $52, " is out of"
 	line "useable #MON!"

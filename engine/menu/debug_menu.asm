@@ -1,3 +1,5 @@
+DEBUG_MENU_LAST_ITEM EQU 10
+
 DebugMenu:
     ld hl, $fff6
     set 1, [hl] ; one spaced
@@ -34,6 +36,8 @@ DebugMenu:
 	call PrintDebugMenuItem
 	ld de,DebugMenuItem7
 	call PrintDebugMenuItem
+	ld de,DebugMenuItem8
+	call PrintDebugMenuItem
 	ld hl,wd730
 	res 6,[hl] ; turn pauses between printing letters back on
 	
@@ -55,7 +59,7 @@ DebugMenuLoop
 	jr nz,.loop
 ; if the player pressed tried to go past the top item, wrap around to the bottom
 	ld a,[wd74b]
-	ld a,7
+	ld a,DEBUG_MENU_LAST_ITEM
 	ld [wCurrentMenuItem],a
 	call EraseMenuCursor
 	jr .loop
@@ -64,7 +68,7 @@ DebugMenuLoop
 	jr z,.buttonPressed
 ; if the player pressed tried to go past the bottom item, wrap around to the top
 	ld a,[wCurrentMenuItem]
-	ld c,8
+	ld c,DEBUG_MENU_LAST_ITEM
 .checkIfPastBottom
 	cp c
 	jr nz,.loop
@@ -106,6 +110,8 @@ DebugMenuLoop
 	jp z, DebugMenuTestMove1
 	cp a, 7
 	jp z, DebugMenuTestMove2
+	cp a, 8
+	jp z, DebugMenuPSNMe
 
 CloseDebugMenu:: 
 	xor a
@@ -139,6 +145,7 @@ DebugMenuItem4: db "DEX@"
 DebugMenuItem5: db "L100@"
 DebugMenuItem6: db "TESTMOV1@"
 DebugMenuItem7: db "TESTMOV2@"
+DebugMenuItem8: db "PSN me!@"
 
 DebugMenuWTW:
     ld a, 1
@@ -236,6 +243,10 @@ DebugMenuTestMoveCommon:
     
     
     ret
-    
+
+DebugMenuPSNMe:
+	ld a, 1 << PSN
+	ld [wPartyMon1Status], a
+	ret
     
     

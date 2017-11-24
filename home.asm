@@ -1262,25 +1262,16 @@ DisplaySafariGameOverText:: ; 2a90 (0:2a90)
 	jp AfterDisplayingTextID
 
 DisplayPokemonFaintedText:: ; 2a9b (0:2a9b)
-	ld hl,PokemonFaintedText
-	call PrintText
+	ld b,BANK(DisplayPokemonFaintedText_)
+	ld hl,DisplayPokemonFaintedText_
+	call Bankswitch
 	jp AfterDisplayingTextID
 
-PokemonFaintedText:: ; 2aa4 (0:2aa4)
-	TX_FAR _PokemonFaintedText
-	db "@"
-
 DisplayPlayerBlackedOutText:: ; 2aa9 (0:2aa9)
-	ld hl,PlayerBlackedOutText
-	call PrintText
-	ld a,[wd732]
-	res 5,a ; reset forced to use bike bit
-	ld [wd732],a
+	ld b,BANK(DisplayPlayerBlackedOutText_)
+	ld hl,DisplayPlayerBlackedOutText_
+	call Bankswitch
 	jp HoldTextDisplayOpen
-
-PlayerBlackedOutText:: ; 2aba (0:2aba)
-	TX_FAR _PlayerBlackedOutText
-	db "@"
 
 DisplayRepelWoreOffText:: ; 2abf (0:2abf)
 	ld hl,RepelWoreOffText

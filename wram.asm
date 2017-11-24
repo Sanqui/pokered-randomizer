@@ -1286,7 +1286,6 @@ wPokedexSeen:: ; d30a
 	flag_array NUM_POKEMON
 wPokedexSeenEnd::
 
-
 wNumBagItems:: ; d31d
 	ds 1
 wBagItems:: ; d31e
@@ -2114,6 +2113,9 @@ wBoxMonNicksEnd:: ; dee2
 SECTION "Empty", WRAMX, BANK[1]
 
 wPokemonlessBlackout:: ds 1
+
+wHadEncounterInLocation::
+	flag_array NUM_LOCATIONS
 
 SECTION "Stack", WRAMX[$dfff], BANK[1]
 wStack:: ; dfff

@@ -99,3 +99,66 @@ InternalMapEntries: ; 71382 (1c:5382)
 	IMAP $ED,$A,$5,SilphCoName
 	IMAP $F8,$0,$2,PokemonLeagueName
 	db $FF
+
+MapToLocationIndexTable:
+	db $29,PalletTown_LOCATION
+	db $2E,ViridianCity_LOCATION
+	db $33,Route2_LOCATION
+	db $34,ViridianForest_LOCATION
+	db $3B,PewterCity_LOCATION
+	db $3E,MountMoon_LOCATION
+	db $44,CeruleanCity_LOCATION
+	db $45,Route4_LOCATION
+	db $46,CeruleanCity_LOCATION
+	db $49,Route5_LOCATION
+	db $4C,Route6_LOCATION
+	db $4F,Route7_LOCATION
+	db $51,Route8_LOCATION
+	db $53,RockTunnel_LOCATION
+	db $54,PowerPlant_LOCATION
+	db $57,Route11_LOCATION
+	db $58,Route12_LOCATION
+	db $59,SeaCottage_LOCATION
+	db $5F,VermilionCity_LOCATION
+	db $69,SSAnne_LOCATION
+	db $6D,VictoryRoad_LOCATION
+	db $77,PokemonLeague_LOCATION
+	db $78,UndergroundPath_LOCATION
+	db $79,PokemonLeague_LOCATION
+	db $7A,UndergroundPath_LOCATION
+	db $8D,CeladonCity_LOCATION
+	db $8E,LavenderTown_LOCATION
+	db $95,PokemonTower_LOCATION
+	db $98,LavenderTown_LOCATION
+	db $9C,FuchsiaCity_LOCATION
+	db $9D,SafariZone_LOCATION
+	db $9F,FuchsiaCity_LOCATION
+	db $A3,SeafoamIslands_LOCATION
+	db $A4,VermilionCity_LOCATION
+	db $A5,FuchsiaCity_LOCATION
+	db $A6,PokemonMansion_LOCATION
+	db $AE,CinnabarIsland_LOCATION
+	db $AF,IndigoPlateau_LOCATION
+	db $B8,SaffronCity_LOCATION
+	db $BA,Route15_LOCATION
+	db $BD,Route16_LOCATION
+	db $BE,Route12_LOCATION
+	db $C0,Route18_LOCATION
+	db $C1,SeafoamIslands_LOCATION
+	db $C2,Route22_LOCATION
+	db $C3,VictoryRoad_LOCATION
+	db $C4,Route12_LOCATION
+	db $C5,VermilionCity_LOCATION
+	db $C6,DiglettsCave_LOCATION
+	db $C7,VictoryRoad_LOCATION
+	db $CF,RocketHQ_LOCATION
+	db $D6,SilphCo_LOCATION
+	db $D9,PokemonMansion_LOCATION
+	db $E2,SafariZone_LOCATION
+	db $E5,CeruleanCave_LOCATION
+	db $E6,LavenderTown_LOCATION
+	db $E7,CeruleanCity_LOCATION
+	db $E9,RockTunnel_LOCATION
+	db $ED,SilphCo_LOCATION
+	db $F8,PokemonLeague_LOCATION
+	db $FF

@@ -563,6 +563,21 @@ Func_712f1: ; 712f1 (1c:52f1)
 	ld l, a
 	ret
 
+MapToLocationIndex:
+	cp REDS_HOUSE_1F
+	ret c
+	ld hl, MapToLocationIndexTable
+.loop
+	cp [hl]
+	jr c, .found
+	inc hl
+	inc hl
+	jr .loop
+.found
+	inc hl
+	ld a, [hl]
+	ret
+
 INCLUDE "data/town_map_entries.asm"
 
 INCLUDE "text/map_names.asm"

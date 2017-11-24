@@ -2113,6 +2113,7 @@ wBoxMonNicksEnd:: ; dee2
 
 SECTION "Empty", WRAMX, BANK[1]
 
+wPokemonlessBlackout:: ds 1
 
 SECTION "Stack", WRAMX[$dfff], BANK[1]
 wStack:: ; dfff

@@ -1132,6 +1132,12 @@ _PlayerMonFaintedText:: ; 8970c (22:570c)
 	line "fainted!"
 	prompt
 
+_PlayerMonDiedText:: ; 8970c (22:570c)
+	TX_RAM wBattleMonNick
+	db $0
+	line "died..."
+	prompt
+
 _UseNextMonText:: ; 8971a (22:571a)
 	text "Use next #MON?"
 	done
@@ -1147,6 +1153,14 @@ _PlayerBlackedOutText2:: ; 89748 (22:5748)
 
 	para $52, " blacked"
 	line "out!"
+	prompt
+	
+_PlayerBlackedOutTextGameOver:: ; 89748 (22:5748)
+	text $52, " is out of"
+	line "useable #MON!"
+
+	para $52, "'s game"
+	line "is over!"
 	prompt
 
 _LinkBattleLostText:: ; 89772 (22:5772)

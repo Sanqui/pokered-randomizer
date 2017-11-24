@@ -100,10 +100,13 @@ LoadHLMoves:
 
 SECTION "Randomizer Flags", ROM0 [$0ff]
 RandomizerFlags::
-    db $00  ; bit 0: instant text
-            ; bit 1: debug
-            ; bit 2: gen 6 moves
-    
+    db $00
+
+FLAG_INSTANT_TEXT   EQU 0
+FLAG_DEBUG          EQU 1
+FLAG_NEW_MOVES      EQU 2
+FLAG_NUZLOCKE       EQU 3
+
 SECTION "Entry", ROM0 [$100]
 
 	nop

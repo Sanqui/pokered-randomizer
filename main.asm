@@ -2512,13 +2512,23 @@ ApplyOutOfBattlePoisonDamage: ; c69c (3:469c)
 	ld a, [wd730]
 	add a
 	jp c, .noBlackOut ; no black out if joypad states are being simulated
-	ld a, [wPartyCount]
-	and a
-	jp z, .noBlackOut
 	call IncrementDayCareMonExp
 	ld a, [wStepCounter]
 	and $3 ; is the counter a multiple of 4?
 	jp nz, .noBlackOut ; only apply poison damage every fourth step
+	
+	; nuzlocke matters
+	ld a, [wPokemonlessBlackout]
+	and a
+	jr z, .notblackedout
+	ld a, [wPartyCount]
+	and a
+	jp z, .blackOut
+.notblackedout
+	ld a, [wPartyCount]
+	and a
+	jp z, .noBlackOut
+    
 	ld [wWhichPokemon], a
 	ld hl, wPartyMon1Status
 	ld de, wPartySpecies
@@ -2607,6 +2617,7 @@ ApplyOutOfBattlePoisonDamage: ; c69c (3:469c)
 	ld a, d
 	and a
 	jr nz, .noBlackOut
+.blackOut
 	call EnableAutoTextBoxDrawing
 	ld a, $d1
 	ld [$ff8c], a
@@ -4101,6 +4112,9 @@ FlagAction:
 
 HealParty:
 ; Restore HP and PP.
+    ld a, [wPartyCount]
+    and a
+    ret z
 
 	ld hl, wPartySpecies
 	ld de, wPartyMon1HP

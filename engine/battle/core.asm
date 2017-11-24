@@ -1135,11 +1135,25 @@ RemoveFaintedPlayerMon: ; 3c741 (f:4741)
 	ret z
 	ld a, [wBattleMonSpecies]
 	call PlayCry
+	ld hl, RandomizerFlags
+	bit FLAG_NUZLOCKE, [hl]
+	jr nz, .nuzlocke
 	ld hl, PlayerMonFaintedText
+	jp PrintText
+.nuzlocke
+    xor a
+    ld [wcf95], a
+    ld [wWhichPokemon], a
+    call RemovePokemon
+	ld hl, PlayerMonDiedText
 	jp PrintText
 
 PlayerMonFaintedText: ; 3c796 (f:4796)
 	TX_FAR _PlayerMonFaintedText
+	db "@"
+
+PlayerMonDiedText:
+	TX_FAR _PlayerMonDiedText
 	db "@"
 
 ; asks if you want to use next mon
@@ -1247,6 +1261,20 @@ HandlePlayerBlackOut: ; 3c837 (f:4837)
 .notSony1Battle
 	ld b, $0
 	call GoPAL_SET
+	ld a, [RandomizerFlags]
+	bit FLAG_NUZLOCKE, a
+	jr z, .nonuzlocke
+	ld a, 1
+	ld [wPokemonlessBlackout], a
+	ld a, [W_NUMINBOX]
+	and a
+	jr z, .gameover
+	; if last blackout map is pallet town, just game over
+	; since the player can't reach a pc
+	ld a, [wLastBlackoutMap]
+	and a
+	jr z, .gameover
+.nonuzlocke
 	ld hl, PlayerBlackedOutText2
 	ld a, [W_ISLINKBATTLE]
 	cp $4
@@ -1260,6 +1288,10 @@ HandlePlayerBlackOut: ; 3c837 (f:4837)
 	call ClearScreen
 	scf
 	ret
+.gameover
+    ld hl, PlayerBlackedOutTextGameOver
+	call PrintText
+	jr @
 
 Sony1WinText: ; 3c884 (f:4884)
 	TX_FAR _Sony1WinText
@@ -1267,6 +1299,10 @@ Sony1WinText: ; 3c884 (f:4884)
 
 PlayerBlackedOutText2: ; 3c889 (f:4889)
 	TX_FAR _PlayerBlackedOutText2
+	db "@"
+
+PlayerBlackedOutTextGameOver:
+	TX_FAR _PlayerBlackedOutTextGameOver
 	db "@"
 
 LinkBattleLostText: ; 3c88e (f:488e)
@@ -1550,6 +1586,11 @@ TrainerSentOutText: ; 3ca7e (f:4a7e)
 ; sets d = 0 if all fainted, d != 0 if some mons are still alive
 AnyPartyAlive: ; 3ca83 (f:4a83)
 	ld a, [wPartyCount]
+	and a
+	jr nz, .someparty
+	ld d, a
+	ret
+.someparty
 	ld e, a
 	xor a
 	ld hl, wPartyMon1HP

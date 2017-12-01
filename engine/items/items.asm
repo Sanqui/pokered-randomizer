@@ -117,6 +117,13 @@ ItemUseBall: ; d687 (3:5687)
 	jp z,BoxFullCannotThrowBall
 .UseBall	;$56a7
 ;ok, you can use a ball
+    ld b, BANK(HadEncounterInHere)
+    ld hl, HadEncounterInHere
+    call Bankswitch
+    ld a, e
+    and a
+    jp nz, HadEncounterCannotThrowBall
+    
 	xor a
 	ld [wd11c],a
 	ld a,[W_BATTLETYPE]
@@ -2226,6 +2233,10 @@ BoxFullCannotThrowBall: ; e5b1 (3:65b1)
 	ld hl,BoxFullCannotThrowBallText
 	jr ItemUseFailed
 
+HadEncounterCannotThrowBall:
+	ld hl,HadEncounterCannotThrowBallText
+	jr ItemUseFailed
+
 SurfingAttemptFailed: ; e5b6 (3:65b6)
 	ld hl,NoSurfingHereText
 
@@ -2264,6 +2275,10 @@ NoSurfingHereText: ; e5de (3:65de)
 
 BoxFullCannotThrowBallText: ; e5e3 (3:65e3)
 	TX_FAR _BoxFullCannotThrowBallText
+	db "@"
+
+HadEncounterCannotThrowBallText: ; e5e3 (3:65e3)
+	TX_FAR _HadEncounterCannotThrowBallText
 	db "@"
 
 ItemUseText00: ; e5e8 (3:65e8)

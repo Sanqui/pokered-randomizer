@@ -14,6 +14,7 @@ LoadSAV: ; 735e8 (1c:75e8)
 	jr c, .badsum
 	call LoadSAVCheckSum2
 	jr c, .badsum
+	call LoadSAVExtra
 	ld a, $2 ; good checksum
 	jr .goodsum
 .badsum
@@ -99,6 +100,14 @@ LoadSAVCheckSum2: ; 736bd (1c:76bd)
 	ld hl, $a5a3
 	ld de, wPokedexOwned ; wPokedexOwned
 	ld bc, wPokedexSeenEnd - wPokedexOwned
+	call CopyData
+	and a
+	jp SAVGoodChecksum
+
+LoadSAVExtra:
+	ld hl, $a000
+	ld de, wWRAMNew ; wPokedexOwned
+	ld bc, wWRAMNewEnd - wWRAMNew
 	call CopyData
 	and a
 	jp SAVGoodChecksum
@@ -251,6 +260,23 @@ SaveSAVtoSRAM2: ; 7380f (1c:780f)
 	ld [MBC1SRamEnable], a
 	ret
 
+SaveSAVExtra:
+	ld a, SRAM_ENABLE
+	ld [MBC1SRamEnable], a
+	ld a, $1
+	ld [MBC1SRamBankingMode], a
+	ld [MBC1SRamBank], a
+	
+	ld hl, wWRAMNew ; wPokedexOwned
+	ld de, $a000
+	ld bc, wWRAMNewEnd - wWRAMNew
+	call CopyData
+	
+	xor a
+	ld [MBC1SRamBankingMode], a
+	ld [MBC1SRamEnable], a
+	ret
+
 SaveSAVtoSRAM: ; 73848 (1c:7848)
 	ld a, $2
 	ld [wd088], a
@@ -261,6 +287,7 @@ SaveSAVtoSRAM: ; 73848 (1c:7848)
 	call SaveSAVtoSRAM0
 	call SaveSAVtoSRAM1
 	call SaveSAVtoSRAM2
+	call SaveSAVExtra
 	
 	ld a, 0
 	ld [wHaltAudio], a

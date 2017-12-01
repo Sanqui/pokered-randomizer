@@ -3191,6 +3191,13 @@ _BoxFullCannotThrowBallText:: ; a6b69 (29:6b69)
 	cont "use that item!"
 	prompt
 
+_HadEncounterCannotThrowBallText:: ; a6b69 (29:6b69)
+	text "You had already"
+	line "encountered a"
+	cont "POKéMON on"
+	cont "this route!"
+	prompt
+
 
 SECTION "Text 11", ROMX, BANK[TEXT_11]
 

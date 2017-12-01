@@ -578,6 +578,40 @@ MapToLocationIndex:
 	ld a, [hl]
 	ret
 
+HadEncounterInHere::
+    ld a, [RandomizerFlags]
+    bit FLAG_NUZLOCKE, a
+    jr nz, .nuzlocke
+    xor a
+    ld e, a
+    ret
+.nuzlocke
+    ld a, [W_CURMAP]
+    call MapToLocationIndex
+    
+	ld c, a
+	ld b, $2 ; read
+	ld hl, wHadEncounterInLocation
+	predef FlagActionPredef ; mark this mon as seen in the pokedex
+    ; Return the result in c.
+    ld e, c
+    ret
+
+SetHadEncounterInHere::
+    ld a, [RandomizerFlags]
+    bit FLAG_NUZLOCKE, a
+    ret z
+.nuzlocke
+    ld a, [W_CURMAP]
+    call MapToLocationIndex
+    
+	ld c, a
+	ld b, $1 ; write 1
+	ld hl, wHadEncounterInLocation
+	predef FlagActionPredef ; mark this mon as seen in the pokedex
+    ret
+
+
 INCLUDE "data/town_map_entries.asm"
 
 INCLUDE "text/map_names.asm"

@@ -302,6 +302,11 @@ LinkCanceledText: ; 5d4d (1:5d4d)
 	db "@"
 
 Func_5d52: ; 5d52 (1:5d52)
+    xor a
+    ld hl, wWRAMNew
+    ld bc, wWRAMNewEnd-wWRAMNew
+    call FillMemory
+    
 	ld hl, wd732
 	res 1, [hl]
 	call OakSpeech

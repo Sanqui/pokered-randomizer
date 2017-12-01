@@ -2110,12 +2110,17 @@ wBoxMonOT::    ds 11 * MONS_PER_BOX ; dd2a
 wBoxMonNicks:: ds 11 * MONS_PER_BOX ; de06
 wBoxMonNicksEnd:: ; dee2
 
-SECTION "Empty", WRAMX, BANK[1]
+SECTION "Extra", WRAMX, BANK[1]
+
+wWRAMNew::
 
 wPokemonlessBlackout:: ds 1
 
 wHadEncounterInLocation::
 	flag_array NUM_LOCATIONS
+wHadEncounterInLocationEnd
+
+wWRAMNewEnd::
 
 SECTION "Stack", WRAMX[$dfff], BANK[1]
 wStack:: ; dfff

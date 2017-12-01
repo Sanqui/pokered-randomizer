@@ -358,6 +358,11 @@ EnemyRan: ; 3c202 (f:4202)
 	call PlaySoundWaitForCurrent
 	xor a
 	ld [H_WHOSETURN], a
+	
+	ld b, BANK(SetHadEncounterInHere)
+	ld hl, SetHadEncounterInHere
+	call Bankswitch
+	
 	ld hl, AnimationSlideEnemyMonOut
 	ld b, BANK(AnimationSlideEnemyMonOut)
 	jp Bankswitch
@@ -427,7 +432,14 @@ MainInBattleLoop: ; 3c233 (f:4233)
 	ret c ; return if player ran from battle
 	ld a, [wEscapedFromBattle]
 	and a
-	ret nz ; return if pokedoll was used to escape from battle
+	jr z, .notescaped
+	; return if pokedoll was used to escape from battle
+	
+	ld b, BANK(SetHadEncounterInHere)
+	ld hl, SetHadEncounterInHere
+	call Bankswitch
+	ret
+.notescaped
 	ld a, [wBattleMonStatus]
 	and (1 << FRZ) | SLP ; is mon frozen or asleep?
 	jr nz, .selectEnemyMove ; if so, jump
@@ -889,6 +901,10 @@ FaintEnemyPokemon ; 0x3c567
 	call WaitForSoundToFinish
 	jr .sfxplayed
 .wild_win
+	ld b, BANK(SetHadEncounterInHere)
+	ld hl, SetHadEncounterInHere
+	call Bankswitch
+	
 	call Func_3c643
 	ld a, MUSIC_DEFEATED_WILD_MON
 	call PlayBattleVictoryMusic
@@ -1239,6 +1255,13 @@ ChooseNextMon: ; 3c7d8 (f:47d8)
 ; called when player is out of usable mons.
 ; prints approriate lose message, sets carry flag if player blacked out (special case for initial rival fight)
 HandlePlayerBlackOut: ; 3c837 (f:4837)
+    ld a, [wIsTrainerBattle]
+    and a
+    jr z, .nottrainer
+	ld b, BANK(SetHadEncounterInHere)
+	ld hl, SetHadEncounterInHere
+	call Bankswitch
+.nottrainer
 	xor a
 	ld [wIsTrainerBattle], a
 	ld a, [W_ISLINKBATTLE]
@@ -1744,6 +1767,9 @@ TryRunningFromBattle: ; 3cab9 (f:4ab9)
 	call PrintText
 	call WaitForSoundToFinish
 	call SaveScreenTilesToBuffer1
+	ld b, BANK(SetHadEncounterInHere)
+	ld hl, SetHadEncounterInHere
+	call Bankswitch
 	scf ; set carry
 	ret
 

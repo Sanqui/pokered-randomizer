@@ -426,6 +426,10 @@ ItemUseBall: ; d687 (3:5687)
 	ld a,[wEnemyMonSpecies]	;caught mon_ID
 	ld [wd11e],a
 	predef ShowPokedexData
+	
+	ld b, BANK(SetHadEncounterInHere)
+	ld hl, SetHadEncounterInHere
+	call Bankswitch
 .checkParty	;$58f4
 	ld a,[wPartyCount]
 	cp a,PARTY_LENGTH		;is party full?

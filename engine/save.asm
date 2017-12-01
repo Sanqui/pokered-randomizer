@@ -44,22 +44,7 @@ LoadSAVCheckSum: ; 73623 (1c:7623)
 	ld a, $1
 	ld [MBC1SRamBankingMode], a
 	ld [MBC1SRamBank], a
-	ld hl, $a598 ; hero name located in SRAM
-	ld bc, $f8b ; but here checks the full SAV
-	call SAVCheckSum
-	ld c, a
-	ld a, [$b523] ; SAV's checksum
-	cp c
-	jp z, .Func_73652
-	ld hl, $a598
-	ld bc, $f8b
-	call SAVCheckSum
-	ld c, a
-	ld a, [$b523] ; SAV's checksum
-	cp c
-	jp nz, SAVBadCheckSum
-
-.Func_73652 ; 73652 (1c:7652)
+	
 	ld hl, $a598
 	ld de, wPlayerName ; wd158
 	ld bc, $b
@@ -70,13 +55,13 @@ LoadSAVCheckSum: ; 73623 (1c:7623)
 	call CopyData
 	ld hl, W_CURMAPTILESET
 	set 7, [hl]
-	ld hl, $ad2c+26
+	ld hl, $ad2c+$30
 	ld de, wSpriteStateData1
 	ld bc, $200
 	call CopyData
-	ld a, [$b522]
+	ld a, [$b522+$30]
 	ld [hTilesetType], a
-	ld hl, $b0c0+26
+	ld hl, $b0c0+$30
 	ld de, W_NUMINBOX
 	ld bc, wBoxMonNicksEnd - W_NUMINBOX
 	call CopyData
@@ -84,19 +69,16 @@ LoadSAVCheckSum: ; 73623 (1c:7623)
 	jp SAVGoodChecksum
 
 LoadSAVCheckSum1: ; 73690 (1c:7690)
+    ; i really don't care for the checksum
+	jp SAVGoodChecksum
+	
 	ld a, SRAM_ENABLE
 	ld [MBC1SRamEnable], a
 	ld a, $1
 	ld [MBC1SRamBankingMode], a
 	ld [MBC1SRamBank], a
-	ld hl, $a598 ; hero name located in SRAM
-	ld bc, $f8b  ; but here checks the full SAV
-	call SAVCheckSum
-	ld c, a
-	ld a, [$b523] ; SAV's checksum
-	cp c
-	jr nz, SAVBadCheckSum
-	ld hl, $b0c0
+	
+	ld hl, $b0c0+$30
 	ld de, W_NUMINBOX
 	ld bc, wBoxMonNicksEnd - W_NUMINBOX
 	call CopyData
@@ -109,14 +91,8 @@ LoadSAVCheckSum2: ; 736bd (1c:76bd)
 	ld a, $1
 	ld [MBC1SRamBankingMode], a
 	ld [MBC1SRamBank], a
-	ld hl, $a598 ; hero name located in SRAM
-	ld bc, $f8b  ; but here checks the full SAV
-	call SAVCheckSum
-	ld c, a
-	ld a, [$b523] ; SAV's checksum
-	cp c
-	jp nz, SAVBadCheckSum
-	ld hl, $af2c
+	
+	ld hl, $af2c+$30
 	ld de, wPartyCount ; wPartyCount
 	ld bc, $194
 	call CopyData
@@ -214,15 +190,15 @@ SaveSAVtoSRAM0: ; 7378c (1c:778c)
 	ld bc, W_NUMINBOX - wPokedexOwned
 	call CopyData
 	ld hl, wSpriteStateData1
-	ld de, $ad2c+26
+	ld de, $ad2c+$30
 	ld bc, $200
 	call CopyData
 	ld hl, W_NUMINBOX
-	ld de, $b0c0+26
+	ld de, $b0c0+$30
 	ld bc, wBoxMonNicksEnd - W_NUMINBOX
 	call CopyData
 	ld a, [hTilesetType]
-	ld [$b522], a
+	ld [$b522+$30], a
 	ld hl, $a598
 	ld bc, $f8b
 	call SAVCheckSum
@@ -240,7 +216,7 @@ SaveSAVtoSRAM1: ; 737e2 (1c:77e2)
 	ld [MBC1SRamBankingMode], a
 	ld [MBC1SRamBank], a
 	ld hl, W_NUMINBOX
-	ld de, $b0c0
+	ld de, $b0c0+$30
 	ld bc, wBoxMonNicksEnd - W_NUMINBOX
 	call CopyData
 	ld hl, $a598
@@ -259,7 +235,7 @@ SaveSAVtoSRAM2: ; 7380f (1c:780f)
 	ld [MBC1SRamBankingMode], a
 	ld [MBC1SRamBank], a
 	ld hl, wPartyCount
-	ld de, $af2c
+	ld de, $af2c+$30
 	ld bc, wPokedexOwned - wPartyCount
 	call CopyData
 	ld hl, wPokedexOwned ; pokédex only

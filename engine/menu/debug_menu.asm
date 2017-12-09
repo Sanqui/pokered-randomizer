@@ -140,7 +140,7 @@ PrintDebugMenuItem: ; 71bb (1:71bb)
 DebugMenuItem0: db "WTW@"
 DebugMenuItem1: db "FLY@"
 DebugMenuItem2: db "Wild 251@"
-DebugMenuItem3: db "MasterB@"
+DebugMenuItem3: db "MasterB",$f0,"@"
 DebugMenuItem4: db "DEX@"
 DebugMenuItem5: db "L100@"
 DebugMenuItem6: db "TESTMOV1@"
@@ -172,8 +172,12 @@ DebugMenu251:
     ret
 
 DebugMenuMasterB:
-    ld b, b
+    ld a, $99
+    ld [wPlayerMoney], a
+    ld [wPlayerMoney+1], a
+    ld [wPlayerMoney+2], a
     ld b, MASTER_BALL
+    ld b, b
     ld c, 99
     jp GiveItem
 

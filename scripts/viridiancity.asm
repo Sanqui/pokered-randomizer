@@ -42,9 +42,9 @@ ViridianCityScript_1900b: ; 1900b (6:500b)
 	ret
 
 ViridianCityScript_1903d: ; 1903d (6:503d)
-	ld a, [wd74b]
+	ld a, [wd74b] ; CheckEvent EVENT_GOT_POKEDEX
 	bit 5, a
-	ret nz
+	jr nz, .gotpokedex
 	ld a, [W_YCOORD]
 	cp $9
 	ret nz
@@ -60,6 +60,11 @@ ViridianCityScript_1903d: ; 1903d (6:503d)
 	ld a, $3
 	ld [W_VIRIDIANCITYCURSCRIPT], a
 	ret
+.gotpokedex
+    ld a, [wNewFlags]
+    set FLAG_COULD_HAVE_BALLS, a
+    ld [wNewFlags], a
+    ret
 
 ViridianCityScript1: ; 19062 (6:5062)
 	ld a, [wSpriteStateData1 + $34]

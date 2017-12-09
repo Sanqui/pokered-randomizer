@@ -602,6 +602,9 @@ SetHadEncounterInHere::
     bit FLAG_NUZLOCKE, a
     ret z
 .nuzlocke
+    ld a, [wNewFlags]
+    bit FLAG_COULD_HAVE_BALLS, a
+    ret z
     ld a, [W_CURMAP]
     call MapToLocationIndex
     

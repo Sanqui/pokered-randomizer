@@ -2114,11 +2114,13 @@ SECTION "Extra", WRAMX, BANK[1]
 
 wWRAMNew::
 
-wPokemonlessBlackout:: ds 1
-
 wHadEncounterInLocation::
 	flag_array NUM_LOCATIONS
 wHadEncounterInLocationEnd
+
+wPokemonlessBlackout:: ds 1
+
+wNewFlags:: ds 1
 
 wWRAMNewEnd::
 

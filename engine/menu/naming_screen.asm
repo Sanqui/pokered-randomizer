@@ -8,6 +8,12 @@ AskName: ; 64eb (1:64eb)
 	ld b, $4
 	ld c, $b
 	call z, ClearScreenArea ; only if in wild batle
+	ld a, [RandomizerFlags]
+	bit FLAG_NUZLOCKE, a
+	jr z, .notnuzlocke ; force nicknaming on nuzlocke
+    pop hl
+    jr .opennicknamescreen
+.notnuzlocke
 	ld a, [wcf91]
 	ld [wd11e], a
 	call GetMonName
@@ -22,6 +28,7 @@ AskName: ; 64eb (1:64eb)
 	ld a, [wCurrentMenuItem] ; wCurrentMenuItem
 	and a
 	jr nz, .asm_654c
+.opennicknamescreen
 	ld a, [wUpdateSpritesEnabled]
 	push af
 	xor a

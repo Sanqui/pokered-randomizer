@@ -1280,6 +1280,7 @@ HandlePlayerBlackOut: ; 3c837 (f:4837)
 	call PrintText
 	ld a, [W_CURMAP]
 	cp OAKS_LAB
+	jr z, .lostatoakslab
 	ret z            ; starter battle in oak's lab: don't black out
 .notSony1Battle
 	ld b, $0
@@ -1316,6 +1317,11 @@ HandlePlayerBlackOut: ; 3c837 (f:4837)
     ld hl, PlayerBlackedOutTextGameOver
 	call PrintText
 	jr @
+.lostatoakslab
+	ld a, [RandomizerFlags]
+	bit FLAG_NUZLOCKE, a
+	ret z
+	jr .gameover
 
 Sony1WinText: ; 3c884 (f:4884)
 	TX_FAR _Sony1WinText

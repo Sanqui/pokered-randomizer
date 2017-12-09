@@ -117,12 +117,16 @@ ItemUseBall: ; d687 (3:5687)
 	jp z,BoxFullCannotThrowBall
 .UseBall	;$56a7
 ;ok, you can use a ball
+	ld a,[W_BATTLETYPE]
+	dec a
+	jr z,.oldManBattle
     ld b, BANK(HadEncounterInHere)
     ld hl, HadEncounterInHere
     call Bankswitch
     ld a, e
     and a
     jp nz, HadEncounterCannotThrowBall
+.oldManBattleSkipNuzlocke
     
 	xor a
 	ld [wd11c],a

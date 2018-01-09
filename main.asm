@@ -2894,6 +2894,7 @@ AddItemToInventory_: ; ce04 (3:4e04)
 	ld [hl],a
 	pop hl
 .success
+    call SetBallFlagIfGivenBall
 	scf
 .done
 	pop hl
@@ -2903,6 +2904,24 @@ AddItemToInventory_: ; ce04 (3:4e04)
 	ld a,b
 	ld [wcf96],a ; restore the initial value from when the function was called
 	ret
+
+SetBallFlagIfGivenBall:
+	ld a,[wcf91]
+    cp POKE_BALL
+    jr z, .ball
+    cp GREAT_BALL
+    jr z, .ball
+    cp ULTRA_BALL
+    jr z, .ball
+    cp MASTER_BALL
+    jr z, .ball
+    cp SAFARI_BALL
+    ret nz
+.ball
+    ld a, [wNewFlags]
+    set FLAG_COULD_HAVE_BALLS, a
+    ld [wNewFlags], a
+    ret
 
 ; function to remove an item (in varying quantities) from the player's bag or PC box
 ; INPUT:

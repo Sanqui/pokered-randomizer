@@ -605,13 +605,24 @@ SetHadEncounterInHere::
     ld a, [wNewFlags]
     bit FLAG_COULD_HAVE_BALLS, a
     ret z
+    
+    ld a,[wEnemyMonSpecies2]
+	dec a
+	ld c,a
+	ld b,2
+	ld hl,wPokedexOwned	;Dex_own_flags (pokemon)
+	predef FlagActionPredef
+	ld a, c ; caught or not?
+	and a
+	ret nz ; caught, so don't re-record this route
+    
     ld a, [W_CURMAP]
     call MapToLocationIndex
     
 	ld c, a
 	ld b, $1 ; write 1
 	ld hl, wHadEncounterInLocation
-	predef FlagActionPredef ; mark this mon as seen in the pokedex
+	predef FlagActionPredef
     ret
 
 

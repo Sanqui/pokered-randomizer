@@ -3191,11 +3191,17 @@ _BoxFullCannotThrowBallText:: ; a6b69 (29:6b69)
 	cont "use that item!"
 	prompt
 
-_HadEncounterCannotThrowBallText:: ; a6b69 (29:6b69)
+_HadEncounterCannotThrowBallText:: 
 	text "You had already"
 	line "encountered a"
 	cont "POKéMON on"
 	cont "this route!"
+	prompt
+
+_HaveCaughtCannotThrowBallText:: 
+	text "You have already"
+	line "caught this"
+	cont "POKéMON before!"
 	prompt
 
 

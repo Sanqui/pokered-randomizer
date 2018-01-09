@@ -119,13 +119,33 @@ ItemUseBall: ; d687 (3:5687)
 ;ok, you can use a ball
 	ld a,[W_BATTLETYPE]
 	dec a
-	jr z,.oldManBattle
+	jr z,.oldManBattleSkipNuzlocke
+	
+    ld a, [RandomizerFlags]
+    bit FLAG_NUZLOCKE, a
+    jr z, .notnuzlocke
+    
     ld b, BANK(HadEncounterInHere)
     ld hl, HadEncounterInHere
     call Bankswitch
     ld a, e
     and a
     jp nz, HadEncounterCannotThrowBall
+    
+    
+    ld a,[wEnemyMonSpecies2]
+	;predef IndexToPokedex
+	;ld a,[wd11e]
+	dec a
+	ld c,a
+	ld b,2
+	ld hl,wPokedexOwned
+	predef FlagActionPredef
+	ld a, c ; caught or not?
+	and a
+	jp nz, HaveCaughtCannotThrowBall ; caught, so forbid from catching
+    
+.notnuzlocke
 .oldManBattleSkipNuzlocke
     
 	xor a
@@ -412,8 +432,9 @@ ItemUseBall: ; d687 (3:5687)
 	ld hl, SetHadEncounterInHere
 	call Bankswitch
 	
-	predef IndexToPokedex
-	ld a,[wd11e]
+	;predef IndexToPokedex
+	;ld a,[wd11e]
+	ld a,[wEnemyMonSpecies2]
 	dec a
 	ld c,a
 	ld b,2
@@ -2246,6 +2267,10 @@ HadEncounterCannotThrowBall:
 	ld hl,HadEncounterCannotThrowBallText
 	jr ItemUseFailed
 
+HaveCaughtCannotThrowBall:
+	ld hl,HaveCaughtCannotThrowBallText
+	jr ItemUseFailed
+
 SurfingAttemptFailed: ; e5b6 (3:65b6)
 	ld hl,NoSurfingHereText
 
@@ -2288,6 +2313,10 @@ BoxFullCannotThrowBallText: ; e5e3 (3:65e3)
 
 HadEncounterCannotThrowBallText: ; e5e3 (3:65e3)
 	TX_FAR _HadEncounterCannotThrowBallText
+	db "@"
+
+HaveCaughtCannotThrowBallText: ; e5e3 (3:65e3)
+	TX_FAR _HaveCaughtCannotThrowBallText
 	db "@"
 
 ItemUseText00: ; e5e8 (3:65e8)

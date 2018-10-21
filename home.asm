@@ -3270,7 +3270,13 @@ WaitSFX:: ; 3c55
         ; ch7 on?
         ld hl, Channel7 + Channel1Flags - Channel1
         bit 0, [hl]
-        jr nz, .loop
+        ; XXX workaround bug where Ch3 takes so long to kick in, it prolongs
+        ; the battle waiting for a cry, for as long as 14 seconds in some
+        ; emulators.
+        ; See: https://github.com/Sanqui/online-randomizer/issues/22
+        nop
+        nop
+        ;jr nz, .loop
         ; ch8 on?
         ld hl, Channel8 + Channel1Flags - Channel1
         bit 0, [hl]

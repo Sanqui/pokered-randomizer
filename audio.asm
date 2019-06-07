@@ -292,9 +292,11 @@ PlayBattleMusic:: ; 0x90c6
 	xor a
 	ld [wMusicHeaderPointer], a
 	ld [wd083], a
+	ld [MusicFadeID], a
 	ld [MusicFade], a
 	dec a
 	ld [wc0ee], a
+	xor a
 	call PlayMusic ; stop music
 	call DelayFrame
 	;ld c, BANK(Music_GymLeaderBattle)

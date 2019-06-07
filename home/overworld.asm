@@ -766,8 +766,8 @@ StopMusic::
     ld a, [MusicFadeCount]
     and a
     jr nz, .wait1
-    ret
-	;call PlayMusic ; PlaySound
+    xor a
+	jp PlayMusic ; PlaySound
 ;.wait
 ;	ld a, [wMusicHeaderPointer]
 ;	and a

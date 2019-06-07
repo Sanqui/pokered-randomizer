@@ -2518,15 +2518,16 @@ ApplyOutOfBattlePoisonDamage: ; c69c (3:469c)
 	jp nz, .noBlackOut ; only apply poison damage every fourth step
 	
 	; nuzlocke matters
-	ld a, [wPokemonlessBlackout]
-	and a
-	jr z, .notblackedout
-	ld a, [W_CURMAPTILESET]
-	cp POKECENTER
-	jr z, .notblackedout
-	ld a, [wPartyCount]
-	and a
-	jp z, .blackOut
+	; this is broken atm because the flags don't save properly
+	;ld a, [wPokemonlessBlackout]
+	;and a
+	;jr z, .notblackedout
+	;ld a, [W_CURMAPTILESET]
+	;cp POKECENTER
+	;jr z, .notblackedout
+	;ld a, [wPartyCount]
+	;and a
+	;jp z, .blackOut
 .notblackedout
 	ld a, [wPartyCount]
 	and a
